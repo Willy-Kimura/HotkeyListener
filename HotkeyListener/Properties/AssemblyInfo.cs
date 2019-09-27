@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("HotkeyListener")]
-[assembly: AssemblyDescription("Provides support for registering and attaching events to global hotkeys within .NET application.")]
+[assembly: AssemblyDescription("A library that provides support for registering and attaching events to global hotkeys in .NET applications.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Willy Kimura")]
 [assembly: AssemblyProduct("WK.Libraries.HotkeyListener")]

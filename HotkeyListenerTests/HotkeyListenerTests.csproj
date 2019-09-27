@@ -74,5 +74,11 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HotkeyListener\HotkeyListener.csproj">
+      <Project>{b8b41b35-3d81-4e81-a0d4-24002ef895b9}</Project>
+      <Name>HotkeyListener</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{B8B41B35-3D81-4E81-A0D4-24002EF895B9}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>WK.Libraries.HotkeyListener</RootNamespace>
+    <RootNamespace>WK.Libraries.HotkeyListenerNS</RootNamespace>
     <AssemblyName>HotkeyListener</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -37,16 +37,22 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Helpers\HotkeyCore.cs" />
-    <Compile Include="HotkeyListener.cs">
+    <Compile Include="Helpers\SourceAttributes.cs" />
+    <Compile Include="Helpers\Internal\HotkeyHandle.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="HotkeyListener.Designer.cs">
-      <DependentUpon>HotkeyListener.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Helpers\Internal\HotkeyCore.cs" />
+    <Compile Include="HotkeySelector.cs" />
+    <Compile Include="HotkeyListener.cs" />
+    <Compile Include="Models\SourceApplication.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Helpers\Internal\HotkeyHandle.resx">
+      <DependentUpon>HotkeyHandle.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
