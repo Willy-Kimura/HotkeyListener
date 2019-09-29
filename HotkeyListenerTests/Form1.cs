@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 using WK.Libraries.HotkeyListenerNS;
@@ -52,7 +47,6 @@ namespace HotkeyListenerTests
         private void button2_Click(object sender, EventArgs e)
         {
             // hkl.ResumeHotkeys();
-            // hks.Unbind(textBox2, false);
             hks.Reset(textBox2);
             MessageBox.Show(hks.HasEnabled(textBox2).ToString());
         }

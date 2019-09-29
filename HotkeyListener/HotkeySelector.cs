@@ -11,10 +11,19 @@ namespace WK.Libraries.HotkeyListenerNS
     /// preview them to users at runtime. Combined with the 
     /// <see cref="HotkeyListener"/> class, you can easily 
     /// enable the selection and registering of Hotkeys 
-    /// to users for a seamless end-user experience.
+    /// for a seamless end-user experience.
     /// </summary>
     public class HotkeySelector
     {
+        #region Constructor
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HotkeySelector"/> class.
+        /// </summary>
+        public HotkeySelector() { }
+
+        #endregion
+
         #region Fields
 
         // These variables store the selected hotkey and modifier key(s).

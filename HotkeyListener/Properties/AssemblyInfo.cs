@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("A library that provides support for registering and attaching events to global hotkeys in .NET applications.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Willy Kimura")]
-[assembly: AssemblyProduct("WK.Libraries.HotkeyListener")]
+[assembly: AssemblyProduct("HotkeyListener")]
 [assembly: AssemblyCopyright("Copyright © 2019, Willy Kimura.")]
 [assembly: AssemblyTrademark("A product of Willy Kimura.")]
 [assembly: AssemblyCulture("")]
