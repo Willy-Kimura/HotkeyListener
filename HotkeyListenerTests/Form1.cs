@@ -28,15 +28,18 @@ namespace HotkeyListenerTests
 
         private void Hkl_HotkeyPressed(object sender, HotkeyEventArgs e)
         {
-            Activate();
-            
-            MessageBox.Show(
-                $"You pressed: {e.Hotkey}\n" +
-                $"Name: {e.SourceApplication.Name}\n" +
-                $"Title: {e.SourceApplication.Title}\n" +
-                $"ID: {e.SourceApplication.ID}\n" +
-                $"Handle: {e.SourceApplication.Handle}\n" +
-                $"Path: {e.SourceApplication.Path}");
+            if (e.Hotkey == "Control+Shift+E")
+            {
+                Activate();
+
+                MessageBox.Show(
+                    $"You pressed: {e.Hotkey}\n" +
+                    $"Name: {e.SourceApplication.Name}\n" +
+                    $"Title: {e.SourceApplication.Title}\n" +
+                    $"ID: {e.SourceApplication.ID}\n" +
+                    $"Handle: {e.SourceApplication.Handle}\n" +
+                    $"Path: {e.SourceApplication.Path}");
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)

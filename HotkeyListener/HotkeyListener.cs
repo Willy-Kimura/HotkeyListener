@@ -22,8 +22,9 @@
  *  
  *  I've added some few improvements such as:
  *  
- *  (1) Ability to fetch source application info from where a hotkey is triggered.
- *  (2) Ability to enable any Windows control to provide Hotkey selection features.
+ *  (1) Ability to suspend and resume the list of hotkeys registered.
+ *  (2) Ability to fetch source application info from where a hotkey is triggered.
+ *  (3) Ability to enable any Windows control to provide Hotkey selection features.
  * 
  * Improvements are welcome.
  * 
@@ -78,7 +79,8 @@ namespace WK.Libraries.HotkeyListenerNS
         #region Public
 
         /// <summary>
-        /// Gets a value indicating whether hotkeys have been suspended.
+        /// Gets a value indicating whether the 
+        /// hotkeys set have been suspended.
         /// </summary>
         public bool HotkeysSuspended { get; private set; }
 
@@ -129,6 +131,27 @@ namespace WK.Libraries.HotkeyListenerNS
         }
 
         /// <summary>
+        /// Suspends a hotkey set from the global Key watcher.
+        /// </summary>
+        /// <param name="hotkey">The hotkey to suspend.</param>
+        public void SuspendHotkey(string hotkey)
+        {
+            RemoveHotkey(hotkey);
+        }
+
+        /// <summary>
+        /// Suspends any hotkeys set from the global Key watcher.
+        /// </summary>
+        /// <param name="hotkeys">The hotkeys to suspend.</param>
+        public void SuspendHotkeys(string[] hotkeys)
+        {
+            foreach (string hotkey in hotkeys)
+            {
+                RemoveHotkey(hotkey);
+            }
+        }
+
+        /// <summary>
         /// Suspends the hotkey(s) set from the global Key watcher.
         /// </summary>
         public void SuspendHotkeys()
@@ -160,6 +183,27 @@ namespace WK.Libraries.HotkeyListenerNS
                 {
                     AddHotkey(key);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Resumes using a hotkey in the global Key watcher.
+        /// </summary>
+        /// <param name="hotkey">The hotkey to resume using.</param>
+        public void ResumeHotkey(string hotkey)
+        {
+            AddHotkey(hotkey);
+        }
+
+        /// <summary>
+        /// Resumes using a list of hotkeys in the global Key watcher.
+        /// </summary>
+        /// <param name="hotkeys">The hotkeys to resume using.</param>
+        public void ResumeHotkeys(string[] hotkeys)
+        {
+            foreach (string hotkey in hotkeys)
+            {
+                AddHotkey(hotkey);
             }
         }
 
