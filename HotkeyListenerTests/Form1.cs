@@ -23,9 +23,7 @@ namespace HotkeyListenerTests
             
             hkl.AddHotkey("S");
             hkl.AddHotkey("Control+Shift+E");
-
-            hks.Bind(textBox2);
-
+            
             hkl.HotkeyPressed += Hkl_HotkeyPressed;
         }
 
@@ -40,6 +38,21 @@ namespace HotkeyListenerTests
                 $"ID: {e.SourceApplication.ID}\n" +
                 $"Handle: {e.SourceApplication.Handle}\n" +
                 $"Path: {e.SourceApplication.Path}");
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            // hkl.SuspendHotkeys();
+            hks.Enable(textBox1, Keys.F1, Keys.Shift | Keys.Alt);
+            hks.Set(textBox1, Keys.F2, Keys.Shift | Keys.Control);
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            // hkl.ResumeHotkeys();
+            // hks.Unbind(textBox2, false);
+            hks.Reset(textBox2);
+            MessageBox.Show(hks.HasEnabled(textBox2).ToString());
         }
     }
 }

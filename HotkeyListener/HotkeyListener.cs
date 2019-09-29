@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Collections.Generic;
 
 using WK.Libraries.HotkeyListenerNS.Models;
 using WK.Libraries.HotkeyListenerNS.Helpers;
@@ -29,18 +31,25 @@ namespace WK.Libraries.HotkeyListenerNS
         // unregister, and listen to the Hotkey triggers.
         private HotkeyHandle _handle = new HotkeyHandle();
 
+        /// <summary>
+        /// Saves the list of Hotkeys suspended.
+        /// </summary>
+        private Dictionary<int, string> _suspendedKeys = 
+            new Dictionary<int, string>();
+
         #endregion
 
         #region Properties
+    
+        #region Public
 
-        #region Browsable
+        /// <summary>
+        /// Gets a value indicating whether Hotkeys have been suspended.
+        /// </summary>
+        public bool HotkeysSuspended { get; private set; }
 
         #endregion
-
-        #region Non-browsable
-
-        #endregion
-
+        
         #endregion
 
         #region Methods
@@ -50,10 +59,22 @@ namespace WK.Libraries.HotkeyListenerNS
         /// <summary>
         /// Adds a Hotkey to the global Key watcher.
         /// </summary>
-        /// <param name="strHotKey">The Hotkey string.</param>
+        /// <param name="strHotKey">The Hotkey to add.</param>
         public bool AddHotkey(string hotkey)
         {
             return _handle.AddKey(hotkey);
+        }
+
+        /// <summary>
+        /// Adds a list of Hotkeys to the global Key watcher.
+        /// </summary>
+        /// <param name="hotkeys">The Hotkeys to add.</param>
+        public void AddHotkeys(string[] hotkeys)
+        {
+            foreach (string key in hotkeys)
+            {
+                AddHotkey(key);
+            }
         }
 
         /// <summary>
@@ -66,11 +87,46 @@ namespace WK.Libraries.HotkeyListenerNS
         }
 
         /// <summary>
-        /// Remove all the registered Hotkeys from the global Key watcher.
+        /// Remove all registered Hotkeys from the global Key watcher.
         /// </summary>
         public void RemoveAllHotkeys()
         {
             _handle.RemoveAllKeys();
+        }
+        
+        /// <summary>
+        /// Suspends the Hotkey(s) set from the global Key watcher.
+        /// </summary>
+        public void SuspendHotkeys()
+        {
+            if (!HotkeysSuspended)
+            {
+                foreach (var item in _handle.Hotkeys)
+                {
+                    _suspendedKeys.Add(item.Key, item.Value);
+                }
+
+                foreach (var key in _handle.Hotkeys.Values.ToList())
+                {
+                    RemoveHotkey(key);
+                }
+
+                HotkeysSuspended = true;
+            }
+        }
+        
+        /// <summary>
+        /// Resumes using the Hotkey(s) set in the global Key watcher.
+        /// </summary>
+        public void ResumeHotkeys()
+        {
+            if (HotkeysSuspended)
+            {
+                foreach (var key in _suspendedKeys.Values.ToList())
+                {
+                    AddHotkey(key);
+                }
+            }
         }
 
         #endregion

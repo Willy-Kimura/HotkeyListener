@@ -24,7 +24,7 @@ namespace WK.Libraries.HotkeyListenerNS.Helpers
 
             ResumeLayout(false);
 
-            _hotkeysDict = new Dictionary<int, string>();
+            Hotkeys = new Dictionary<int, string>();
         }
 
         #endregion
@@ -32,7 +32,7 @@ namespace WK.Libraries.HotkeyListenerNS.Helpers
         #region Fields
 
         private const int WM_HOTKEY = 0x312;
-        private Dictionary<int, string> _hotkeysDict;
+        public Dictionary<int, string> Hotkeys;
 
         #endregion
 
@@ -93,7 +93,7 @@ namespace WK.Libraries.HotkeyListenerNS.Helpers
 
             if (HotkeyCore.RegisterKey(this, hotKeyId, hotkey))
             {
-                _hotkeysDict.Add(hotKeyId, hotkey);
+                Hotkeys.Add(hotKeyId, hotkey);
 
                 return true;
             }
@@ -109,7 +109,7 @@ namespace WK.Libraries.HotkeyListenerNS.Helpers
         {
             int intKey = 0;
 
-            foreach (KeyValuePair<int, string> hotKey in _hotkeysDict)
+            foreach (KeyValuePair<int, string> hotKey in Hotkeys)
             {
                 if (hotKey.Value == hotkey)
                 {
@@ -123,7 +123,7 @@ namespace WK.Libraries.HotkeyListenerNS.Helpers
             }
 
             if (intKey > 0)
-                _hotkeysDict.Remove(intKey);
+                Hotkeys.Remove(intKey);
         }
 
         /// <summary>
@@ -131,13 +131,13 @@ namespace WK.Libraries.HotkeyListenerNS.Helpers
         /// </summary>
         private void Unregister()
         {
-            foreach (KeyValuePair<int, string> hotKey in _hotkeysDict)
+            foreach (KeyValuePair<int, string> hotKey in Hotkeys)
             {
                 HotkeyCore.UnregisterKey(this, hotKey.Key);
                 HotkeyCore.GlobalDeleteAtom(hotKey.Key);
             }
 
-            _hotkeysDict.Clear();
+            Hotkeys.Clear();
         }
 
         #endregion
@@ -162,7 +162,7 @@ namespace WK.Libraries.HotkeyListenerNS.Helpers
                         SourceAttributes.GetPath()),
                     new HotkeyEventArgs
                     {
-                        Hotkey = this._hotkeysDict[m.WParam.ToInt32()],
+                        Hotkey = this.Hotkeys[m.WParam.ToInt32()],
                         SourceApplication = new SourceApplication(
                         SourceAttributes.GetID(),
                         SourceAttributes.GetHandle(),
