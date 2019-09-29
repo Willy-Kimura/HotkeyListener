@@ -131,27 +131,6 @@ namespace WK.Libraries.HotkeyListenerNS
         }
 
         /// <summary>
-        /// Suspends a hotkey set from the global Key watcher.
-        /// </summary>
-        /// <param name="hotkey">The hotkey to suspend.</param>
-        public void SuspendHotkey(string hotkey)
-        {
-            RemoveHotkey(hotkey);
-        }
-
-        /// <summary>
-        /// Suspends any hotkeys set from the global Key watcher.
-        /// </summary>
-        /// <param name="hotkeys">The hotkeys to suspend.</param>
-        public void SuspendHotkeys(string[] hotkeys)
-        {
-            foreach (string hotkey in hotkeys)
-            {
-                RemoveHotkey(hotkey);
-            }
-        }
-
-        /// <summary>
         /// Suspends the hotkey(s) set from the global Key watcher.
         /// </summary>
         public void SuspendHotkeys()
@@ -183,27 +162,6 @@ namespace WK.Libraries.HotkeyListenerNS
                 {
                     AddHotkey(key);
                 }
-            }
-        }
-
-        /// <summary>
-        /// Resumes using a hotkey in the global Key watcher.
-        /// </summary>
-        /// <param name="hotkey">The hotkey to resume using.</param>
-        public void ResumeHotkey(string hotkey)
-        {
-            AddHotkey(hotkey);
-        }
-
-        /// <summary>
-        /// Resumes using a list of hotkeys in the global Key watcher.
-        /// </summary>
-        /// <param name="hotkeys">The hotkeys to resume using.</param>
-        public void ResumeHotkeys(string[] hotkeys)
-        {
-            foreach (string hotkey in hotkeys)
-            {
-                AddHotkey(hotkey);
             }
         }
 
