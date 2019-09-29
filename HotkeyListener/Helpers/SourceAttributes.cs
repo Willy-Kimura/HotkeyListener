@@ -90,7 +90,7 @@ namespace WK.Libraries.HotkeyListenerNS.Helpers
 
             return null;
         }
-
+        
         #endregion
 
         #region Private

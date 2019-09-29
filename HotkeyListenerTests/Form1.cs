@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 
 using WK.Libraries.HotkeyListenerNS;
+using WK.Libraries.HotkeyListenerNS.Helpers;
 
 namespace HotkeyListenerTests
 {
@@ -33,7 +34,8 @@ namespace HotkeyListenerTests
                     $"Title: {e.SourceApplication.Title}\n" +
                     $"ID: {e.SourceApplication.ID}\n" +
                     $"Handle: {e.SourceApplication.Handle}\n" +
-                    $"Path: {e.SourceApplication.Path}");
+                    $"Path: {e.SourceApplication.Path}"
+                );
             }
         }
 

@@ -35,7 +35,7 @@ namespace WK.Libraries.HotkeyListenerNS
         private ArrayList _needNonShiftModifier = null;
         private ArrayList _needNonAltGrModifier = null;
 
-        // Stores the list of enabled Hotkey selection controls.
+        // Stores the list of enabled hotkey selection controls.
         private List<Control> _enabledControls = new List<Control>();
 
         #endregion
@@ -46,18 +46,18 @@ namespace WK.Libraries.HotkeyListenerNS
 
         /// <summary>
         /// Gets or sets the text to be displayed in a 
-        /// control when no Hotkey has been set. 
+        /// control when no hotkey has been set. 
         /// (Preferred default text is "None")
         /// </summary>
         public string EmptyHotkeyText { get; set; } = "None";
 
         /// <summary>
         /// Gets or sets the text to be displayed in a control 
-        /// when an invalid or unsupported Hotkey is pressed.
+        /// when an invalid or unsupported hotkey is pressed.
         /// (Preferred default text is "(Unsupported)")
         /// </summary>
         public string InvalidHotkeyText { get; set; } = "(Unsupported)";
-        
+
         #endregion
 
         #endregion
@@ -67,9 +67,9 @@ namespace WK.Libraries.HotkeyListenerNS
         #region Public
 
         /// <summary>
-        /// Enables a control for Hotkey selection and preview.
+        /// Enables a control for hotkey selection and preview.
         /// This will make use of the control's Text property to 
-        /// preview the current Hotkey selection.
+        /// preview the current hotkey selection.
         /// </summary>
         /// <param name="control">The control to enable.</param>
         public bool Enable(Control control)
@@ -99,9 +99,9 @@ namespace WK.Libraries.HotkeyListenerNS
         }
 
         /// <summary>
-        /// Enables a control for Hotkey selection and preview.
+        /// Enables a control for hotkey selection and preview.
         /// This will make use of the control's Text property to 
-        /// preview the current Hotkey selection.
+        /// preview the current hotkey selection.
         /// </summary>
         /// <param name="control">The control to enable.</param>
         /// <param name="key">Provide a standard key selection.</param>
@@ -126,7 +126,7 @@ namespace WK.Libraries.HotkeyListenerNS
         }
 
         /// <summary>
-        /// Disables a control for Hotkey selection and preview.
+        /// Disables a control for hotkey selection and preview.
         /// </summary>
         /// <param name="clearText">Clear the control's Text property?</param>
         public bool Disable(Control control, bool clearText = true)
@@ -157,7 +157,7 @@ namespace WK.Libraries.HotkeyListenerNS
 
         /// <summary>
         /// Gets a value indicating whether a specific control  
-        /// has been enabled for Hotkey selection.
+        /// has been enabled for hotkey selection.
         /// </summary>
         /// <param name="control">The control to determine.</param>
         public bool HasEnabled(Control control)
@@ -169,9 +169,9 @@ namespace WK.Libraries.HotkeyListenerNS
         }
 
         /// <summary>
-        /// Sets a Hotkey selection to be previewd in a control. 
+        /// Sets a hotkey selection to be previewd in a control. 
         /// Thsi does not automatically enable the control for 
-        /// Hotkey selection. For this, please use the <see cref="Enable(Control)"/> method.
+        /// hotkey selection. For this, please use the <see cref="Enable(Control)"/> method.
         /// </summary>
         /// <param name="control">The control to set.</param>
         /// <param name="key">Provide a standard key selection.</param>
@@ -194,7 +194,20 @@ namespace WK.Libraries.HotkeyListenerNS
         }
         
         /// <summary>
-        /// Clears the currently previewed Hotkey 
+        /// Clears the currently previewed hotkey 
+        /// selection displayed in a control.
+        /// </summary>
+        public void Clear(Control control)
+        {
+            this._hotkey = Keys.None;
+            this._modifiers = Keys.None;
+
+            Refresh(control);
+        }
+
+        /// <summary>
+        /// (Variant of the <see cref="Clear(Control)"/> method) 
+        /// Clears the currently previewed hotkey 
         /// selection displayed in a control.
         /// </summary>
         public void Reset(Control control)
@@ -204,7 +217,7 @@ namespace WK.Libraries.HotkeyListenerNS
 
             Refresh(control);
         }
-        
+
         #endregion
 
         #region Private

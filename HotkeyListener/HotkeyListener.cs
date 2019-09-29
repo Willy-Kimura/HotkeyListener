@@ -79,7 +79,7 @@ namespace WK.Libraries.HotkeyListenerNS
         #region Public
 
         /// <summary>
-        /// Gets a value indicating whether the 
+        /// Gets a value determining whether the 
         /// hotkeys set have been suspended.
         /// </summary>
         public bool HotkeysSuspended { get; private set; }
