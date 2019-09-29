@@ -8,7 +8,6 @@ using System.Text;
 using System.Windows.Forms;
 
 using WK.Libraries.HotkeyListenerNS;
-using WK.Libraries.HotkeyListenerNS.Models;
 
 namespace HotkeyListenerTests
 {
