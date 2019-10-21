@@ -19,7 +19,7 @@ namespace HotkeyListenerTests
         {
             InitializeComponent();
             
-            hkl.AddHotkey(hotkey1);
+            hkl.Add(hotkey1);
             
             hkl.HotkeyPressed += Hkl_HotkeyPressed;
 
@@ -50,13 +50,13 @@ namespace HotkeyListenerTests
             // hkl.SuspendHotkeys();
             // hks.Enable(textBox1, Keys.F1, Keys.Shift | Keys.Alt);
             // hks.Set(textBox1, Keys.F2, Keys.Shift | Keys.Control);
-            hkl.SuspendHotkeys();
-            hkl.ModifyHotkey(ref hotkey1, hotkey2);
+            hkl.Suspend();
+            hkl.Update(ref hotkey1, hotkey2);
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            hkl.ResumeHotkeys();
+            hkl.Resume();
 
             // hkl.ResumeHotkeys();
             // hks.Reset(textBox2);

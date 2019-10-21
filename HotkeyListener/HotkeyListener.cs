@@ -97,7 +97,7 @@ namespace WK.Libraries.HotkeyListenerNS
         /// Adds a hotkey to the global Key watcher.
         /// </summary>
         /// <param name="hotkey">The hotkey to add.</param>
-        public void AddHotkey(string hotkey)
+        public void Add(string hotkey)
         {
             _handle.AddKey(hotkey);
         }
@@ -106,28 +106,28 @@ namespace WK.Libraries.HotkeyListenerNS
         /// Adds a list of hotkeys to the global Key watcher.
         /// </summary>
         /// <param name="hotkeys">The hotkeys to add.</param>
-        public void AddHotkeys(string[] hotkeys)
+        public void Add(string[] hotkeys)
         {
             foreach (string key in hotkeys)
             {
-                AddHotkey(key);
+                Add(key);
             }
         }
 
         /// <summary>
-        /// Replaces an active hotkey with a new 
-        /// one in the global Key watcher.
+        /// Updates an existing hotkey 
+        /// in the global Key watcher.
         /// </summary>
         /// <param name="currentHotkey">The hotkey to modify.</param>
         /// <param name="newHotkey">The new hotkey to be set.</param>
-        public void ModifyHotkey(string currentHotkey, string newHotkey)
+        public void Update(string currentHotkey, string newHotkey)
         {
             try
             {
                 if (!HotkeysSuspended)
                 {
-                    RemoveHotkey(currentHotkey);
-                    AddHotkey(newHotkey);
+                    Remove(currentHotkey);
+                    Add(newHotkey);
                 }
                 else
                 {
@@ -149,8 +149,8 @@ namespace WK.Libraries.HotkeyListenerNS
         }
 
         /// <summary>
-        /// Replaces an active hotkey with a new 
-        /// one in the global Key watcher.
+        /// Updates an existing hotkey 
+        /// in the global Key watcher.
         /// </summary>
         /// <param name="currentHotkey">
         /// A reference to the variable 
@@ -159,14 +159,14 @@ namespace WK.Libraries.HotkeyListenerNS
         /// <param name="newHotkey">
         /// The new hotkey to be set.
         /// </param>
-        public void ModifyHotkey(ref string currentHotkey, string newHotkey)
+        public void Update(ref string currentHotkey, string newHotkey)
         {
             try
             {
                 if (!HotkeysSuspended)
                 {
-                    RemoveHotkey(currentHotkey);
-                    AddHotkey(newHotkey);
+                    Remove(currentHotkey);
+                    Add(newHotkey);
                 }
                 else
                 {
@@ -188,8 +188,8 @@ namespace WK.Libraries.HotkeyListenerNS
         }
 
         /// <summary>
-        /// Replaces an active hotkey with a new 
-        /// one in the global Key watcher.
+        /// Updates an existing hotkey 
+        /// in the global Key watcher.
         /// </summary>
         /// <param name="currentHotkey">
         /// A reference to the variable 
@@ -199,14 +199,14 @@ namespace WK.Libraries.HotkeyListenerNS
         /// A reference to the variable containing 
         /// the new hotkey to be set.
         /// </param>
-        public void ModifyHotkey(ref string currentHotkey, ref string newHotkey)
+        public void Update(ref string currentHotkey, ref string newHotkey)
         {
             try
             {
                 if (!HotkeysSuspended)
                 {
-                    RemoveHotkey(currentHotkey);
-                    AddHotkey(newHotkey);
+                    Remove(currentHotkey);
+                    Add(newHotkey);
                 }
                 else
                 {
@@ -228,26 +228,29 @@ namespace WK.Libraries.HotkeyListenerNS
         }
 
         /// <summary>
-        /// Removes any specific hotkey from the global Key watcher.
+        /// Removes any specific hotkey 
+        /// from the global Key watcher.
         /// </summary>
         /// <param name="hotkey">The hotkey to remove.</param>
-        public void RemoveHotkey(string hotkey)
+        public void Remove(string hotkey)
         {
             _handle.RemoveKey(hotkey);
         }
 
         /// <summary>
-        /// Remove all registered hotkeys from the global Key watcher.
+        /// Remove all the registered hotkeys 
+        /// from the global Key watcher.
         /// </summary>
-        public void RemoveAllHotkeys()
+        public void RemoveAll()
         {
             _handle.RemoveAllKeys();
         }
 
         /// <summary>
-        /// Suspends the hotkey(s) set from the global Key watcher.
+        /// Suspends the hotkey(s) set 
+        /// from the global Key watcher.
         /// </summary>
-        public void SuspendHotkeys()
+        public void Suspend()
         {
             if (!HotkeysSuspended)
             {
@@ -258,7 +261,7 @@ namespace WK.Libraries.HotkeyListenerNS
 
                 foreach (var key in _handle.Hotkeys.Values.ToList())
                 {
-                    RemoveHotkey(key);
+                    Remove(key);
                 }
 
                 HotkeysSuspended = true;
@@ -266,21 +269,23 @@ namespace WK.Libraries.HotkeyListenerNS
         }
 
         /// <summary>
-        /// Resumes using the hotkey(s) set in the global Key watcher.
+        /// Resumes using the hotkey(s) set 
+        /// in the global Key watcher.
         /// </summary>
-        public void ResumeHotkeys()
+        public void Resume()
         {
             if (HotkeysSuspended)
             {
                 foreach (var key in _suspendedKeys.Values.ToList())
                 {
-                    AddHotkey(key);
+                    Add(key);
                 }
             }
         }
 
         /// <summary>
-        /// Gets the currently selected text in an active application.
+        /// Gets the currently selected text 
+        /// in any active application.
         /// </summary>
         /// <returns>The selected text, if any.</returns>
         public string GetSelection()
