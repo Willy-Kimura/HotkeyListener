@@ -36,7 +36,7 @@ namespace WK.Libraries.HotkeyListenerNS
         private ArrayList _needNonAltGrModifier = null;
 
         // Stores the list of enabled hotkey selection controls.
-        private List<Control> _enabledControls = new List<Control>();
+        private List<Control> _controls = new List<Control>();
 
         #endregion
 
@@ -86,7 +86,7 @@ namespace WK.Libraries.HotkeyListenerNS
 
                 try
                 {
-                    _enabledControls.Add(control);
+                    _controls.Add(control);
                 }
                 catch (Exception) { }
 
@@ -165,8 +165,8 @@ namespace WK.Libraries.HotkeyListenerNS
 
                 try
                 {
-                    if (_enabledControls.Contains(control))
-                        _enabledControls.Remove(control);
+                    if (_controls.Contains(control))
+                        _controls.Remove(control);
                 }
                 catch (Exception) { }
 
@@ -185,7 +185,7 @@ namespace WK.Libraries.HotkeyListenerNS
         /// <param name="control">The control to determine.</param>
         public bool IsEnabled(Control control)
         {
-            if (_enabledControls.Contains(control))
+            if (_controls.Contains(control))
                 return true;
             else
                 return false;
@@ -333,11 +333,11 @@ namespace WK.Libraries.HotkeyListenerNS
         /// <summary>
         /// Refreshes the previewed hotkey combination displayed in a control.
         /// </summary>
-        /// <param name="calledInternally">
+        /// <param name="internalCall">
         /// Specifies whether this function is 
         /// called internally or by the user.
         /// </param>
-        private void Refresh(Control control, bool calledInternally)
+        private void Refresh(Control control, bool internalCall)
         {
             try
             {
@@ -359,10 +359,10 @@ namespace WK.Libraries.HotkeyListenerNS
                 }
 
                 // Only validate input if it comes from the user.
-                if (calledInternally == false)
+                if (internalCall == false)
                 {
                     // No modifier or shift only, and a hotkey that needs another modifier.
-                    if ((this._modifiers == Keys.Shift || this._modifiers == Keys.None) &&
+                    if ((this._modifiers == Keys.Shift || this._modifiers == Keys.None) && 
                         this._needNonShiftModifier.Contains((int)this._hotkey))
                     {
                         if (this._modifiers == Keys.None)
@@ -388,6 +388,7 @@ namespace WK.Libraries.HotkeyListenerNS
                             return;
                         }
                     }
+
                     // Check all Ctrl+Alt keys.
                     if ((this._modifiers == (Keys.Alt | Keys.Control)) &&
                         this._needNonAltGrModifier.Contains((int)this._hotkey))
