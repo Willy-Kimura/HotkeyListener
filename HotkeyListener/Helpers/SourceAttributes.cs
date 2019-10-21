@@ -93,7 +93,7 @@ namespace WK.Libraries.HotkeyListenerNS.Helpers
         }
 
         /// <summary>
-        /// Gets the currently selected text in the application.
+        /// Gets the currently selected text in an active application.
         /// </summary>
         /// <returns>The selected text, if any.</returns>
         public static string GetSelection()

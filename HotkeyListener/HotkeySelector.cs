@@ -179,11 +179,11 @@ namespace WK.Libraries.HotkeyListenerNS
         }
 
         /// <summary>
-        /// Gets a value indicating whether a specific control  
-        /// has been enabled for hotkey selection.
+        /// Gets a value indicating whether a specific 
+        /// control is enabled for hotkey selection.
         /// </summary>
         /// <param name="control">The control to determine.</param>
-        public bool HasEnabled(Control control)
+        public bool IsEnabled(Control control)
         {
             if (_enabledControls.Contains(control))
                 return true;

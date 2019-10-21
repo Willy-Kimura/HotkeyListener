@@ -31,7 +31,7 @@ namespace HotkeyListenerTests
             if (e.Hotkey == hotkey1)
             {
                 textBox3.Text = hkl.GetSelection();
-
+                
                 Activate();
 
                 // MessageBox.Show(
@@ -59,7 +59,7 @@ namespace HotkeyListenerTests
         {
             // hkl.ResumeHotkeys();
             hks.Reset(textBox2);
-            MessageBox.Show(hks.HasEnabled(textBox2).ToString());
+            MessageBox.Show(hks.IsEnabled(textBox2).ToString());
         }
     }
 }
