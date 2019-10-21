@@ -104,6 +104,29 @@ namespace WK.Libraries.HotkeyListenerNS
         /// preview the current hotkey selection.
         /// </summary>
         /// <param name="control">The control to enable.</param>
+        /// <param name="keys">Provide a standard key or key combination string.</param>
+        public bool Enable(Control control, string keys)
+        {
+            try
+            {
+                Enable(control);
+
+                control.Text = keys;
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Enables a control for hotkey selection and preview.
+        /// This will make use of the control's Text property to 
+        /// preview the current hotkey selection.
+        /// </summary>
+        /// <param name="control">The control to enable.</param>
         /// <param name="key">Provide a standard key selection.</param>
         /// <param name="modifiers">Provide a modifier key selection.</param>
         public bool Enable(Control control, Keys key = Keys.None, Keys modifiers = Keys.None)
@@ -192,7 +215,30 @@ namespace WK.Libraries.HotkeyListenerNS
                 return false;
             }
         }
-        
+
+        /// <summary>
+        /// Sets a hotkey selection to be previewd in a control. 
+        /// Thsi does not automatically enable the control for 
+        /// hotkey selection. For this, please use the <see cref="Enable(Control)"/> method.
+        /// </summary>
+        /// <param name="control">The control to set.</param>
+        /// <param name="keys">Provide a standard key or key combination string.</param>
+        public bool Set(Control control, string keys)
+        {
+            try
+            {
+                Refresh(control);
+
+                control.Text = keys;
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
         /// <summary>
         /// Clears the currently previewed hotkey 
         /// selection displayed in a control.
