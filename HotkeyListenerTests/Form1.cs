@@ -30,18 +30,18 @@ namespace HotkeyListenerTests
         {
             if (e.Hotkey == hotkey1)
             {
-                textBox3.Text = hkl.GetSelection();
+                // textBox3.Text = hkl.GetSelection();
                 
                 Activate();
 
-                // MessageBox.Show(
-                //     $"You pressed: {e.Hotkey}\n" +
-                //     $"Name: {e.SourceApplication.Name}\n" +
-                //     $"Title: {e.SourceApplication.Title}\n" +
-                //     $"ID: {e.SourceApplication.ID}\n" +
-                //     $"Handle: {e.SourceApplication.Handle}\n" +
-                //     $"Path: {e.SourceApplication.Path}"
-                // );
+                MessageBox.Show(
+                    $"You pressed: {e.Hotkey}\n" +
+                    $"Name: {e.SourceApplication.Name}\n" +
+                    $"Title: {e.SourceApplication.Title}\n" +
+                    $"ID: {e.SourceApplication.ID}\n" +
+                    $"Handle: {e.SourceApplication.Handle}\n" +
+                    $"Path: {e.SourceApplication.Path}"
+                );
             }
         }
 
@@ -52,14 +52,15 @@ namespace HotkeyListenerTests
             // hks.Set(textBox1, Keys.F2, Keys.Shift | Keys.Control);
             hkl.SuspendHotkeys();
             hkl.ModifyHotkey(ref hotkey1, hotkey2);
-            hkl.ResumeHotkeys();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
+            hkl.ResumeHotkeys();
+
             // hkl.ResumeHotkeys();
-            hks.Reset(textBox2);
-            MessageBox.Show(hks.IsEnabled(textBox2).ToString());
+            // hks.Reset(textBox2);
+            // MessageBox.Show(hks.IsEnabled(textBox2).ToString());
         }
     }
 }

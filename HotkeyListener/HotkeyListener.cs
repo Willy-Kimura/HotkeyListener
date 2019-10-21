@@ -142,6 +142,8 @@ namespace WK.Libraries.HotkeyListenerNS
                         }
                     }
                 }
+
+                currentHotkey = newHotkey;
             }
             catch (Exception) { }
         }
@@ -176,11 +178,11 @@ namespace WK.Libraries.HotkeyListenerNS
 
                             _suspendedKeys.Remove(item.Key);
                             _suspendedKeys.Add(keyID, newHotkey);
-
-                            currentHotkey = newHotkey;
                         }
                     }
                 }
+
+                currentHotkey = newHotkey;
             }
             catch (Exception) { }
         }
@@ -195,7 +197,7 @@ namespace WK.Libraries.HotkeyListenerNS
         /// </param>
         /// <param name="newHotkey">
         /// A reference to the variable containing 
-        /// the the new hotkey to be set.
+        /// the new hotkey to be set.
         /// </param>
         public void ModifyHotkey(ref string currentHotkey, ref string newHotkey)
         {
@@ -216,11 +218,11 @@ namespace WK.Libraries.HotkeyListenerNS
 
                             _suspendedKeys.Remove(item.Key);
                             _suspendedKeys.Add(keyID, newHotkey);
-
-                            currentHotkey = newHotkey;
                         }
                     }
                 }
+
+                currentHotkey = newHotkey;
             }
             catch (Exception) { }
         }
