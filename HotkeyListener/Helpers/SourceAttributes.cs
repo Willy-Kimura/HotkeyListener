@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Text;
 using System.Diagnostics;
-using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using System.Runtime.InteropServices;
 
 namespace WK.Libraries.HotkeyListenerNS.Helpers
 {
@@ -14,7 +14,6 @@ namespace WK.Libraries.HotkeyListenerNS.Helpers
     {
         #region Fields
 
-        private static string _processName = string.Empty;
         private static string _executableName = string.Empty;
         private static string _executablePath = string.Empty;
 
@@ -53,7 +52,6 @@ namespace WK.Libraries.HotkeyListenerNS.Helpers
                 int hwnd = 0;
                 hwnd = GetForegroundWindow().ToInt32();
 
-                _processName = Process.GetProcessById(GetID()).ProcessName;
                 _executablePath = Process.GetProcessById(GetID()).MainModule.FileName;
                 _executableName = _executablePath.Substring(_executablePath.LastIndexOf(@"\") + 1);
             }
