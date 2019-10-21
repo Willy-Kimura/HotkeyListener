@@ -33,7 +33,7 @@ namespace HotkeyListenerTests
                 // textBox3.Text = hkl.GetSelection();
                 
                 Activate();
-
+                
                 MessageBox.Show(
                     $"You pressed: {e.Hotkey}\n" +
                     $"Name: {e.SourceApplication.Name}\n" +

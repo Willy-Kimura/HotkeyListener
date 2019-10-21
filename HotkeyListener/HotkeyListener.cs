@@ -248,7 +248,7 @@ namespace WK.Libraries.HotkeyListenerNS
 
         /// <summary>
         /// Suspends the hotkey(s) set 
-        /// from the global Key watcher.
+        /// in the global Key watcher.
         /// </summary>
         public void Suspend()
         {
@@ -269,8 +269,8 @@ namespace WK.Libraries.HotkeyListenerNS
         }
 
         /// <summary>
-        /// Resumes using the hotkey(s) set 
-        /// in the global Key watcher.
+        /// Resumes using the hotkey(s) that 
+        /// were set in the global Key watcher.
         /// </summary>
         public void Resume()
         {
@@ -284,7 +284,7 @@ namespace WK.Libraries.HotkeyListenerNS
         }
 
         /// <summary>
-        /// Gets the currently selected text 
+        /// [Helper] Gets the currently selected text 
         /// in any active application.
         /// </summary>
         /// <returns>The selected text, if any.</returns>
