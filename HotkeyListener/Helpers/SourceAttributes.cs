@@ -2,6 +2,7 @@
 using System.Text;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
 
 namespace WK.Libraries.HotkeyListenerNS.Helpers
 {
@@ -90,7 +91,31 @@ namespace WK.Libraries.HotkeyListenerNS.Helpers
 
             return null;
         }
-        
+
+        /// <summary>
+        /// Gets the currently selected text in the application.
+        /// </summary>
+        /// <returns>The selected text, if any.</returns>
+        public static string GetSelection()
+        {
+            try
+            {
+                string clipboardText = Clipboard.GetText();
+                SendKeys.SendWait("^(c)");
+
+                System.Threading.Thread.Sleep(200);
+
+                string selection = Clipboard.GetText();
+                Clipboard.SetText(clipboardText);
+
+                return selection;
+            }
+            catch (Exception)
+            {
+                return string.Empty;
+            }
+        }
+
         #endregion
 
         #region Private

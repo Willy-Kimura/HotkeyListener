@@ -35,6 +35,7 @@
 
 using System;
 using System.Linq;
+using System.Windows.Forms;
 using System.Collections.Generic;
 
 using WK.Libraries.HotkeyListenerNS.Models;
@@ -95,10 +96,10 @@ namespace WK.Libraries.HotkeyListenerNS
         /// <summary>
         /// Adds a hotkey to the global Key watcher.
         /// </summary>
-        /// <param name="strHotKey">The hotkey to add.</param>
-        public bool AddHotkey(string hotkey)
+        /// <param name="hotkey">The hotkey to add.</param>
+        public void AddHotkey(string hotkey)
         {
-            return _handle.AddKey(hotkey);
+            _handle.AddKey(hotkey);
         }
 
         /// <summary>
@@ -111,6 +112,117 @@ namespace WK.Libraries.HotkeyListenerNS
             {
                 AddHotkey(key);
             }
+        }
+
+        /// <summary>
+        /// Replaces an active hotkey with a new 
+        /// one in the global Key watcher.
+        /// </summary>
+        /// <param name="currentHotkey">The hotkey to modify.</param>
+        /// <param name="newHotkey">The new hotkey to be set.</param>
+        public void ModifyHotkey(string currentHotkey, string newHotkey)
+        {
+            try
+            {
+                if (!HotkeysSuspended)
+                {
+                    RemoveHotkey(currentHotkey);
+                    AddHotkey(newHotkey);
+                }
+                else
+                {
+                    foreach (var item in _suspendedKeys.ToList())
+                    {
+                        if (item.Value == currentHotkey)
+                        {
+                            int keyID = item.Key;
+
+                            _suspendedKeys.Remove(item.Key);
+                            _suspendedKeys.Add(keyID, newHotkey);
+                        }
+                    }
+                }
+            }
+            catch (Exception) { }
+        }
+
+        /// <summary>
+        /// Replaces an active hotkey with a new 
+        /// one in the global Key watcher.
+        /// </summary>
+        /// <param name="currentHotkey">
+        /// A reference to the variable 
+        /// containing the hotkey to modify.
+        /// </param>
+        /// <param name="newHotkey">
+        /// The new hotkey to be set.
+        /// </param>
+        public void ModifyHotkey(ref string currentHotkey, string newHotkey)
+        {
+            try
+            {
+                if (!HotkeysSuspended)
+                {
+                    RemoveHotkey(currentHotkey);
+                    AddHotkey(newHotkey);
+                }
+                else
+                {
+                    foreach (var item in _suspendedKeys.ToList())
+                    {
+                        if (item.Value == currentHotkey)
+                        {
+                            int keyID = item.Key;
+
+                            _suspendedKeys.Remove(item.Key);
+                            _suspendedKeys.Add(keyID, newHotkey);
+
+                            currentHotkey = newHotkey;
+                        }
+                    }
+                }
+            }
+            catch (Exception) { }
+        }
+
+        /// <summary>
+        /// Replaces an active hotkey with a new 
+        /// one in the global Key watcher.
+        /// </summary>
+        /// <param name="currentHotkey">
+        /// A reference to the variable 
+        /// containing the hotkey to modify.
+        /// </param>
+        /// <param name="newHotkey">
+        /// A reference to the variable containing 
+        /// the the new hotkey to be set.
+        /// </param>
+        public void ModifyHotkey(ref string currentHotkey, ref string newHotkey)
+        {
+            try
+            {
+                if (!HotkeysSuspended)
+                {
+                    RemoveHotkey(currentHotkey);
+                    AddHotkey(newHotkey);
+                }
+                else
+                {
+                    foreach (var item in _suspendedKeys.ToList())
+                    {
+                        if (item.Value == currentHotkey)
+                        {
+                            int keyID = item.Key;
+
+                            _suspendedKeys.Remove(item.Key);
+                            _suspendedKeys.Add(keyID, newHotkey);
+
+                            currentHotkey = newHotkey;
+                        }
+                    }
+                }
+            }
+            catch (Exception) { }
         }
 
         /// <summary>
@@ -162,6 +274,30 @@ namespace WK.Libraries.HotkeyListenerNS
                 {
                     AddHotkey(key);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Gets the currently selected text in an application.
+        /// </summary>
+        /// <returns>The selected text, if any.</returns>
+        public string GetSelection()
+        {
+            try
+            {
+                string clipboardText = Clipboard.GetText();
+                SendKeys.SendWait("^(c)");
+
+                System.Threading.Thread.Sleep(200);
+
+                string selection = Clipboard.GetText();
+                Clipboard.SetText(clipboardText);
+
+                return selection;
+            }
+            catch (Exception)
+            {
+                return string.Empty;
             }
         }
 
