@@ -83,7 +83,7 @@ namespace WK.Libraries.HotkeyListenerNS
         /// Gets a value determining whether the 
         /// hotkeys set have been suspended.
         /// </summary>
-        public bool HotkeysSuspended { get; private set; }
+        public bool Suspended { get; private set; }
 
         #endregion
 
@@ -124,7 +124,7 @@ namespace WK.Libraries.HotkeyListenerNS
         {
             try
             {
-                if (!HotkeysSuspended)
+                if (!Suspended)
                 {
                     Remove(currentHotkey);
                     Add(newHotkey);
@@ -163,7 +163,7 @@ namespace WK.Libraries.HotkeyListenerNS
         {
             try
             {
-                if (!HotkeysSuspended)
+                if (!Suspended)
                 {
                     Remove(currentHotkey);
                     Add(newHotkey);
@@ -203,7 +203,7 @@ namespace WK.Libraries.HotkeyListenerNS
         {
             try
             {
-                if (!HotkeysSuspended)
+                if (!Suspended)
                 {
                     Remove(currentHotkey);
                     Add(newHotkey);
@@ -252,7 +252,7 @@ namespace WK.Libraries.HotkeyListenerNS
         /// </summary>
         public void Suspend()
         {
-            if (!HotkeysSuspended)
+            if (!Suspended)
             {
                 foreach (var item in _handle.Hotkeys)
                 {
@@ -264,7 +264,7 @@ namespace WK.Libraries.HotkeyListenerNS
                     Remove(key);
                 }
 
-                HotkeysSuspended = true;
+                Suspended = true;
             }
         }
 
@@ -274,7 +274,7 @@ namespace WK.Libraries.HotkeyListenerNS
         /// </summary>
         public void Resume()
         {
-            if (HotkeysSuspended)
+            if (Suspended)
             {
                 foreach (var key in _suspendedKeys.Values.ToList())
                 {
