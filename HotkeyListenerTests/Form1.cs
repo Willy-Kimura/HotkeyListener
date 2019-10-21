@@ -19,7 +19,7 @@ namespace HotkeyListenerTests
         {
             InitializeComponent();
             
-            hkl.Add(hotkey1);
+            hkl.Add(new[] { hotkey1, hotkey2 });
             
             hkl.HotkeyPressed += Hkl_HotkeyPressed;
 

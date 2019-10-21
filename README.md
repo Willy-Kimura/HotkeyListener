@@ -23,6 +23,48 @@ Here's a comprehensive list of the features available:
 
 # Usage
 
+#### Adding Hotkeys
+
+First, ensure you import the library's namespace:
+
+```c#
+using WK.Libraries.HotkeyListenerNS;
+```
+
+...then instantiate the class, add some hotkeys:
+
+```c#
+var hkl = new HotkeyListener();
+
+hkl.Add("Control+Shift+E");
+hkl.Add("Control+R");
+```
+
+The `Add` method also allows adding an array of hotkeys at once:
+
+```c#
+// Adds an array of hotkeys.
+hkl.Add(new[] { hotkey1, hotkey2 });
+```
+
+> **Important:** If you're building an application that has no external user-option for changing or customizing the default hotkey(s) set, something you'll need to consider when working with global hotkeys is that there are a number of predefined keys or key combinations already in use within a number of applications such as [Google Chrome](https://chrome.google.com) - for example, `Control+Tab`. This then means that you may need to find the right key or key combination to use when shipping your applications.
+
+#### Listening to Key Presses
+
+Now to listen to key presses, use the `HotkeyPressed` event:
+
+```c#
+hkl.HotkeyPressed += Hkl_HotkeyPressed;
+
+private void Hkl_HotkeyPressed(object sender, HotkeyEventArgs e)
+{
+    if (e.Hotkey == "Control+Shift+E")
+        MessageBox.Show("First hotkey was pressed.");
+    if (e.Hotkey == "Control+R")
+        MessageBox.Show("Second hotkey was pressed.");
+}
+```
+
 
 
 
