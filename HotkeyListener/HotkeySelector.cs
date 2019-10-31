@@ -106,14 +106,14 @@ namespace WK.Libraries.HotkeyListenerNS
         /// preview the current hotkey selection.
         /// </summary>
         /// <param name="control">The control to enable.</param>
-        /// <param name="keys">Provide a standard key or key combination string.</param>
-        public bool Enable(Control control, string keys)
+        /// <param name="hotkey">Provide a standard key or key combination string.</param>
+        public bool Enable(Control control, string hotkey)
         {
             try
             {
                 Enable(control);
 
-                control.Text = keys;
+                control.Text = hotkey;
 
                 return true;
             }
@@ -153,8 +153,8 @@ namespace WK.Libraries.HotkeyListenerNS
         /// <summary>
         /// Disables a control for hotkey selection and preview.
         /// </summary>
-        /// <param name="clearText">Clear the control's Text property?</param>
-        public bool Disable(Control control, bool clearText = true)
+        /// <param name="clearKeys">Clear the control's previewed keys?</param>
+        public bool Disable(Control control, bool clearKeys = true)
         {
             try
             {
@@ -162,7 +162,7 @@ namespace WK.Libraries.HotkeyListenerNS
                 control.KeyDown -= OnKeyDown;
                 control.KeyUp -= OnKeyUp;
 
-                if (clearText)
+                if (clearKeys)
                     control.Text = string.Empty;
 
                 try
@@ -219,19 +219,19 @@ namespace WK.Libraries.HotkeyListenerNS
         }
 
         /// <summary>
-        /// Sets a hotkey selection to be previewd in a control. 
+        /// Sets a hotkey selection to be previewed in a control. 
         /// Thsi does not automatically enable the control for 
         /// hotkey selection. For this, please use the <see cref="Enable(Control)"/> method.
         /// </summary>
         /// <param name="control">The control to set.</param>
-        /// <param name="keys">Provide a standard key or key combination string.</param>
-        public bool Set(Control control, string keys)
+        /// <param name="hotkey">Provide a standard key or key combination string.</param>
+        public bool Set(Control control, string hotkey)
         {
             try
             {
                 Refresh(control);
 
-                control.Text = keys;
+                control.Text = hotkey;
 
                 return true;
             }
