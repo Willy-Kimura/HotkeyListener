@@ -1,5 +1,5 @@
 # HotkeyListener
-[![hotkeylistener-nuget](https://img.shields.io/badge/NuGet-1.0.0-brightgreen.svg)](https://www.nuget.org/packages/HotkeyListener/) [![wk-donate](https://img.shields.io/badge/BuyMeACoffee-Donate-orange.svg)](https://www.buymeacoffee.com/willykimura)
+[![hotkeylistener-nuget](https://img.shields.io/badge/NuGet-1.0.0-brightgreen.svg)](https://www.nuget.org/packages/HotkeyListener/) [![wk-donate](https://img.shields.io/badge/Gumroad-Purchase Key-blue.svg)](https://www.buymeacoffee.com/willykimura)
 
 ![hotkeylistener-logo](Assets/hkl-logo.png)
 
@@ -51,7 +51,7 @@ hkl.Add(hotkeys);
 
 > **Important:** If you're building an application that has no external user-option for changing or customizing the default hotkey(s) set, something you'll need to consider when working with global hotkeys is that there are a number of predefined keys or key combinations already in use within a number of applications such as [Google Chrome](https://chrome.google.com) - for example, `Control+Tab`. This then means that you may need to find the right key or key combination to use when shipping your applications.
 
-### Listening to Hotkey Presses
+### Listening to Hotkeys
 
 Now to listen to key presses, use the `HotkeyPressed` event:
 
