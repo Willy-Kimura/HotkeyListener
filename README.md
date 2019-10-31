@@ -62,7 +62,7 @@ string[] hotkeys = { "Control+Shift+E", "Alt+X" };
 // Add our hotkeys.
 hkl.Add(new[] { hotkey1, hotkey2 });
 
-// Then add a HotkeyPressed event.
+// Add a HotkeyPressed event.
 hkl.HotkeyPressed += Hkl_HotkeyPressed;
 
 private void Hkl_HotkeyPressed(object sender, HotkeyEventArgs e)
@@ -113,7 +113,7 @@ private void Hkl_HotkeyPressed(object sender, HotkeyEventArgs e)
 You can update hotkeys using the `Update()` method. It works the same way as *string replacement* where you provide the current string and its replacement option:
 
 ```c#
-hkl.Update("Control+Shift+E", "Control+E");
+hkl.Update("Control+Shift+E", "Control+Alt+E");
 ```
 
 Hotkey updates can occur even while the application is running. **However**, something important you need to note is **always use variables to store hotkeys** since in this way, whenever an update to the hotkey occurs, it will automatically be detected in the `HotkeyPressed` event. 
@@ -121,10 +121,8 @@ Hotkey updates can occur even while the application is running. **However**, som
 Here's what I mean:
 
 ```c#
-// Let's define our hotkey.
 string myHotkey = "Control+Shift+E";
 
-// Let's add a HotkeyPressed event.
 hkl.HotkeyPressed += (senderObject, eventArgs) => 
 {
     if (e.Hotkey == myHotkey)
