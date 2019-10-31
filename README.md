@@ -37,14 +37,14 @@ using WK.Libraries.HotkeyListenerNS;
 var hkl = new HotkeyListener();
 
 hkl.Add("Control+Shift+E");
-hkl.Add("Control+R");
+hkl.Add("Alt+X");
 ```
 
 The `Add()` method also allows adding an array of hotkeys at once:
 
 ```c#
 // An array of hotkeys.
-string[] hotkeys = { "Control+Shift+E", "Control+Shift+X", "Alt+P" };
+string[] hotkeys = { "Control+Shift+E", "Alt+X" };
 
 hkl.Add(hotkeys);
 ```
@@ -56,13 +56,16 @@ hkl.Add(hotkeys);
 Now to listen to key presses, use the `HotkeyPressed` event:
 
 ```c#
+string[] hotkeys = { "Control+Shift+E", "Alt+X" };
+hkl.Add(new[] { hotkey1, hotkey2 });
+
 hkl.HotkeyPressed += Hkl_HotkeyPressed;
 
 private void Hkl_HotkeyPressed(object sender, HotkeyEventArgs e)
 {
-    if (e.Hotkey == "Control+Shift+E")
+    if (e.Hotkey == hotkey1)
         MessageBox.Show("First hotkey was pressed.");
-    if (e.Hotkey == "Control+R")
+    if (e.Hotkey == hotkey2)
         MessageBox.Show("Second hotkey was pressed.");
 }
 ```
@@ -72,7 +75,7 @@ If you'd like to get the details of the active application where a hotkey was pr
 ```c#
 private void Hkl_HotkeyPressed(object sender, HotkeyEventArgs e)
 {
-	if (e.Hotkey == "Control+Shift+E")
+	if (e.Hotkey == hotkey2)
     {
     	MessageBox.Show(
             "Application:" + e.SourceApplication.Name + "\n" +
@@ -90,8 +93,13 @@ As a special feature, if you'd like to get any text that may have been selected 
 ```c#
 private void Hkl_HotkeyPressed(object sender, HotkeyEventArgs e)
 {
-	if (e.Hotkey == "Control+Shift+E")
-        MessageBox.Show(hkl.GetSelection());
+	if (e.Hotkey == hotkey2)
+    {
+        string selection = hkl.GetSelection();
+    	
+        if (selection != string.Empty)
+            MessageBox.Show(selection);
+    }
 }
 ```
 
@@ -148,12 +156,12 @@ Below are two examples:
 
 ```c#
 // Our main registered hotkey.
-string myHotkey = "Control+Shift+E";
+string hotkey1 = "Control+Shift+E";
 
-// Remove the main hotkey.
-hkl.Remove(myHotkey);
+// Remove the hotkey.
+hkl.Remove(hotkey1);
 
-// An array of registered hotkeys.
+// Our array of registered hotkeys.
 string[] hotkeys = { "Control+Shift+E", "Control+Shift+X", "Alt+P" };
 
 // Remove the hotkeys.
