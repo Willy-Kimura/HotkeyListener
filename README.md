@@ -80,7 +80,7 @@ If you'd like to get the details of the active application where a hotkey was pr
 ```c#
 private void Hkl_HotkeyPressed(object sender, HotkeyEventArgs e)
 {
-	if (e.Hotkey == hotkey2)
+    if (e.Hotkey == hotkey2)
     {
     	MessageBox.Show(
             "Application:" + e.SourceApplication.Name + "\n" +
