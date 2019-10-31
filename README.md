@@ -56,15 +56,20 @@ hkl.Add(hotkeys);
 Now to listen to key presses, use the `HotkeyPressed` event:
 
 ```c#
+// Define our hotkeys.
 string[] hotkeys = { "Control+Shift+E", "Alt+X" };
+
+// Add our hotkeys.
 hkl.Add(new[] { hotkey1, hotkey2 });
 
+// Then add a HotkeyPressed event.
 hkl.HotkeyPressed += Hkl_HotkeyPressed;
 
 private void Hkl_HotkeyPressed(object sender, HotkeyEventArgs e)
 {
     if (e.Hotkey == hotkey1)
         MessageBox.Show("First hotkey was pressed.");
+    
     if (e.Hotkey == hotkey2)
         MessageBox.Show("Second hotkey was pressed.");
 }
