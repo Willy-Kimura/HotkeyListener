@@ -238,6 +238,19 @@ namespace WK.Libraries.HotkeyListenerNS
         }
 
         /// <summary>
+        /// Removes a list of hotkeys from 
+        /// the global Key watcher.
+        /// </summary>
+        /// <param name="hotkeys">The hotkeys to remove.</param>
+        public void Remove(string[] hotkeys)
+        {
+            foreach (string key in hotkeys)
+            {
+                Remove(key);
+            }
+        }
+
+        /// <summary>
         /// Remove all the registered hotkeys 
         /// from the global Key watcher.
         /// </summary>

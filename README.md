@@ -23,7 +23,7 @@ Here's a comprehensive list of the features available:
 
 # Usage
 
-#### Adding Hotkeys
+### Adding Hotkeys
 
 First, ensure you import the library's namespace:
 
@@ -43,13 +43,15 @@ hkl.Add("Control+R");
 The `Add` method also allows adding an array of hotkeys at once:
 
 ```c#
-// Adds an array of hotkeys.
-hkl.Add(new[] { hotkey1, hotkey2 });
+// An array of hotkeys.
+string[] hotkeys = { "Control+Shift+E", "Control+Shift+X", "Alt+P" };
+
+hkl.Add(hotkeys);
 ```
 
 > **Important:** If you're building an application that has no external user-option for changing or customizing the default hotkey(s) set, something you'll need to consider when working with global hotkeys is that there are a number of predefined keys or key combinations already in use within a number of applications such as [Google Chrome](https://chrome.google.com) - for example, `Control+Tab`. This then means that you may need to find the right key or key combination to use when shipping your applications.
 
-#### Listening to Key Presses
+### Listening to Hotkey Presses
 
 Now to listen to key presses, use the `HotkeyPressed` event:
 
@@ -63,6 +65,96 @@ private void Hkl_HotkeyPressed(object sender, HotkeyEventArgs e)
     if (e.Hotkey == "Control+R")
         MessageBox.Show("Second hotkey was pressed.");
 }
+```
+
+If you'd like to get the details of the active application where a hotkey was pressed, simply use the `SourceApplication` argument property:
+
+```c#
+private void Hkl_HotkeyPressed(object sender, HotkeyEventArgs e)
+{
+	if (e.Hotkey == "Control+Shift+E")
+    {
+    	MessageBox.Show(
+            "Application:" + e.SourceApplication.Name + "\n" +
+            "Title: " + e.SourceApplication.Title + "\n" +
+            "ID: " + e.SourceApplication.ID + "\n" +
+            "Handle: " + e.SourceApplication.Handle + "\n" +
+            "Path: " + e.SourceApplication.Path + "\n"
+        );
+    }
+}
+```
+
+
+
+### Updating Hotkeys
+
+You can update hotkeys using the `Update` method. It works the same way as *string replacement* where you provide the current string and its replacement option:
+
+```c#
+hkl.Update("Control+Shift+E", "Control+E");
+```
+
+Hotkey updates can occur even while the application is running. **However**, something important you need to note is **always use variables to store hotkeys** since in this way, whenever an update to the hotkey occurs, it will automatically be detected in the `HotkeyPressed` event. 
+
+Here's what I mean:
+
+```c#
+// Let's define our hotkey.
+string myHotkey = "Control+Shift+E";
+
+// Let's add a HotkeyPressed event.
+hkl.HotkeyPressed += (senderObject, eventArgs) => 
+{
+    if (e.Hotkey == myHotkey)
+        MessageBox.Show("My hotkey was pressed.");
+}
+
+// To update our hotkey, simply pass the current hotkey 
+// with a ref keyword to the variable and its replacement.
+hkl.Update(ref myHotkey, "Control+E");
+```
+
+This will ensure that both the hotkey and its variable have been updated to reflect the changes made. This design is especially handy if your application saves *user settings* after update.
+
+Here's another classical example of updating a hotkey:
+
+```c#
+string hotkey1 = "Control+Shift+E";
+string hotkey2 = "Control+E";
+
+// Since we'll reference hotkey1, this will update hotkey1 
+// and its variable using a reference to hotkey2's value.
+hkl.Update(ref hotkey1, ref hotkey2);
+```
+
+### Removing Hotkeys
+
+To remove a hotkey, we use the `Remove` method. This method has two variants:
+
+>`Remove()`: This accepts a *single* hotkey or an *array* of hotkeys.
+>
+>`RemoveAll()`: This removes all the registered hotkeys.
+
+Below are two examples:
+
+```c#
+// Our main registered hotkey.
+string myHotkey = "Control+Shift+E";
+
+// Remove the main hotkey.
+hkl.Remove(myHotkey);
+
+// An array of registered hotkeys.
+string[] hotkeys = { "Control+Shift+E", "Control+Shift+X", "Alt+P" };
+
+// Remove the hotkeys.
+hkl.Remove(hotkeys);
+```
+
+```c#
+// This removes all the registered hotkeys.
+hkl.RemoveAll();
 ```
 
 
