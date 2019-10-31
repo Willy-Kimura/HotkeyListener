@@ -40,7 +40,7 @@ hkl.Add("Control+Shift+E");
 hkl.Add("Control+R");
 ```
 
-The `Add` method also allows adding an array of hotkeys at once:
+The `Add()` method also allows adding an array of hotkeys at once:
 
 ```c#
 // An array of hotkeys.
@@ -85,11 +85,19 @@ private void Hkl_HotkeyPressed(object sender, HotkeyEventArgs e)
 }
 ```
 
+As a special feature, if you'd like to get any text that may have been selected when a hotkey you added was pressed, use Hotkey Listener's `GetSelection()` method:
 
+```c#
+private void Hkl_HotkeyPressed(object sender, HotkeyEventArgs e)
+{
+	if (e.Hotkey == "Control+Shift+E")
+        MessageBox.Show(hkl.GetSelection());
+}
+```
 
 ### Updating Hotkeys
 
-You can update hotkeys using the `Update` method. It works the same way as *string replacement* where you provide the current string and its replacement option:
+You can update hotkeys using the `Update()` method. It works the same way as *string replacement* where you provide the current string and its replacement option:
 
 ```c#
 hkl.Update("Control+Shift+E", "Control+E");
@@ -130,7 +138,7 @@ hkl.Update(ref hotkey1, ref hotkey2);
 
 ### Removing Hotkeys
 
-To remove a hotkey, we use the `Remove` method. This method has two variants:
+To remove a hotkey, we use the `Remove()` method. This method has two variants:
 
 >`Remove()`: This accepts a *single* hotkey or an *array* of hotkeys.
 >

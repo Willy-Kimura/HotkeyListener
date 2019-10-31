@@ -297,7 +297,7 @@ namespace WK.Libraries.HotkeyListenerNS
         }
 
         /// <summary>
-        /// [Helper] Gets the currently selected text 
+        /// [Special] Gets the currently selected text 
         /// in any active application.
         /// </summary>
         /// <returns>The selected text, if any.</returns>
