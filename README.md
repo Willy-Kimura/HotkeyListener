@@ -123,15 +123,9 @@ Here's what I mean:
 ```c#
 string myHotkey = "Control+Shift+E";
 
-hkl.HotkeyPressed += (senderObject, eventArgs) => 
-{
-    if (e.Hotkey == myHotkey)
-        MessageBox.Show("My hotkey was pressed.");
-}
-
 // To update our hotkey, simply pass the current hotkey 
 // with a ref keyword to the variable and its replacement.
-hkl.Update(ref myHotkey, "Control+E");
+hkl.Update(ref myHotkey, "Control+Alt+E");
 ```
 
 This will ensure that both the hotkey and its variable have been updated to reflect the changes made. This design is especially handy if your application saves *user settings* after update.
@@ -140,7 +134,7 @@ Here's another classical example of updating a hotkey:
 
 ```c#
 string hotkey1 = "Control+Shift+E";
-string hotkey2 = "Control+E";
+string hotkey2 = "Alt+E";
 
 // Since we'll reference hotkey1, this will update hotkey1 
 // and its variable using a reference to hotkey2's value.
@@ -172,8 +166,29 @@ hkl.Remove(hotkeys);
 ```
 
 ```c#
-// This removes all the registered hotkeys.
+// Removes all registered hotkeys.
 hkl.RemoveAll();
+```
+
+### Suspending/Resuming Hotkeys
+
+**Suspending** hotkeys refers to *disabling* or *deactivating* the hotkeys while **resuming** refers to *enabling* or *reactivating* the hotkeys for continued use. 
+
+These two methods are very applicable when a user desires to choose another hotkey from a currently active hotkey. *What do I mean?* We'll let us imagine we have two hotkeys `Control+Shift+E` and `Alt+X`, but the user desires to change `Control+Shift+E` to `Alt+X` and `Alt+X` to something else. In this case, we cannot modify a hotkey to another hotkey if the hotkeys added are currently active. *So what do we do?* We first of all need to **suspend** the hotkeys to prevent from listening to key-presses, change the desired hotkey, then **resume** listening to the hotkeys having made the necessary changes:
+
+```c#
+string hotkey1 = "Control+Shift+E";
+string hotkey1 = "Alt+X";
+
+// Suspend all registered hotkeys.
+hkl.Suspend();
+
+// Update hotkeys to newer keys.
+hkl.Update(ref hotkey1, "Alt+X");
+hkl.Update(ref hotkey1, "Alt+P");
+
+// Resume listening to the hotkeys.
+hkl.Resume();
 ```
 
 

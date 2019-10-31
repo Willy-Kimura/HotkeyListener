@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Diagnostics;
 using System.Windows.Forms;
 using System.Collections.Generic;
 
@@ -13,6 +14,7 @@ namespace WK.Libraries.HotkeyListenerNS
     /// enable the selection and registering of Hotkeys 
     /// for a seamless end-user experience.
     /// </summary>
+    [DebuggerStepThrough]
     public class HotkeySelector
     {
         #region Constructor

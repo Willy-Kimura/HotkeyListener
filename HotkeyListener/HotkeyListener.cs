@@ -35,6 +35,7 @@
 
 using System;
 using System.Linq;
+using System.Diagnostics;
 using System.Windows.Forms;
 using System.Collections.Generic;
 
@@ -47,6 +48,7 @@ namespace WK.Libraries.HotkeyListenerNS
     /// A library that provides support for registering and 
     /// attaching events to global hotkeys in .NET applications.
     /// </summary>
+    [DebuggerStepThrough]
     public class HotkeyListener
     {
         #region Constructor
