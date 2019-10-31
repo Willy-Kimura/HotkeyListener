@@ -98,7 +98,7 @@ As a special feature, if you'd like to get any text that may have been selected 
 ```c#
 private void Hkl_HotkeyPressed(object sender, HotkeyEventArgs e)
 {
-	if (e.Hotkey == hotkey2)
+    if (e.Hotkey == hotkey2)
     {
         string selection = hkl.GetSelection();
     	
