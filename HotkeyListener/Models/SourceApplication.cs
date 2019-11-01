@@ -1,4 +1,16 @@
-﻿using System;
+﻿#region Copyright
+
+/*
+ * Developer    : Willy Kimura (WK).
+ * Library      : HotkeyListener.
+ * License      : MIT.
+ * 
+ */
+
+#endregion
+
+
+using System;
 
 namespace WK.Libraries.HotkeyListenerNS.Models
 {

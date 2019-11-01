@@ -47,6 +47,8 @@ namespace HotkeyListenerTests
 
         private void button1_Click(object sender, EventArgs e)
         {
+            MessageBox.Show(hks.Convert(Keys.F, Keys.Alt | Keys.Shift));
+            
             // hkl.SuspendHotkeys();
             // hks.Enable(textBox1, Keys.F1, Keys.Shift | Keys.Alt);
             // hks.Set(textBox1, Keys.F2, Keys.Shift | Keys.Control);
@@ -61,6 +63,11 @@ namespace HotkeyListenerTests
             // hkl.ResumeHotkeys();
             // hks.Reset(textBox2);
             // MessageBox.Show(hks.IsEnabled(textBox2).ToString());
+        }
+        
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+            
         }
     }
 }

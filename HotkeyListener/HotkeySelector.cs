@@ -1,3 +1,15 @@
+#region Copyright
+
+/*
+ * Developer    : Willy Kimura (WK).
+ * Library      : HotkeyListener.
+ * License      : MIT.
+ * 
+ */
+
+#endregion
+
+
 using System;
 using System.Collections;
 using System.Diagnostics;
@@ -264,6 +276,99 @@ namespace WK.Libraries.HotkeyListenerNS
             this._modifiers = Keys.None;
 
             Refresh(control);
+        }
+
+        /// <summary>
+        /// [Helper] Converts keys or key combinations to their string types.
+        /// </summary>
+        public string Convert(Keys keys, Keys modifiers)
+        {
+            try
+            {
+                _hotkey = keys;
+                _modifiers = modifiers;
+
+                string parsedHotkey = string.Empty;
+
+                // No hotkey set.
+                if (_hotkey == Keys.None)
+                {
+                    parsedHotkey = string.Empty;
+                }
+
+                // LWin/RWin don't work as hotkeys...
+                // (neither do they work as modifier keys in .NET 2.0).
+                if (keys == Keys.LWin || keys == Keys.RWin)
+                {
+                    parsedHotkey = string.Empty;
+                }
+
+                // No modifier or shift only, and a hotkey that needs another modifier.
+                if ((modifiers == Keys.Shift || modifiers == Keys.None) &&
+                    _needNonShiftModifier.Contains((int)this._hotkey))
+                {
+                    if (this._modifiers == Keys.None)
+                    {
+                        // Set Ctrl+Alt as the modifier unless Ctrl+Alt+<key> won't work.
+                        if (_needNonAltGrModifier.Contains((int)this._hotkey) == false)
+                        {
+                            this._modifiers = Keys.Alt | Keys.Control;
+                        }
+                        else
+                        {
+                            // ...In that case, use Shift+Alt instead.
+                            this._modifiers = Keys.Alt | Keys.Shift;
+                        }
+                    }
+                    else
+                    {
+                        // User pressed Shift and an invalid key (e.g. a letter or a number), 
+                        // that needs another set of modifier keys.
+                        this._hotkey = Keys.None;
+                        parsedHotkey = this._modifiers.ToString() + $" + {InvalidHotkeyText}";
+                    }
+                }
+
+                // Check all Ctrl+Alt keys.
+                if ((this._modifiers == (Keys.Alt | Keys.Control)) &&
+                    this._needNonAltGrModifier.Contains((int)this._hotkey))
+                {
+                    // Ctrl+Alt+4 etc won't work; reset hotkey and tell the user.
+                    this._hotkey = Keys.None;
+                    parsedHotkey = this._modifiers.ToString() + $" + {InvalidHotkeyText}";
+                }
+
+                if (this._modifiers == Keys.None)
+                {
+                    if (this._hotkey == Keys.None)
+                    {
+                        parsedHotkey = EmptyHotkeyText;
+                    }
+                    else
+                    {
+                        // We get here if we've got a hotkey that is valid without a modifier,
+                        // like F1-F12, Media-keys etc.
+                        parsedHotkey = this._hotkey.ToString();
+                    }
+                }
+
+                // Without this code, pressing only Ctrl 
+                // will show up as "Control + ControlKey", etc.
+                if (this._hotkey == Keys.Menu || /* Alt */
+                    this._hotkey == Keys.ShiftKey ||
+                    this._hotkey == Keys.ControlKey)
+                {
+                    this._hotkey = Keys.None;
+                }
+
+                parsedHotkey = this._modifiers.ToString() + " + " + this._hotkey.ToString();
+
+                return parsedHotkey;
+            }
+            catch (Exception)
+            {
+                return string.Empty;
+            }
         }
 
         #endregion

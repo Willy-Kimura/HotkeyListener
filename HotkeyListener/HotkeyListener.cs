@@ -1,4 +1,4 @@
-﻿#region README
+﻿#region Copyright
 
 /*
  * Developer    : Willy Kimura (WK).
@@ -416,7 +416,7 @@ namespace WK.Libraries.HotkeyListenerNS
         }
 
         #endregion
-
+        
         #region Properties
 
         /// <summary>
