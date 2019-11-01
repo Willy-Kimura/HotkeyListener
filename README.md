@@ -194,7 +194,18 @@ hkl.Update(ref hotkey1, "Alt+P");
 hkl.Resume();
 ```
 
-We'll find out more on how to work with this feature better once we dive into the `HotkeySelector` class.
+Let's find out more on how to work with this feature using the `HotkeySelector` class.
+
+### The `HotkeySelector` Class
+
+As noted earlier, `HotkeyListener` would have been pretty much half-baked had the ability to provide hotkey selection not been there. That's the whole intention of this class. It is able to convert any control into an actual hotkey selector for usage at runtime.
+
+Here's a preview of an application using this feature:
+
+![hotkey-selector-usage](Assets/sample-hotkeyselector-usage.gif)
+
+#### Enabling Hotkey Selection
+
 
 
 
