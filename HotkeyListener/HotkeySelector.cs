@@ -136,6 +136,33 @@ namespace WK.Libraries.HotkeyListenerNS
         }
 
         /// <summary>
+        /// Enables a control for hotkey selection and preview.
+        /// This will make use of the control's Text property to 
+        /// preview the current hotkey selection.
+        /// </summary>
+        /// <param name="control">The control to enable.</param>
+        /// <param name="key">Provide a standard key selection.</param>
+        /// <param name="modifiers">Provide a modifier key selection.</param>
+        public bool Enable(Control control, Keys key = Keys.None, Keys modifiers = Keys.None)
+        {
+            try
+            {
+                Enable(control);
+
+                _hotkey = key;
+                _modifiers = modifiers;
+
+                Refresh(control);
+            
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
         /// Disables a control for hotkey selection and preview.
         /// </summary>
         /// <param name="clearKeys">Clear the control's previewed keys?</param>
@@ -192,6 +219,31 @@ namespace WK.Libraries.HotkeyListenerNS
                 Refresh(control);
 
                 control.Text = hotkey;
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Sets a hotkey selection to be previewd in a control. 
+        /// Thsi does not automatically enable the control for 
+        /// hotkey selection. For this, please use the <see cref="Enable(Control)"/> method.
+        /// </summary>
+        /// <param name="control">The control to set.</param>
+        /// <param name="key">Provide a standard key selection.</param>
+        /// <param name="modifiers">Provide a modifier key selection.</param>
+        public bool Set(Control control, Keys key, Keys modifiers)
+        {
+            try
+            {
+                _hotkey = key;
+                _modifiers = modifiers;
+
+                Refresh(control);
 
                 return true;
             }
