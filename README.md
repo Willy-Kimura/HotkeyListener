@@ -202,23 +202,40 @@ As noted earlier, `HotkeyListener` would have been pretty much half-baked had th
 
 Here's a preview of an application using this feature:
 
-![hotkey-selector-usage](Assets/sample-hotkeyselector-usage.gif)
+![sample-hotkey-selector-usage](Assets/sample-hotkey-selector-usage.gif)
 
 #### Enabling Hotkey Selection For Controls
+
+Firstly off, instantiate a new `HotkeySelector` instance:
+
+```c#
+var hks = new HotkeySelector();
+```
 
 To enable any control for hotkey selection, use the `Enable()` method:
 
 ```c#
-var hks = new HotkeySelector();
-
 // Enable textBox1.
 hks.Enable(textBox1);
 ```
 
-You can also set a default hotkey when enabling a control:
+When enabling a control, you can set the default hotkey to be displayed:
 
 ```c#
 hks.Enable(textBox1, "Control+Shift+S");
+```
+
+To set a default hotkey without necessarily enabling it, use the `Set()` method:
+
+```c#
+hks.Set(textbox1, "Control+Shift+S");
+```
+
+You can even use the standard `Keys` enumeration to set the default hotkey in a control: 
+
+```c#
+// Sets "Control+Shift+S" as the default hotkey.
+hks.Set(textbox1, Keys.S, Keys.Control | Keys.Shift);
 ```
 
 
