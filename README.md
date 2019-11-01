@@ -196,7 +196,7 @@ hkl.Resume();
 
 Let's find out more on how to work with this feature using the `HotkeySelector` class.
 
-### The `HotkeySelector` Class
+## The `HotkeySelector` Class
 
 As noted earlier, `HotkeyListener` would have been pretty much half-baked had the ability to provide hotkey selection not been there. That's the whole intention of this class. It is able to "convert" any control into an actual hotkey selector for usage at runtime.
 
@@ -204,7 +204,7 @@ Here's a preview of an application using this feature:
 
 ![sample-hotkey-selector-usage](Assets/sample-hotkey-selector-usage.gif)
 
-#### Enabling Hotkey Selection For Controls
+### Enabling Hotkey Selection For Controls
 
 Firstly off, instantiate a new `HotkeySelector` instance:
 
