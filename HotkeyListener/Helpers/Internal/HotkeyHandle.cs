@@ -11,6 +11,7 @@
 
 
 using System;
+using System.Diagnostics;
 using System.Windows.Forms;
 using System.Collections.Generic;
 
@@ -22,6 +23,7 @@ namespace WK.Libraries.HotkeyListenerNS.Helpers
     /// Provides the base Hotkey handle for intercepting 
     /// and receiving all registered global Hotkey events.
     /// </summary>
+    [DebuggerStepThrough]
     internal class HotkeyHandle : Control
     {
         #region Constructor

@@ -11,6 +11,7 @@
 
 
 using System;
+using System.Diagnostics;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 
@@ -20,6 +21,7 @@ namespace WK.Libraries.HotkeyListenerNS.Helpers
     /// The core class that helps in the management  
     /// of system-wide Hotkeys within applications.
     /// </summary>
+    [DebuggerStepThrough]
     internal sealed class HotkeyCore
     {
         #region Enumerations

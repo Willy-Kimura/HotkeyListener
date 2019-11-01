@@ -12,8 +12,6 @@ To install via the [NuGet Package Manager](https://www.nuget.org/packages/Hotkey
 > `Install-Package HotkeyListener`
 
 # Features
-Here's a comprehensive list of the features available:
-
 - Supports [.NET Framework 4.0](https://www.microsoft.com/en-us/download/details.aspx?id=17718) and higher.
 - Manages system-wide hotkeys in a crud-like fashion using the methods `Add`, `Update`, `Remove` and `RemoveAll`. You can also suspend and resume using hotkeys using the methods `Suspend` and `Resume`.
 - Determines the pressed hotkey(s) using the `HotkeyPressed` event and its `Hotkey` argument.
@@ -31,7 +29,7 @@ First, ensure you import the library's namespace:
 using WK.Libraries.HotkeyListenerNS;
 ```
 
-...then instantiate the class, add some hotkeys:
+...then instantiate the class and add some hotkeys:
 
 ```c#
 var hkl = new HotkeyListener();
@@ -53,7 +51,7 @@ hkl.Add(hotkeys);
 
 ### Listening to Hotkeys
 
-Now to listen to key presses, use the `HotkeyPressed` event:
+To listen to key presses, use the `HotkeyPressed` event:
 
 ```c#
 // Define our hotkeys.
@@ -75,6 +73,8 @@ private void Hkl_HotkeyPressed(object sender, HotkeyEventArgs e)
 }
 ```
 
+Unlike with the `KeyDown` or `KeyUp` events, here only the registered hotkeys will be detected.
+
 If you'd like to get the details of the active application where a hotkey was pressed, simply use the `SourceApplication` argument property:
 
 ```c#
@@ -93,15 +93,18 @@ private void Hkl_HotkeyPressed(object sender, HotkeyEventArgs e)
 }
 ```
 
-As a special feature, if you'd like to get any text that may have been selected when a hotkey you added was pressed, use Hotkey Listener's `GetSelection()` method:
+As a special feature, if you'd like to get any text that may have been selected when a hotkey added was pressed, use Hotkey Listener's `GetSelection()` method:
 
 ```c#
 private void Hkl_HotkeyPressed(object sender, HotkeyEventArgs e)
 {
     if (e.Hotkey == hotkey2)
     {
+        // Get the selected text, if any.
         string selection = hkl.GetSelection();
     	
+        // If some text was selected, 
+        // display a message box.
         if (selection != string.Empty)
             MessageBox.Show(selection);
     }
@@ -136,9 +139,9 @@ Here's another classical example of updating a hotkey:
 string hotkey1 = "Control+Shift+E";
 string hotkey2 = "Alt+E";
 
-// Since we'll reference hotkey1, this will update hotkey1 
-// and its variable using a reference to hotkey2's value.
-hkl.Update(ref hotkey1, ref hotkey2);
+// Once we reference the variable hotkey1, this will 
+// update the hotkey and listen for its key-presses.
+hkl.Update(ref hotkey1, hotkey2);
 ```
 
 ### Removing Hotkeys
@@ -191,7 +194,7 @@ hkl.Update(ref hotkey1, "Alt+P");
 hkl.Resume();
 ```
 
-
+We'll find out more on how to work with this feature better once we dive into the `HotkeySelector` class.
 
 
 

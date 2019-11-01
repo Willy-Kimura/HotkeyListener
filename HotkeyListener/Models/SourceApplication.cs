@@ -11,6 +11,7 @@
 
 
 using System;
+using System.Diagnostics;
 
 namespace WK.Libraries.HotkeyListenerNS.Models
 {
@@ -18,8 +19,11 @@ namespace WK.Libraries.HotkeyListenerNS.Models
     /// Saves details of the application from
     /// where a particular Hotkey was triggered.
     /// </summary>
+    [DebuggerStepThrough]
     public class SourceApplication
     {
+        #region Constructor
+
         /// <summary>
         /// Initializes a new instance of the <see cref="SourceApplication"/> class.
         /// </summary>
@@ -37,6 +41,8 @@ namespace WK.Libraries.HotkeyListenerNS.Models
             Title = title;
             Handle = handle;
         }
+
+        #endregion
 
         #region Properties
 
