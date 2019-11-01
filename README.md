@@ -198,13 +198,28 @@ Let's find out more on how to work with this feature using the `HotkeySelector` 
 
 ### The `HotkeySelector` Class
 
-As noted earlier, `HotkeyListener` would have been pretty much half-baked had the ability to provide hotkey selection not been there. That's the whole intention of this class. It is able to convert any control into an actual hotkey selector for usage at runtime.
+As noted earlier, `HotkeyListener` would have been pretty much half-baked had the ability to provide hotkey selection not been there. That's the whole intention of this class. It is able to "convert" any control into an actual hotkey selector for usage at runtime.
 
 Here's a preview of an application using this feature:
 
 ![hotkey-selector-usage](Assets/sample-hotkeyselector-usage.gif)
 
-#### Enabling Hotkey Selection
+#### Enabling Hotkey Selection For Controls
+
+To enable any control for hotkey selection, use the `Enable()` method:
+
+```c#
+var hks = new HotkeySelector();
+
+// Enable textBox1.
+hks.Enable(textBox1);
+```
+
+You can also set a default hotkey when enabling a control:
+
+```c#
+hks.Enable(textBox1, "Control+Shift+S");
+```
 
 
 
