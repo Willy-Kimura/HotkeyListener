@@ -15,6 +15,8 @@ namespace HotkeyListenerTests
         private string hotkey1 = "Control+Shift+E";
         private string hotkey2 = "Control+Y";
 
+        private Form2 form2 = new Form2();
+
         public Form1()
         {
             InitializeComponent();
@@ -24,6 +26,8 @@ namespace HotkeyListenerTests
             hkl.HotkeyPressed += Hkl_HotkeyPressed;
 
             hks.Enable(textBox1, "Control+Shift+E");
+
+            hkl.SuspendOn(form2);
         }
 
         private void Hkl_HotkeyPressed(object sender, HotkeyEventArgs e)
@@ -32,7 +36,7 @@ namespace HotkeyListenerTests
             {
                 // textBox3.Text = hkl.GetSelection();
                 
-                Activate();
+                // Activate();
                 
                 MessageBox.Show(
                     $"You pressed: {e.Hotkey}\n" +
@@ -68,6 +72,16 @@ namespace HotkeyListenerTests
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
             
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            form2.Show();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            hkl.ResumeOn(form2);
         }
     }
 }

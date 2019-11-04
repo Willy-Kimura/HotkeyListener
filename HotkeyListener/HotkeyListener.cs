@@ -69,11 +69,12 @@ namespace WK.Libraries.HotkeyListenerNS
         // unregister, and listen to the hotkey triggers.
         private HotkeyHandle _handle = new HotkeyHandle();
 
-        /// <summary>
-        /// Saves the list of hotkeys suspended.
-        /// </summary>
+        // Saves the list of hotkeys suspended.
         private Dictionary<int, string> _suspendedKeys = 
             new Dictionary<int, string>();
+        
+        // Saves the list of forms suspended.
+        private List<Form> _suspendedForms = new List<Form>();
 
         #endregion
 
@@ -86,7 +87,7 @@ namespace WK.Libraries.HotkeyListenerNS
         /// hotkeys set have been suspended.
         /// </summary>
         public bool Suspended { get; private set; }
-
+        
         #endregion
 
         #endregion
@@ -284,6 +285,91 @@ namespace WK.Libraries.HotkeyListenerNS
         }
 
         /// <summary>
+        /// Suspends the hotkey(s) set whenever a particular Form is active. 
+        /// This is useful in Forms where the user requires modifying certain 
+        /// hotkeys without triggering them when active.
+        /// </summary>
+        /// <param name="form">
+        /// The Form to suspend listening to hotkeys when active.
+        /// </param>
+        public void SuspendOn(Form form)
+        {
+            try
+            {
+                form.Activated += OnActivateForm;
+                form.Deactivate += OnDeactivateForm;
+                
+                _suspendedForms.Add(form);
+            }
+            catch (Exception) { }
+        }
+
+        /// <summary>
+        /// Suspends the hotkey(s) set whenever a list of Forms are active. 
+        /// This is useful in Forms where the user requires modifying certain 
+        /// hotkeys without triggering them when active.
+        /// </summary>
+        /// <param name="form">
+        /// The Forms to suspend listening to hotkeys when active.
+        /// </param>
+        public void SuspendOn(Form[] forms)
+        {
+            try
+            {
+                foreach (var form in forms)
+                {
+                    SuspendOn(form);
+                }
+            }
+            catch (Exception) { }
+        }
+
+        /// <summary>
+        /// Releases a Form from suspending hotkeys when active.
+        /// </summary>
+        /// <param name="form">
+        /// The Form to resume to listening to hotkeys when active.
+        /// </param>
+        public void ResumeOn(Form form)
+        {
+            try
+            {
+                if (_suspendedForms != null)
+                {
+                    foreach (var addedForm in _suspendedForms)
+                    {
+                        if (addedForm.GetHashCode() == form.GetHashCode())
+                        {
+                            _suspendedForms.Remove(addedForm);
+
+                            addedForm.Activated -= OnActivateForm;
+                            addedForm.Deactivate -= OnDeactivateForm;
+                        }
+                    }
+                }
+            }
+            catch (Exception) { }
+        }
+
+        /// <summary>
+        /// Releases a list of Forms from suspending hotkeys when active.
+        /// </summary>
+        /// <param name="form">
+        /// The Forms to resume to listening to hotkeys when active.
+        /// </param>
+        public void ResumeOn(Form[] forms)
+        {
+            try
+            {
+                foreach (var form in forms)
+                {
+                    ResumeOn(form);
+                }
+            }
+            catch (Exception) { }
+        }
+
+        /// <summary>
         /// Resumes using the hotkey(s) that 
         /// were set in the global Key watcher.
         /// </summary>
@@ -362,7 +448,7 @@ namespace WK.Libraries.HotkeyListenerNS
                     });
             };
         }
-
+        
         #endregion
 
         #endregion
@@ -383,6 +469,20 @@ namespace WK.Libraries.HotkeyListenerNS
         /// <param name="sender">The hotkey sender object.</param>
         /// <param name="e">The <see cref="HotkeyEventArgs"/> data.</param>
         public delegate void HotkeyEventHandler(object sender, HotkeyEventArgs e);
+
+        #endregion
+
+        #region Private
+
+        private void OnActivateForm(object sender, EventArgs e)
+        {
+            Suspend();
+        }
+
+        private void OnDeactivateForm(object sender, EventArgs e)
+        {
+            Resume();
+        }
 
         #endregion
 
