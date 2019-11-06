@@ -122,7 +122,7 @@ namespace WK.Libraries.HotkeyListenerNS.Helpers
             try
             {
                 if (string.IsNullOrEmpty(strKey))
-                    throw new Exception("No Hotkey registered.");
+                    throw new Exception("No hotkey registered.");
                 else
                 {
                     string[] strKeys = strKey.Split(new char[] { '+' });
@@ -131,7 +131,7 @@ namespace WK.Libraries.HotkeyListenerNS.Helpers
                     foreach (string strKeyItem in strKeys)
                     {
                         if (string.IsNullOrEmpty(strKeyItem))
-                            throw new Exception("Please provide a valid Hotkey.");
+                            throw new Exception("Please provide a valid hotkey.");
 
                         if (isFirst)
                         {

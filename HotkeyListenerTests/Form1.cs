@@ -12,8 +12,8 @@ namespace HotkeyListenerTests
         public HotkeyListener hkl = new HotkeyListener();
         public HotkeySelector hks = new HotkeySelector();
 
-        private Hotkey hotkey1 = new Hotkey(Keys.D, Keys.Control | Keys.Shift);
-        private Hotkey hotkey2 = new Hotkey(Keys.Y, Keys.Control);
+        private Hotkey hotkey1 = new Hotkey(Keys.D1, Keys.Alt | Keys.Control);
+        private Hotkey hotkey2 = new Hotkey(Keys.Y, Keys.Control | Keys.Shift);
 
         private Form2 form2 = new Form2();
 
@@ -25,24 +25,24 @@ namespace HotkeyListenerTests
             hkl.Add(hotkey1);
             
             hkl.HotkeyPressed += Hkl_HotkeyPressed;
+            
+            hks.Enable(textBox1, hotkey2);
 
-            hks.Enable(textBox1, "Control+Shift+E");
-
-            var hotkey = HotkeyListener.Convert("Control+Alt+E");
-            MessageBox.Show(hotkey.ToString());
+            // var hotkey = HotkeyListener.Convert("Control+Alt+D1");
+            // MessageBox.Show(hotkey.ToString());
 
             hkl.SuspendOn(form2);
         }
 
         private void Hkl_HotkeyPressed(object sender, HotkeyEventArgs e)
         {
-            if (e.HotkeyString == "Shift, Control + D")
+            if (e.Hotkey == hotkey1)
             {
                 // textBox3.Text = hkl.GetSelection();
                 // Activate();
                 
                 MessageBox.Show(
-                    $"You pressed: {e.HotkeyString}\n" +
+                    $"You pressed: {e.Hotkey.ToString()}\n" +
                     $"Name: {e.SourceApplication.Name}\n" +
                     $"Title: {e.SourceApplication.Title}\n" +
                     $"ID: {e.SourceApplication.ID}\n" +
@@ -54,13 +54,12 @@ namespace HotkeyListenerTests
 
         private void button1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(hks.Convert(Keys.F, Keys.Alt | Keys.Shift));
+            // MessageBox.Show(hks.Convert(hotkey1));
             
             // hkl.SuspendHotkeys();
             // hks.Enable(textBox1, Keys.F1, Keys.Shift | Keys.Alt);
             // hks.Set(textBox1, Keys.F2, Keys.Shift | Keys.Control);
-            hkl.Suspend();
-            hkl.Update(ref hotkey1, hotkey2);
+            hkl.Update(hotkey1, hotkey2);
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -85,6 +84,11 @@ namespace HotkeyListenerTests
         private void button4_Click(object sender, EventArgs e)
         {
             hkl.ResumeOn(form2);
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            hkl.Remove(hotkey1);
         }
     }
 }

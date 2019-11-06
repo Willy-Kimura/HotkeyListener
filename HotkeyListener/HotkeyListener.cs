@@ -104,32 +104,11 @@ namespace WK.Libraries.HotkeyListenerNS
         /// Adds a hotkey to the global Key watcher.
         /// </summary>
         /// <param name="hotkey">The hotkey to add.</param>
-        public void Add(string hotkey)
-        {
-            _handle.AddKey(hotkey);
-        }
-
-        /// <summary>
-        /// Adds a list of hotkeys to the global Key watcher.
-        /// </summary>
-        /// <param name="hotkeys">The hotkeys to add.</param>
-        public void Add(string[] hotkeys)
-        {
-            foreach (string key in hotkeys)
-            {
-                Add(key);
-            }
-        }
-
-        /// <summary>
-        /// Adds a hotkey to the global Key watcher.
-        /// </summary>
-        /// <param name="hotkey">The hotkey to add.</param>
         public void Add(Hotkey hotkey)
         {
-            Add(Convert(hotkey.KeyCode, hotkey.Modifiers));
+            Add(Convert(hotkey));
         }
-
+    
         /// <summary>
         /// Adds a list of hotkeys to the global Key watcher.
         /// </summary>
@@ -148,125 +127,9 @@ namespace WK.Libraries.HotkeyListenerNS
         /// </summary>
         /// <param name="currentHotkey">The hotkey to modify.</param>
         /// <param name="newHotkey">The new hotkey to be set.</param>
-        public void Update(string currentHotkey, string newHotkey)
-        {
-            try
-            {
-                if (!Suspended)
-                {
-                    Remove(currentHotkey);
-                    Add(newHotkey);
-                }
-                else
-                {
-                    foreach (var item in _suspendedKeys.ToList())
-                    {
-                        if (item.Value == currentHotkey)
-                        {
-                            int keyID = item.Key;
-
-                            _suspendedKeys.Remove(item.Key);
-                            _suspendedKeys.Add(keyID, newHotkey);
-                        }
-                    }
-                }
-
-                currentHotkey = newHotkey;
-            }
-            catch (Exception) { }
-        }
-
-        /// <summary>
-        /// Updates an existing hotkey 
-        /// in the global Key watcher.
-        /// </summary>
-        /// <param name="currentHotkey">
-        /// A reference to the variable 
-        /// containing the hotkey to modify.
-        /// </param>
-        /// <param name="newHotkey">
-        /// The new hotkey to be set.
-        /// </param>
-        public void Update(ref string currentHotkey, string newHotkey)
-        {
-            try
-            {
-                if (!Suspended)
-                {
-                    Remove(currentHotkey);
-                    Add(newHotkey);
-                }
-                else
-                {
-                    foreach (var item in _suspendedKeys.ToList())
-                    {
-                        if (item.Value == currentHotkey)
-                        {
-                            int keyID = item.Key;
-
-                            _suspendedKeys.Remove(item.Key);
-                            _suspendedKeys.Add(keyID, newHotkey);
-                        }
-                    }
-                }
-
-                currentHotkey = newHotkey;
-            }
-            catch (Exception) { }
-        }
-
-        /// <summary>
-        /// Updates an existing hotkey 
-        /// in the global Key watcher.
-        /// </summary>
-        /// <param name="currentHotkey">
-        /// A reference to the variable 
-        /// containing the hotkey to modify.
-        /// </param>
-        /// <param name="newHotkey">
-        /// A reference to the variable containing 
-        /// the new hotkey to be set.
-        /// </param>
-        public void Update(ref string currentHotkey, ref string newHotkey)
-        {
-            try
-            {
-                if (!Suspended)
-                {
-                    Remove(currentHotkey);
-                    Add(newHotkey);
-                }
-                else
-                {
-                    foreach (var item in _suspendedKeys.ToList())
-                    {
-                        if (item.Value == currentHotkey)
-                        {
-                            int keyID = item.Key;
-
-                            _suspendedKeys.Remove(item.Key);
-                            _suspendedKeys.Add(keyID, newHotkey);
-                        }
-                    }
-                }
-
-                currentHotkey = newHotkey;
-            }
-            catch (Exception) { }
-        }
-
-        /// <summary>
-        /// Updates an existing hotkey 
-        /// in the global Key watcher.
-        /// </summary>
-        /// <param name="currentHotkey">The hotkey to modify.</param>
-        /// <param name="newHotkey">The new hotkey to be set.</param>
         public void Update(Hotkey currentHotkey, Hotkey newHotkey)
         {
-            Update(
-                Convert(currentHotkey.KeyCode, currentHotkey.Modifiers),
-                Convert(newHotkey.KeyCode, newHotkey.Modifiers)
-                );
+            Update(currentHotkey.ToString(), newHotkey.ToString());
         }
 
         /// <summary>
@@ -282,7 +145,9 @@ namespace WK.Libraries.HotkeyListenerNS
         /// </param>
         public void Update(ref Hotkey currentHotkey, Hotkey newHotkey)
         {
-            Update(ref currentHotkey, newHotkey);
+            currentHotkey = newHotkey;
+
+            Update(currentHotkey.ToString(), newHotkey.ToString());
         }
 
         /// <summary>
@@ -299,30 +164,9 @@ namespace WK.Libraries.HotkeyListenerNS
         /// </param>
         public void Update(ref Hotkey currentHotkey, ref Hotkey newHotkey)
         {
-            Update(ref currentHotkey, ref newHotkey);
-        }
+            currentHotkey = newHotkey;
 
-        /// <summary>
-        /// Removes any specific hotkey 
-        /// from the global Key watcher.
-        /// </summary>
-        /// <param name="hotkey">The hotkey to remove.</param>
-        public void Remove(string hotkey)
-        {
-            _handle.RemoveKey(hotkey);
-        }
-
-        /// <summary>
-        /// Removes a list of hotkeys from 
-        /// the global Key watcher.
-        /// </summary>
-        /// <param name="hotkeys">The hotkeys to remove.</param>
-        public void Remove(string[] hotkeys)
-        {
-            foreach (string key in hotkeys)
-            {
-                Remove(key);
-            }
+            Update(currentHotkey.ToString(), newHotkey.ToString());
         }
 
         /// <summary>
@@ -332,7 +176,7 @@ namespace WK.Libraries.HotkeyListenerNS
         /// <param name="hotkey">The hotkey to remove.</param>
         public void Remove(Hotkey hotkey)
         {
-            _handle.RemoveKey(Convert(hotkey.KeyCode, hotkey.Modifiers));
+            _handle.RemoveKey(Convert(hotkey));
         }
 
         /// <summary>
@@ -517,9 +361,10 @@ namespace WK.Libraries.HotkeyListenerNS
         /// <summary>
         /// [Special] Converts keys or key combinations to their string types.
         /// </summary>
-        public static string Convert(Keys keys, Keys modifiers = Keys.None)
+        /// <param name="hotkey">The hotkey to convert.</param>
+        public static string Convert(Hotkey hotkey)
         {
-            return _selector.Convert(keys, modifiers);
+            return _selector.Convert(hotkey);
         }
 
         /// <summary>
@@ -552,6 +397,163 @@ namespace WK.Libraries.HotkeyListenerNS
         #region Private
 
         /// <summary>
+        /// Adds a hotkey to the global Key watcher.
+        /// </summary>
+        /// <param name="hotkey">The hotkey to add.</param>
+        private void Add(string hotkey)
+        {
+            _handle.AddKey(hotkey);
+        }
+
+        /// <summary>
+        /// Adds a list of hotkeys to the global Key watcher.
+        /// </summary>
+        /// <param name="hotkeys">The hotkeys to add.</param>
+        private void Add(string[] hotkeys)
+        {
+            foreach (string key in hotkeys)
+            {
+                Add(key);
+            }
+        }
+
+        /// <summary>
+        /// Updates an existing hotkey 
+        /// in the global Key watcher.
+        /// </summary>
+        /// <param name="currentHotkey">The hotkey to modify.</param>
+        /// <param name="newHotkey">The new hotkey to be set.</param>
+        private void Update(string currentHotkey, string newHotkey)
+        {
+            try
+            {
+                if (!Suspended)
+                {
+                    Remove(currentHotkey);
+                    Add(newHotkey);
+                }
+                else
+                {
+                    foreach (var item in _suspendedKeys.ToList())
+                    {
+                        if (item.Value == currentHotkey)
+                        {
+                            int keyID = item.Key;
+
+                            _suspendedKeys.Remove(item.Key);
+                            _suspendedKeys.Add(keyID, newHotkey);
+                        }
+                    }
+                }
+
+                currentHotkey = newHotkey;
+            }
+            catch (Exception) { }
+        }
+
+        /// <summary>
+        /// Updates an existing hotkey 
+        /// in the global Key watcher.
+        /// </summary>
+        /// <param name="currentHotkey">
+        /// A reference to the variable 
+        /// containing the hotkey to modify.
+        /// </param>
+        /// <param name="newHotkey">
+        /// The new hotkey to be set.
+        /// </param>
+        private void Update(ref string currentHotkey, string newHotkey)
+        {
+            try
+            {
+                if (!Suspended)
+                {
+                    Remove(currentHotkey);
+                    Add(newHotkey);
+                }
+                else
+                {
+                    foreach (var item in _suspendedKeys.ToList())
+                    {
+                        if (item.Value == currentHotkey)
+                        {
+                            int keyID = item.Key;
+
+                            _suspendedKeys.Remove(item.Key);
+                            _suspendedKeys.Add(keyID, newHotkey);
+                        }
+                    }
+                }
+
+                currentHotkey = newHotkey;
+            }
+            catch (Exception) { }
+        }
+
+        /// <summary>
+        /// Updates an existing hotkey 
+        /// in the global Key watcher.
+        /// </summary>
+        /// <param name="currentHotkey">
+        /// A reference to the variable 
+        /// containing the hotkey to modify.
+        /// </param>
+        /// <param name="newHotkey">
+        /// A reference to the variable containing 
+        /// the new hotkey to be set.
+        /// </param>
+        private void Update(ref string currentHotkey, ref string newHotkey)
+        {
+            try
+            {
+                if (!Suspended)
+                {
+                    Remove(currentHotkey);
+                    Add(newHotkey);
+                }
+                else
+                {
+                    foreach (var item in _suspendedKeys.ToList())
+                    {
+                        if (item.Value == currentHotkey)
+                        {
+                            int keyID = item.Key;
+
+                            _suspendedKeys.Remove(item.Key);
+                            _suspendedKeys.Add(keyID, newHotkey);
+                        }
+                    }
+                }
+
+                currentHotkey = newHotkey;
+            }
+            catch (Exception) { }
+        }
+
+        /// <summary>
+        /// Removes any specific hotkey 
+        /// from the global Key watcher.
+        /// </summary>
+        /// <param name="hotkey">The hotkey to remove.</param>
+        private void Remove(string hotkey)
+        {
+            _handle.RemoveKey(hotkey);
+        }
+
+        /// <summary>
+        /// Removes a list of hotkeys from 
+        /// the global Key watcher.
+        /// </summary>
+        /// <param name="hotkeys">The hotkeys to remove.</param>
+        private void Remove(string[] hotkeys)
+        {
+            foreach (string key in hotkeys)
+            {
+                Remove(key);
+            }
+        }
+
+        /// <summary>
         /// Applies the library-default options & settings.
         /// </summary>
         private void SetDefaults()
@@ -577,7 +579,7 @@ namespace WK.Libraries.HotkeyListenerNS
                     ),
                     new HotkeyEventArgs
                     {
-                        HotkeyString = e.HotkeyString,
+                        Hotkey = e.Hotkey,
                         SourceApplication = new SourceApplication(
                             SourceAttributes.GetID(),
                             SourceAttributes.GetHandle(),
@@ -633,6 +635,7 @@ namespace WK.Libraries.HotkeyListenerNS
     /// Creates a standard hotkey for 
     /// use with <see cref="HotkeyListener"/>.
     /// </summary>
+    [Serializable]
     public class Hotkey
     {
         #region Constructor
@@ -687,7 +690,50 @@ namespace WK.Libraries.HotkeyListenerNS
             if (Modifiers == Keys.None)
                 return KeyCode.ToString();
             else
-                return HotkeyListener.Convert(KeyCode, Modifiers);
+                return HotkeyListener.Convert(this);
+        }
+
+        /// <summary>
+        /// Serves as the default hash function.
+        /// </summary>
+        /// <returns>
+        /// A hash code for the current object.
+        /// </returns>
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        /// <summary>
+        /// Determines whether the specified object is equal to the current object.
+        /// </summary>
+        /// <param name="obj">
+        /// The object to compare with the current object.
+        /// </param>
+        /// <returns>
+        /// true if the specified object is equal to the current object; otherwise, false.
+        /// </returns>
+        public override bool Equals(object obj)
+        {
+            if (!(obj is Hotkey))
+                return false;
+
+            var other = obj as Hotkey;
+
+            if (KeyCode != other.KeyCode || Modifiers != other.Modifiers)
+                return false;
+
+            return true;
+        }
+
+        public static bool operator ==(Hotkey x, Hotkey y)
+        {
+            return x.Equals(y);
+        }
+
+        public static bool operator !=(Hotkey x, Hotkey y)
+        {
+            return !(x == y);
         }
 
         #endregion
@@ -726,13 +772,8 @@ namespace WK.Libraries.HotkeyListenerNS
         /// <summary>
         /// Gets the hotkey that was pressed.
         /// </summary>
-        // public Hotkey Hotkey { get; internal set; }
-
-        /// <summary>
-        /// Gets the hotkey that was pressed.
-        /// </summary>
-        public string HotkeyString { get; internal set; }
-
+        public Hotkey Hotkey { get; internal set; }
+        
         /// <summary>
         /// Gets the details of the source application 
         /// from where the hotkey was triggered.

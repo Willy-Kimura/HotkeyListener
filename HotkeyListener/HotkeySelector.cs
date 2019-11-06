@@ -111,46 +111,22 @@ namespace WK.Libraries.HotkeyListenerNS
                 return false;
             }
         }
-
+        
         /// <summary>
         /// Enables a control for hotkey selection and preview.
         /// This will make use of the control's Text property to 
         /// preview the current hotkey selection.
         /// </summary>
         /// <param name="control">The control to enable.</param>
-        /// <param name="hotkey">Provide a standard key or key combination string.</param>
-        public bool Enable(Control control, string hotkey)
+        /// <param name="key">Provide a standard hotkey.</param>
+        public bool Enable(Control control, Hotkey hotkey)
         {
             try
             {
                 Enable(control);
 
-                control.Text = hotkey;
-
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// Enables a control for hotkey selection and preview.
-        /// This will make use of the control's Text property to 
-        /// preview the current hotkey selection.
-        /// </summary>
-        /// <param name="control">The control to enable.</param>
-        /// <param name="key">Provide a standard key selection.</param>
-        /// <param name="modifiers">Provide a modifier key selection.</param>
-        public bool Enable(Control control, Keys key = Keys.None, Keys modifiers = Keys.None)
-        {
-            try
-            {
-                Enable(control);
-
-                _hotkey = key;
-                _modifiers = modifiers;
+                _hotkey = hotkey.KeyCode;
+                _modifiers = hotkey.Modifiers;
 
                 Refresh(control);
             
@@ -212,13 +188,13 @@ namespace WK.Libraries.HotkeyListenerNS
         /// </summary>
         /// <param name="control">The control to set.</param>
         /// <param name="hotkey">Provide a standard key or key combination string.</param>
-        public bool Set(Control control, string hotkey)
+        public bool Set(Control control, Hotkey hotkey)
         {
             try
             {
                 Refresh(control);
 
-                control.Text = hotkey;
+                control.Text = Convert(hotkey);
 
                 return true;
             }
@@ -227,7 +203,7 @@ namespace WK.Libraries.HotkeyListenerNS
                 return false;
             }
         }
-
+    
         /// <summary>
         /// Sets a hotkey selection to be previewd in a control. 
         /// Thsi does not automatically enable the control for 
@@ -281,12 +257,13 @@ namespace WK.Libraries.HotkeyListenerNS
         /// <summary>
         /// [Helper] Converts keys or key combinations to their string types.
         /// </summary>
-        public string Convert(Keys keys, Keys modifiers)
+        /// <param name="hotkey">The hotkey to convert.</param>
+        public string Convert(Hotkey hotkey)
         {
             try
             {
-                _hotkey = keys;
-                _modifiers = modifiers;
+                _hotkey = hotkey.KeyCode;
+                _modifiers = hotkey.Modifiers;
 
                 string parsedHotkey = string.Empty;
 
@@ -298,13 +275,13 @@ namespace WK.Libraries.HotkeyListenerNS
 
                 // LWin/RWin don't work as hotkeys...
                 // (neither do they work as modifier keys in .NET 2.0).
-                if (keys == Keys.LWin || keys == Keys.RWin)
+                if (_hotkey == Keys.LWin || _hotkey == Keys.RWin)
                 {
                     parsedHotkey = string.Empty;
                 }
 
                 // No modifier or shift only, and a hotkey that needs another modifier.
-                if ((modifiers == Keys.Shift || modifiers == Keys.None) &&
+                if ((_modifiers == Keys.Shift || _modifiers == Keys.None) &&
                     _needNonShiftModifier.Contains((int)this._hotkey))
                 {
                     if (this._modifiers == Keys.None)
@@ -329,14 +306,16 @@ namespace WK.Libraries.HotkeyListenerNS
                     }
                 }
 
-                // Check all Ctrl+Alt keys.
-                if ((this._modifiers == (Keys.Alt | Keys.Control)) &&
-                    this._needNonAltGrModifier.Contains((int)this._hotkey))
-                {
-                    // Ctrl+Alt+4 etc won't work; reset hotkey and tell the user.
-                    this._hotkey = Keys.None;
-                    parsedHotkey = this._modifiers.ToString() + $" + {InvalidHotkeyText}";
-                }
+                // [Disabled] Check all Ctrl+Alt keys.
+                // ---------------------------------------------------------------------------
+                // if ((this._modifiers == (Keys.Alt | Keys.Control)) &&
+                //     this._needNonAltGrModifier.Contains((int)this._hotkey))
+                // {
+                //     // Ctrl+Alt+4 etc won't work; reset hotkey and tell the user.
+                //     this._hotkey = Keys.None;
+                //     parsedHotkey = this._modifiers.ToString() + $" + {InvalidHotkeyText}";
+                // }
+                // ---------------------------------------------------------------------------
 
                 if (this._modifiers == Keys.None)
                 {
@@ -496,16 +475,18 @@ namespace WK.Libraries.HotkeyListenerNS
                         }
                     }
 
-                    // Check all Ctrl+Alt keys.
-                    if ((this._modifiers == (Keys.Alt | Keys.Control)) &&
-                        this._needNonAltGrModifier.Contains((int)this._hotkey))
-                    {
-                        // Ctrl+Alt+4 etc won't work; reset hotkey and tell the user.
-                        this._hotkey = Keys.None;
-                        control.Text = this._modifiers.ToString() + $" + {InvalidHotkeyText}";
-
-                        return;
-                    }
+                    // [Disabled] Check all Ctrl+Alt keys.
+                    // --------------------------------------------------------------------------
+                    // if ((this._modifiers == (Keys.Alt | Keys.Control)) &&
+                    //     this._needNonAltGrModifier.Contains((int)this._hotkey))
+                    // {
+                    //     // Ctrl+Alt+4 etc won't work; reset hotkey and tell the user.
+                    //     this._hotkey = Keys.None;
+                    //     control.Text = this._modifiers.ToString() + $" + {InvalidHotkeyText}";
+                    // 
+                    //     return;
+                    // }
+                    // --------------------------------------------------------------------------
                 }
 
                 if (this._modifiers == Keys.None)
