@@ -12,8 +12,8 @@ namespace HotkeyListenerTests
         public HotkeyListener hkl = new HotkeyListener();
         public HotkeySelector hks = new HotkeySelector();
 
-        private string hotkey1 = "Control+Shift+E";
-        private string hotkey2 = "Control+Y";
+        private Hotkey hotkey1 = new Hotkey(Keys.D, Keys.Control | Keys.Shift);
+        private Hotkey hotkey2 = new Hotkey(Keys.Y, Keys.Control);
 
         private Form2 form2 = new Form2();
 
@@ -21,25 +21,28 @@ namespace HotkeyListenerTests
         {
             InitializeComponent();
             
-            hkl.Add(new[] { hotkey1, hotkey2 });
+            // hkl.Add(new[] { hotkey1, hotkey2 });
+            hkl.Add(hotkey1);
             
             hkl.HotkeyPressed += Hkl_HotkeyPressed;
 
             hks.Enable(textBox1, "Control+Shift+E");
+
+            var hotkey = HotkeyListener.Convert("Control+Alt+E");
+            MessageBox.Show(hotkey.ToString());
 
             hkl.SuspendOn(form2);
         }
 
         private void Hkl_HotkeyPressed(object sender, HotkeyEventArgs e)
         {
-            if (e.Hotkey == hotkey1)
+            if (e.HotkeyString == "Shift, Control + D")
             {
                 // textBox3.Text = hkl.GetSelection();
-                
                 // Activate();
                 
                 MessageBox.Show(
-                    $"You pressed: {e.Hotkey}\n" +
+                    $"You pressed: {e.HotkeyString}\n" +
                     $"Name: {e.SourceApplication.Name}\n" +
                     $"Title: {e.SourceApplication.Title}\n" +
                     $"ID: {e.SourceApplication.ID}\n" +

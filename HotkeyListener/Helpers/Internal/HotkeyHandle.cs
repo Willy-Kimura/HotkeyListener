@@ -176,13 +176,14 @@ namespace WK.Libraries.HotkeyListenerNS.Helpers
                         SourceAttributes.GetPath()),
                     new HotkeyEventArgs
                     {
-                        Hotkey = this.Hotkeys[m.WParam.ToInt32()],
+                        // Hotkey = this.Hotkeys[m.WParam.ToInt32()],
+                        HotkeyString = this.Hotkeys[m.WParam.ToInt32()],
                         SourceApplication = new SourceApplication(
-                        SourceAttributes.GetID(),
-                        SourceAttributes.GetHandle(),
-                        SourceAttributes.GetName(),
-                        SourceAttributes.GetTitle(),
-                        SourceAttributes.GetPath())
+                            SourceAttributes.GetID(),
+                            SourceAttributes.GetHandle(),
+                            SourceAttributes.GetName(),
+                            SourceAttributes.GetTitle(),
+                            SourceAttributes.GetPath())
                     });
             }
             else

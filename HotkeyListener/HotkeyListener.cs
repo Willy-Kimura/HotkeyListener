@@ -76,6 +76,10 @@ namespace WK.Libraries.HotkeyListenerNS
         // Saves the list of forms suspended.
         private List<Form> _suspendedForms = new List<Form>();
 
+        // We will use this to convert keys into 
+        // their respective string formats.
+        private static HotkeySelector _selector = new HotkeySelector();
+
         #endregion
 
         #region Properties
@@ -112,6 +116,27 @@ namespace WK.Libraries.HotkeyListenerNS
         public void Add(string[] hotkeys)
         {
             foreach (string key in hotkeys)
+            {
+                Add(key);
+            }
+        }
+
+        /// <summary>
+        /// Adds a hotkey to the global Key watcher.
+        /// </summary>
+        /// <param name="hotkey">The hotkey to add.</param>
+        public void Add(Hotkey hotkey)
+        {
+            Add(Convert(hotkey.KeyCode, hotkey.Modifiers));
+        }
+
+        /// <summary>
+        /// Adds a list of hotkeys to the global Key watcher.
+        /// </summary>
+        /// <param name="hotkeys">The hotkeys to add.</param>
+        public void Add(Hotkey[] hotkeys)
+        {
+            foreach (var key in hotkeys)
             {
                 Add(key);
             }
@@ -231,6 +256,53 @@ namespace WK.Libraries.HotkeyListenerNS
         }
 
         /// <summary>
+        /// Updates an existing hotkey 
+        /// in the global Key watcher.
+        /// </summary>
+        /// <param name="currentHotkey">The hotkey to modify.</param>
+        /// <param name="newHotkey">The new hotkey to be set.</param>
+        public void Update(Hotkey currentHotkey, Hotkey newHotkey)
+        {
+            Update(
+                Convert(currentHotkey.KeyCode, currentHotkey.Modifiers),
+                Convert(newHotkey.KeyCode, newHotkey.Modifiers)
+                );
+        }
+
+        /// <summary>
+        /// Updates an existing hotkey 
+        /// in the global Key watcher.
+        /// </summary>
+        /// <param name="currentHotkey">
+        /// A reference to the variable 
+        /// containing the hotkey to modify.
+        /// </param>
+        /// <param name="newHotkey">
+        /// The new hotkey to be set.
+        /// </param>
+        public void Update(ref Hotkey currentHotkey, Hotkey newHotkey)
+        {
+            Update(ref currentHotkey, newHotkey);
+        }
+
+        /// <summary>
+        /// Updates an existing hotkey 
+        /// in the global Key watcher.
+        /// </summary>
+        /// <param name="currentHotkey">
+        /// A reference to the variable 
+        /// containing the hotkey to modify.
+        /// </param>
+        /// <param name="newHotkey">
+        /// A reference to the variable containing 
+        /// the new hotkey to be set.
+        /// </param>
+        public void Update(ref Hotkey currentHotkey, ref Hotkey newHotkey)
+        {
+            Update(ref currentHotkey, ref newHotkey);
+        }
+
+        /// <summary>
         /// Removes any specific hotkey 
         /// from the global Key watcher.
         /// </summary>
@@ -248,6 +320,29 @@ namespace WK.Libraries.HotkeyListenerNS
         public void Remove(string[] hotkeys)
         {
             foreach (string key in hotkeys)
+            {
+                Remove(key);
+            }
+        }
+
+        /// <summary>
+        /// Removes any specific hotkey 
+        /// from the global Key watcher.
+        /// </summary>
+        /// <param name="hotkey">The hotkey to remove.</param>
+        public void Remove(Hotkey hotkey)
+        {
+            _handle.RemoveKey(Convert(hotkey.KeyCode, hotkey.Modifiers));
+        }
+
+        /// <summary>
+        /// Removes a list of hotkeys from 
+        /// the global Key watcher.
+        /// </summary>
+        /// <param name="hotkeys">The hotkeys to remove.</param>
+        public void Remove(Hotkey[] hotkeys)
+        {
+            foreach (var key in hotkeys)
             {
                 Remove(key);
             }
@@ -385,6 +480,49 @@ namespace WK.Libraries.HotkeyListenerNS
         }
 
         /// <summary>
+        /// [Special] Converts a hotkey string to its variant <see cref="Hotkey"/> object.
+        /// </summary>
+        public static Hotkey Convert(string hotkey)
+        {
+            Keys keyCode = Keys.None;
+            Keys modifiers = Keys.None;
+
+            hotkey = hotkey.Replace(" ", "");
+            hotkey = hotkey.Replace(",", "");
+            hotkey = hotkey.Replace("+", "");
+
+            if (hotkey.Contains("Control"))
+            {
+                modifiers |= Keys.Control;
+                hotkey = hotkey.Replace("Control", "");
+            }
+
+            if (hotkey.Contains("Shift"))
+            {
+                modifiers |= Keys.Shift;
+                hotkey = hotkey.Replace("Shift", "");
+            }
+
+            if (hotkey.Contains("Alt"))
+            {
+                modifiers |= Keys.Alt;
+                hotkey = hotkey.Replace("Alt", "");
+            }
+
+            keyCode = (Keys)Enum.Parse(typeof(Keys), hotkey, true);
+
+            return new Hotkey(keyCode, modifiers);
+        }
+
+        /// <summary>
+        /// [Special] Converts keys or key combinations to their string types.
+        /// </summary>
+        public static string Convert(Keys keys, Keys modifiers = Keys.None)
+        {
+            return _selector.Convert(keys, modifiers);
+        }
+
+        /// <summary>
         /// [Special] Gets the currently selected text 
         /// in any active application.
         /// </summary>
@@ -431,20 +569,22 @@ namespace WK.Libraries.HotkeyListenerNS
             {
                 HotkeyPressed?.Invoke(
                     new SourceApplication(
-                        SourceAttributes.GetID(),
-                        SourceAttributes.GetHandle(),
-                        SourceAttributes.GetName(),
-                        SourceAttributes.GetTitle(),
-                        SourceAttributes.GetPath()),
+                            SourceAttributes.GetID(),
+                            SourceAttributes.GetHandle(),
+                            SourceAttributes.GetName(),
+                            SourceAttributes.GetTitle(),
+                            SourceAttributes.GetPath()
+                    ),
                     new HotkeyEventArgs
                     {
-                        Hotkey = e.Hotkey,
+                        HotkeyString = e.HotkeyString,
                         SourceApplication = new SourceApplication(
-                        SourceAttributes.GetID(),
-                        SourceAttributes.GetHandle(),
-                        SourceAttributes.GetName(),
-                        SourceAttributes.GetTitle(),
-                        SourceAttributes.GetPath())
+                            SourceAttributes.GetID(),
+                            SourceAttributes.GetHandle(),
+                            SourceAttributes.GetName(),
+                            SourceAttributes.GetTitle(),
+                            SourceAttributes.GetPath()
+                        )
                     });
             };
         }
@@ -490,6 +630,70 @@ namespace WK.Libraries.HotkeyListenerNS
     }
 
     /// <summary>
+    /// Creates a standard hotkey for 
+    /// use with <see cref="HotkeyListener"/>.
+    /// </summary>
+    public class Hotkey
+    {
+        #region Constructor
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Hotkey"/> class.
+        /// </summary>
+        public Hotkey() { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Hotkey"/> class.
+        /// </summary>
+        /// <param name="keyCode">
+        /// The hotkey's keyboard code.
+        /// </param>
+        /// <param name="modifiers">
+        /// The hotkey's modifier flags. The flags indicate which 
+        /// combination of CTRL, SHIFT, and ALT keys will be detected.
+        /// </param>
+        public Hotkey(Keys keyCode, Keys modifiers = Keys.None)
+        {
+            KeyCode = keyCode;
+            Modifiers = modifiers;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets or sets the hotkey's keyboard code.
+        /// </summary>
+        public Keys KeyCode { get; set; }
+
+        /// <summary>
+        /// Gets or sets the hotkey's modifier flags. The flags indicate 
+        /// which combination of CTRL, SHIFT, and ALT keys will be detected.
+        /// </summary>
+        public Keys Modifiers { get; set; }
+
+        #endregion
+
+        #region Overrides
+
+        /// <summary>
+        /// Returns a string conversion containing the Hotkey's 
+        /// <see cref="KeyCode"/> and <see cref="Modifiers"/> keys.
+        /// </summary>
+        /// <returns><see cref="String"/></returns>
+        public override string ToString()
+        {
+            if (Modifiers == Keys.None)
+                return KeyCode.ToString();
+            else
+                return HotkeyListener.Convert(KeyCode, Modifiers);
+        }
+
+        #endregion
+    }
+
+    /// <summary>
     /// Provides data for the <see cref="HotkeyListener.HotkeyPressed"/> event.
     /// </summary>
     public class HotkeyEventArgs : EventArgs
@@ -522,7 +726,12 @@ namespace WK.Libraries.HotkeyListenerNS
         /// <summary>
         /// Gets the hotkey that was pressed.
         /// </summary>
-        public string Hotkey { get; internal set; }
+        // public Hotkey Hotkey { get; internal set; }
+
+        /// <summary>
+        /// Gets the hotkey that was pressed.
+        /// </summary>
+        public string HotkeyString { get; internal set; }
 
         /// <summary>
         /// Gets the details of the source application 
