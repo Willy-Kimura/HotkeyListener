@@ -649,6 +649,20 @@ namespace WK.Libraries.HotkeyListenerNS
         /// Initializes a new instance of the <see cref="Hotkey"/> class.
         /// </summary>
         /// <param name="keyCode">
+        /// The hotkey in string format.
+        /// </param>
+        public Hotkey(string hotkey)
+        {
+            var hotkeyObj = HotkeyListener.Convert(hotkey);
+        
+            KeyCode = hotkeyObj.KeyCode;
+            Modifiers = hotkeyObj.Modifiers;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Hotkey"/> class.
+        /// </summary>
+        /// <param name="keyCode">
         /// The hotkey's keyboard code.
         /// </param>
         /// <param name="modifiers">

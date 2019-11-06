@@ -12,7 +12,7 @@ namespace HotkeyListenerTests
         public HotkeyListener hkl = new HotkeyListener();
         public HotkeySelector hks = new HotkeySelector();
 
-        private Hotkey hotkey1 = new Hotkey(Keys.D1, Keys.Alt | Keys.Control);
+        private Hotkey hotkey1 = new Hotkey("Control+Alt+D4");
         private Hotkey hotkey2 = new Hotkey(Keys.Y, Keys.Control | Keys.Shift);
 
         private Form2 form2 = new Form2();
@@ -59,7 +59,7 @@ namespace HotkeyListenerTests
             // hkl.SuspendHotkeys();
             // hks.Enable(textBox1, Keys.F1, Keys.Shift | Keys.Alt);
             // hks.Set(textBox1, Keys.F2, Keys.Shift | Keys.Control);
-            hkl.Update(hotkey1, hotkey2);
+            hkl.Update(ref hotkey1, hotkey2);
         }
 
         private void button2_Click(object sender, EventArgs e)
