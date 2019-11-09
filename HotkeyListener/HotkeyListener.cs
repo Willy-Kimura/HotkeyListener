@@ -662,14 +662,14 @@ namespace WK.Libraries.HotkeyListenerNS
         /// <summary>
         /// Initializes a new instance of the <see cref="Hotkey"/> class.
         /// </summary>
-        /// <param name="keyCode">
-        /// The hotkey's keyboard code.
-        /// </param>
         /// <param name="modifiers">
         /// The hotkey's modifier flags. The flags indicate which 
         /// combination of CTRL, SHIFT, and ALT keys will be detected.
         /// </param>
-        public Hotkey(Keys keyCode, Keys modifiers = Keys.None)
+        /// <param name="keyCode">
+        /// The hotkey's keyboard code.
+        /// </param>
+        public Hotkey(Keys modifiers = Keys.None, Keys keyCode = Keys.None)
         {
             KeyCode = keyCode;
             Modifiers = modifiers;

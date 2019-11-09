@@ -13,7 +13,7 @@ namespace HotkeyListenerTests
         public HotkeySelector hks = new HotkeySelector();
 
         private Hotkey hotkey1 = new Hotkey("Control+Alt+D4");
-        private Hotkey hotkey2 = new Hotkey(Keys.Y, Keys.Control | Keys.Shift);
+        private Hotkey hotkey2 = new Hotkey(Keys.Control | Keys.Shift, Keys.Y);
 
         private Form2 form2 = new Form2();
 
@@ -25,8 +25,9 @@ namespace HotkeyListenerTests
             hkl.Add(hotkey1);
             
             hkl.HotkeyPressed += Hkl_HotkeyPressed;
-            
+
             hks.Enable(textBox1, hotkey2);
+            hks.Enable(textBox2, new Hotkey("Control+Alt+T"));
 
             // var hotkey = HotkeyListener.Convert("Control+Alt+D1");
             // MessageBox.Show(hotkey.ToString());
