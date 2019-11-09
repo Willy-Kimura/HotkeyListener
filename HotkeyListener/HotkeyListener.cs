@@ -789,8 +789,8 @@ namespace WK.Libraries.HotkeyListenerNS
         public Hotkey Hotkey { get; internal set; }
         
         /// <summary>
-        /// Gets the details of the source application 
-        /// from where the hotkey was triggered.
+        /// Gets the details of the application 
+        /// from where the hotkey was pressed.
         /// </summary>
         public SourceApplication SourceApplication { get; internal set; }
 
