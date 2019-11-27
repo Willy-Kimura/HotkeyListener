@@ -35,8 +35,11 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="UIAutomationClient" />
+    <Reference Include="UIAutomationTypes" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\Internal\TextSelectionReader.cs" />
     <Compile Include="Helpers\SourceAttributes.cs" />
     <Compile Include="Helpers\Internal\HotkeyHandle.cs">
       <SubType>Component</SubType>

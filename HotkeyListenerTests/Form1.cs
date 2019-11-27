@@ -32,24 +32,30 @@ namespace HotkeyListenerTests
             // var hotkey = HotkeyListener.Convert("Control+Alt+D1");
             // MessageBox.Show(hotkey.ToString());
 
-            hkl.SuspendOn(form2);
+            form2.Activated += 
+                (s, e) => { Text = "Hotkey selection active.";
+            };
+
+            hkl.SuspendOn(form2, 
+                () => { Text = "Settings updated"; }
+            );
         }
 
         private void Hkl_HotkeyPressed(object sender, HotkeyEventArgs e)
         {
             if (e.Hotkey == hotkey1)
             {
-                // textBox3.Text = hkl.GetSelection();
-                // Activate();
-                
-                MessageBox.Show(
-                    $"You pressed: {e.Hotkey.ToString()}\n" +
-                    $"Name: {e.SourceApplication.Name}\n" +
-                    $"Title: {e.SourceApplication.Title}\n" +
-                    $"ID: {e.SourceApplication.ID}\n" +
-                    $"Handle: {e.SourceApplication.Handle}\n" +
-                    $"Path: {e.SourceApplication.Path}"
-                );
+                textBox3.Text = hkl.GetSelection();
+                Activate();
+
+                // MessageBox.Show(
+                //     $"You pressed: {e.Hotkey.ToString()}\n" +
+                //     $"Name: {e.SourceApplication.Name}\n" +
+                //     $"Title: {e.SourceApplication.Title}\n" +
+                //     $"ID: {e.SourceApplication.ID}\n" +
+                //     $"Handle: {e.SourceApplication.Handle}\n" +
+                //     $"Path: {e.SourceApplication.Path}"
+                // );
             }
         }
 

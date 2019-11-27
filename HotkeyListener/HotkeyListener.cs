@@ -72,13 +72,21 @@ namespace WK.Libraries.HotkeyListenerNS
         // Saves the list of hotkeys suspended.
         private Dictionary<int, string> _suspendedKeys = 
             new Dictionary<int, string>();
-        
+
+        // Saves the list of Form suspension actions.
+        private Dictionary<Form, Action> _suspendedActions =
+            new Dictionary<Form, Action>();
+
         // Saves the list of forms suspended.
         private List<Form> _suspendedForms = new List<Form>();
 
         // We will use this to convert keys into 
         // their respective string formats.
         private static HotkeySelector _selector = new HotkeySelector();
+
+        // We will use this to get the selected 
+        // text from any active application.
+        private static TextSelectionReader _reader = new TextSelectionReader();
 
         #endregion
 
@@ -231,12 +239,18 @@ namespace WK.Libraries.HotkeyListenerNS
         /// <param name="form">
         /// The Form to suspend listening to hotkeys when active.
         /// </param>
-        public void SuspendOn(Form form)
+        /// <param name="onSuspend">
+        /// The action to be called when the Form has been deactivated.
+        /// </param>
+        public void SuspendOn(Form form, Action onDeactivate = null)
         {
             try
             {
                 form.Activated += OnActivateForm;
                 form.Deactivate += OnDeactivateForm;
+
+                if (onDeactivate != null)
+                    _suspendedActions.Add(form, onDeactivate);
                 
                 _suspendedForms.Add(form);
             }
@@ -248,16 +262,20 @@ namespace WK.Libraries.HotkeyListenerNS
         /// This is useful in Forms where the user requires modifying certain 
         /// hotkeys without triggering them when active.
         /// </summary>
-        /// <param name="form">
+        /// <param name="forms">
         /// The Forms to suspend listening to hotkeys when active.
         /// </param>
-        public void SuspendOn(Form[] forms)
+        /// <param name="onDeactivate">
+        /// The actions to be called respectively 
+        /// when each Form has been deactivated.
+        /// </param>
+        public void SuspendOn(Form[] forms, Action[] onDeactivate = null)
         {
             try
             {
-                foreach (var form in forms)
+                for (int i = 0; i < forms.Length; i++)
                 {
-                    SuspendOn(form);
+                    SuspendOn(forms[i], onDeactivate[i]);
                 }
             }
             catch (Exception) { }
@@ -283,6 +301,9 @@ namespace WK.Libraries.HotkeyListenerNS
 
                             addedForm.Activated -= OnActivateForm;
                             addedForm.Deactivate -= OnDeactivateForm;
+
+                            if (_suspendedActions.ContainsKey(addedForm))
+                                _suspendedActions.Remove(addedForm);
                         }
                     }
                 }
@@ -376,15 +397,7 @@ namespace WK.Libraries.HotkeyListenerNS
         {
             try
             {
-                string clipboardText = Clipboard.GetText();
-                SendKeys.SendWait("^(c)");
-
-                System.Threading.Thread.Sleep(200);
-
-                string selection = Clipboard.GetText();
-                Clipboard.SetText(clipboardText);
-
-                return selection;
+                return _reader.TryGetSelectedTextFromActiveControl();
             }
             catch (Exception)
             {
@@ -624,6 +637,15 @@ namespace WK.Libraries.HotkeyListenerNS
         private void OnDeactivateForm(object sender, EventArgs e)
         {
             Resume();
+
+            try
+            {
+                Form form = (Form)sender;
+
+                if (_suspendedActions.ContainsKey(form))
+                    form.Invoke(_suspendedActions[form]);
+            }
+            catch (Exception) { }
         }
 
         #endregion
