@@ -36,7 +36,7 @@ namespace WK.Libraries.HotkeyListenerNS.Helpers
     ///         method and SendMessage with WM_GETTEXT are tried first.
     ///     </para>
     /// </remarks>
-    public class TextSelectionReader
+    internal class TextSelectionReader
     {
         #region Fields
 

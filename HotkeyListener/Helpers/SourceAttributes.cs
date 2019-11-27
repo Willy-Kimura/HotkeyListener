@@ -22,7 +22,7 @@ namespace WK.Libraries.HotkeyListenerNS.Helpers
     /// Gathers the list of application attributes 
     /// derived from the currently active application.
     /// </summary>
-    public static class SourceAttributes
+    internal static class SourceAttributes
     {
         #region Fields
 
