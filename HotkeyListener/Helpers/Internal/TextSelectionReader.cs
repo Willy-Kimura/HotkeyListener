@@ -80,6 +80,7 @@ namespace WK.Libraries.HotkeyListenerNS.Helpers
                 foreach (var action in _selectionMethods)
                 {
                     var result = action.Invoke();
+
                     if (result != null)
                         return result;
                 }
@@ -111,6 +112,7 @@ namespace WK.Libraries.HotkeyListenerNS.Helpers
                 foreach (var action in _selectionMethods)
                 {
                     var result = filter.Invoke(action.Invoke());
+
                     if (result.Any())
                         return result;
                 }
@@ -204,36 +206,42 @@ namespace WK.Libraries.HotkeyListenerNS.Helpers
         /// </returns>
         private string GetTextViaClipboard()
         {
-            //TODO: Possibly try to "backup" the clipboard? DO read http://stackoverflow.com/a/2579846 first though!
-
-            //CTRL+C needs to be sent from a Single Threaded Apartmentstate thread...
-            if (Thread.CurrentThread.GetApartmentState() != ApartmentState.STA)
+            try
             {
-                var thread = new Thread(() =>
+                // Backup clipboard text.
+                string clipboardText = Clipboard.GetText();
+
+                // "CTRL+C" needs to be sent from a Single Threaded Apartment State thread.
+                if (Thread.CurrentThread.GetApartmentState() != ApartmentState.STA)
+                {
+                    var thread = new Thread(() =>
+                    {
+                        SendKeys.SendWait("^c");
+                        SendKeys.Flush();
+                    });
+
+                    thread.SetApartmentState(ApartmentState.STA);
+                    thread.Start();
+                    thread.Join();
+                }
+                else
                 {
                     SendKeys.SendWait("^c");
                     SendKeys.Flush();
-                });
-                thread.SetApartmentState(ApartmentState.STA);
-                thread.Start();
-                thread.Join();
+                }
+
+                // Get clipboard text.
+                string result = Clipboard.GetText();
+                result = string.IsNullOrWhiteSpace(result) ? null : result;
+
+                Clipboard.SetText(clipboardText);
+
+                return result;
             }
-            else
+            catch (Exception)
             {
-                SendKeys.SendWait("^c");
-                SendKeys.Flush();
+                return string.Empty;
             }
-
-            //Get clipboard text
-            string result = Clipboard.GetText();
-            result = string.IsNullOrWhiteSpace(result) ? null : result;
-            //If anything was on the clipboard, clear it.
-            if (result != null)
-                Clipboard.Clear();
-
-            //TODO: Possibly try to "restore" the clipboard?
-
-            return result;
         }
 
         #region Win32 APIs

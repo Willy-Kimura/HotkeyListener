@@ -12,7 +12,7 @@ namespace HotkeyListenerTests
         public HotkeyListener hkl = new HotkeyListener();
         public HotkeySelector hks = new HotkeySelector();
 
-        private Hotkey hotkey1 = new Hotkey("Control+Alt+D4");
+        private Hotkey hotkey1 = new Hotkey("Control+Shift+D4");
         private Hotkey hotkey2 = new Hotkey(Keys.Control | Keys.Shift, Keys.Y);
 
         private Form2 form2 = new Form2();
