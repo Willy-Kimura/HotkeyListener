@@ -24,7 +24,7 @@ namespace WK.Libraries.HotkeyListenerNS.Helpers
     /// and receiving all registered global Hotkey events.
     /// </summary>
     [DebuggerStepThrough]
-    internal class HotkeyHandle : Control
+    internal sealed class HotkeyHandle : Control
     {
         #region Constructor
 
