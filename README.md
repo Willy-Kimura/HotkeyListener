@@ -34,17 +34,20 @@ using WK.Libraries.HotkeyListenerNS;
 ```c#
 var hkl = new HotkeyListener();
 
-hkl.Add("Control+Shift+E");
-hkl.Add("Alt+X");
+// Define a new hotkey using the Hotkey class.
+Hotkey hotkey1 = new Hotkey(Keys.Control | Keys.Shift, Keys.J);
+
+// You can also define a hotkey in string format.
+Hotkey hotkey2 = new Hotkey("Control+Shift+D4");
+
+hkl.Add(hotkey1);
+hkl.Add(hotkey2);
 ```
 
 The `Add()` method also allows adding an array of hotkeys at once:
 
 ```c#
-// An array of hotkeys.
-string[] hotkeys = { "Control+Shift+E", "Alt+X" };
-
-hkl.Add(hotkeys);
+hkl.Add(new[] { hotkey1, hotkey2 });
 ```
 
 > **Important:** If you're building an application that has no external user-option for changing or customizing the default hotkey(s) set, something you'll need to consider when working with global hotkeys is that there are a number of predefined keys or key combinations already in use within a number of applications such as [Google Chrome](https://chrome.google.com) - for example, `Control+Tab`. This then means that you may need to find the right key or key combination to use when shipping your applications.
@@ -54,26 +57,20 @@ hkl.Add(hotkeys);
 To listen to key presses, use the `HotkeyPressed` event:
 
 ```c#
-// Define our hotkeys.
-string[] hotkeys = { "Control+Shift+E", "Alt+X" };
-
-// Add our hotkeys.
-hkl.Add(new[] { hotkey1, hotkey2 });
-
 // Add a HotkeyPressed event.
 hkl.HotkeyPressed += Hkl_HotkeyPressed;
 
 private void Hkl_HotkeyPressed(object sender, HotkeyEventArgs e)
 {
     if (e.Hotkey == hotkey1)
-        MessageBox.Show("First hotkey was pressed.");
+        MessageBox.Show($"First hotkey '{hotkey1}' was pressed.");
     
     if (e.Hotkey == hotkey2)
-        MessageBox.Show("Second hotkey was pressed.");
+        MessageBox.Show($"Second hotkey '{hotkey2}'was pressed.");
 }
 ```
 
-Unlike with the `KeyDown` or `KeyUp` events, here only the registered hotkeys will be detected.
+Unlike with the standard Windows `KeyDown` and `KeyUp` events, here only the registered keys will be detected.
 
 If you'd like to get the details of the active application where a hotkey was pressed, simply use the `SourceApplication` argument property:
 
@@ -93,12 +90,12 @@ private void Hkl_HotkeyPressed(object sender, HotkeyEventArgs e)
 }
 ```
 
-As a special feature, if you'd like to get any text that may have been selected when a hotkey added was pressed, use Hotkey Listener's `GetSelection()` method:
+As a special feature (in `Beta` though), if you'd like to get any text that may have been selected when a hotkey added was pressed, use Hotkey Listener's `GetSelection()` method:
 
 ```c#
 private void Hkl_HotkeyPressed(object sender, HotkeyEventArgs e)
 {
-    if (e.Hotkey == hotkey2)
+    if (e.Hotkey == hotkey1)
     {
         // Get the selected text, if any.
         string selection = hkl.GetSelection();
@@ -116,19 +113,19 @@ private void Hkl_HotkeyPressed(object sender, HotkeyEventArgs e)
 You can update hotkeys using the `Update()` method. It works the same way as *string replacement* where you provide the current string and its replacement option:
 
 ```c#
-hkl.Update("Control+Shift+E", "Control+Alt+E");
+hkl.Update(hotkey1, new Hotkey(Keys.Control | Keys.Alt, Keys.T));
 ```
 
-Hotkey updates can occur even while the application is running. **However**, something important you need to note is **always use variables to store hotkeys** since in this way, whenever an update to the hotkey occurs, it will automatically be detected in the `HotkeyPressed` event. 
+Hotkey updates can occur even when the application is running. **However**, something important you need to note is that **always use variables to store hotkeys** since in this way, whenever an update to the hotkey occurs, it will automagically be detected in the `HotkeyPressed` event. 
 
 Here's what I mean:
 
 ```c#
-string myHotkey = "Control+Shift+E";
+Hotkey myHotkey = new Hotkey(Keys.Control | Keys.Alt, Keys.T);
 
 // To update our hotkey, simply pass the current hotkey 
 // with a ref keyword to the variable and its replacement.
-hkl.Update(ref myHotkey, "Control+Alt+E");
+hkl.Update(ref myHotkey, new Hotkey(Keys.Alt, Keys.T);
 ```
 
 This will ensure that both the hotkey and its variable have been updated to reflect the changes made. This design is especially handy if your application saves *user settings* after update.
@@ -136,8 +133,8 @@ This will ensure that both the hotkey and its variable have been updated to refl
 Here's another classical example of updating a hotkey:
 
 ```c#
-string hotkey1 = "Control+Shift+E";
-string hotkey2 = "Alt+E";
+Hotkey hotkey1 = new Hotkey(Keys.Control | Keys.Alt, Keys.T);
+Hotkey hotkey2 = new Hotkey(Keys.Alt, Keys.T);
 
 // Once we reference the variable hotkey1, this will 
 // update the hotkey and listen for its key-presses.
@@ -152,49 +149,60 @@ To remove a hotkey, we use the `Remove()` method. This method has two variants:
 >
 >`RemoveAll()`: This removes all the registered hotkeys.
 
-Below are two examples:
+Below are some examples:
 
 ```c#
-// Our main registered hotkey.
-string hotkey1 = "Control+Shift+E";
-
-// Remove the hotkey.
+// Remove a single hotkey.
 hkl.Remove(hotkey1);
+```
 
-// Our array of registered hotkeys.
-string[] hotkeys = { "Control+Shift+E", "Control+Shift+X", "Alt+P" };
+```c#
+// Let's use an array of already registered hotkeys.
+Hotkey[] hotkeys = new Hotkey[] 
+{ 
+    new Hotkey(Keys.Alt, Keys.E), 
+    new Hotkey(Keys.Alt, Keys.J) 
+};
 
-// Remove the hotkeys.
+// Remove the array of hotkeys.
 hkl.Remove(hotkeys);
 ```
 
 ```c#
-// Removes all registered hotkeys.
+// This will remove all the registered hotkeys.
 hkl.RemoveAll();
 ```
 
 ### Suspending/Resuming Hotkeys
 
-**Suspending** hotkeys refers to *disabling* or *deactivating* the hotkeys while **resuming** refers to *enabling* or *reactivating* the hotkeys for continued use. 
+**Suspending** hotkeys simply refers to *disabling* or *deactivating* the hotkeys while **resuming** refers to *enabling* or *reactivating* the hotkeys for continued use. 
 
-These two methods are very applicable when a user desires to choose another hotkey from a currently active hotkey. *What do I mean?* We'll let us imagine we have two hotkeys `Control+Shift+E` and `Alt+X`, but the user desires to change `Control+Shift+E` to `Alt+X` and `Alt+X` to something else. In this case, we cannot modify a hotkey to another hotkey if the hotkeys added are currently active. *So what do we do?* We first of all need to **suspend** the hotkeys to prevent from listening to key-presses, change the desired hotkey, then **resume** listening to the hotkeys having made the necessary changes:
+These two methods are very applicable in a case scenario where a user would prefer to change a specific hotkey while its currently active.
+
+ *What do you mean?* 
+
+We'll let us imagine we have two hotkeys `Control+Shift+E` and `Alt+X`, but the user prefers to change `Control+Shift+E` to `Alt+X` and `Alt+X` to something else. In this case, we cannot simply change one hotkey to another if the hotkeys are currently active. *So what do we do?* We first of all need to **suspend** the currently active hotkeys to prevent them from being detected or listened to, change the respective hotkeys, then **resume** listening to the hotkeys having made the necessary changes.
+
+Here's an example:
 
 ```c#
-string hotkey1 = "Control+Shift+E";
-string hotkey1 = "Alt+X";
+Hotkey hotkey1 = new Hotkey(Keys.Control | Keys.Shift, Keys.E);
+Hotkey hotkey2 = new Hotkey(Keys.Alt, Keys.X);
 
 // Suspend all registered hotkeys.
 hkl.Suspend();
 
 // Update hotkeys to newer keys.
-hkl.Update(ref hotkey1, "Alt+X");
-hkl.Update(ref hotkey1, "Alt+P");
+hkl.Update(ref hotkey1, new Hotkey(Keys.Alt, Keys.X));
+hkl.Update(ref hotkey2, new Hotkey(Keys.Shift, Keys.PrintScreen));
 
 // Resume listening to the hotkeys.
 hkl.Resume();
 ```
 
-Let's find out more on how to work with this feature using the `HotkeySelector` class.
+Hope that's much clearer now...
+
+Now, let's find out more on how to work with this feature using one very important class that comes with Hotkey Listener - the `HotkeySelector` class.
 
 ## The `HotkeySelector` Class
 

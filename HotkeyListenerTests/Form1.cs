@@ -13,16 +13,18 @@ namespace HotkeyListenerTests
         public HotkeySelector hks = new HotkeySelector();
 
         private Hotkey hotkey1 = new Hotkey("Control+Shift+D4");
-        private Hotkey hotkey2 = new Hotkey(Keys.Control | Keys.Shift, Keys.Y);
+        private Hotkey hotkey2 = new Hotkey(Keys.Control, Keys.PrintScreen);
 
         private Form2 form2 = new Form2();
 
         public Form1()
         {
             InitializeComponent();
+
+            Hotkey[] hotkeys = new Hotkey[] { new Hotkey(Keys.Alt, Keys.E), new Hotkey(Keys.Alt, Keys.J) };
             
             // hkl.Add(new[] { hotkey1, hotkey2 });
-            hkl.Add(hotkey2);
+            hkl.Add(new[] { hotkey1, hotkey2 });
             
             hkl.HotkeyPressed += Hkl_HotkeyPressed;
 
@@ -43,8 +45,15 @@ namespace HotkeyListenerTests
 
         private void Hkl_HotkeyPressed(object sender, HotkeyEventArgs e)
         {
+            if (e.Hotkey == hotkey1)
+            {
+                MessageBox.Show($"Hotkey 1: {hotkey1}");
+            }
+            
             if (e.Hotkey == hotkey2)
             {
+                MessageBox.Show($"Hotkey 2: {hotkey2}");
+
                 textBox3.Text = hkl.GetSelection();
                 Activate();
 
