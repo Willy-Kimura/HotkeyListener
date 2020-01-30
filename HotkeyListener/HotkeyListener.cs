@@ -375,10 +375,10 @@ namespace WK.Libraries.HotkeyListenerNS
             }
 
             keyCode = (Keys)Enum.Parse(typeof(Keys), hotkey, true);
-
-            return new Hotkey(keyCode, modifiers);
+            
+            return new Hotkey(modifiers, keyCode);
         }
-
+    
         /// <summary>
         /// [Special] Converts keys or key combinations to their string types.
         /// </summary>

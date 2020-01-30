@@ -22,7 +22,7 @@ namespace HotkeyListenerTests
             InitializeComponent();
             
             // hkl.Add(new[] { hotkey1, hotkey2 });
-            hkl.Add(hotkey1);
+            hkl.Add(hotkey2);
             
             hkl.HotkeyPressed += Hkl_HotkeyPressed;
 
@@ -43,7 +43,7 @@ namespace HotkeyListenerTests
 
         private void Hkl_HotkeyPressed(object sender, HotkeyEventArgs e)
         {
-            if (e.Hotkey == hotkey1)
+            if (e.Hotkey == hotkey2)
             {
                 textBox3.Text = hkl.GetSelection();
                 Activate();
