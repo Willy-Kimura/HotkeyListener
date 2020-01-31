@@ -13,11 +13,11 @@ To install via the [NuGet Package Manager](https://www.nuget.org/packages/Hotkey
 
 # Features
 - Supports [.NET Framework 4.0](https://www.microsoft.com/en-us/download/details.aspx?id=17718) and higher.
-- Manages system-wide hotkeys in a crud-like fashion using the methods `Add`, `Update`, `Remove` and `RemoveAll`. You can also suspend and resume using hotkeys using the methods `Suspend` and `Resume`.
+- Manages system-wide hotkeys in a crud-like fashion with the methods `Add`, `Update`, `Remove` and `RemoveAll`. You can also suspend and resume hotkeys using the methods `Suspend` and `Resume`.
 - Determines the pressed hotkey(s) using the `HotkeyPressed` event and its `Hotkey` argument.
 - Determines the application from which a hotkey was pressed using the  `HotkeyPressed` event's `SourceApplication` argument.
-- In addition to hotkey-listening, the `HotkeySelector` class lets you enable any control to be used for selecting hotkeys at runtime. `HotkeyListener` would be pretty much half-baked if this class wasn't available, and thus the need for it. This will be super handy for applications that let end-users choose their own preferred hotkey(s) for certain features to be invoked/launched.
-- As a nifty addition to this library, `HotkeyListener` includes a helper method, `GetSelection`, which lets you get the text selected in any active application from where a hotkey was pressed. To get a glimpse of what's possible with this feature, think of how [WordWeb]( https://wordweb.info/free/ ) is able to lookup the definition of any phrase you've selected at the press of a hotkey... Or how [Cintanotes]( http://cintanotes.com/ ) lets you save highlighted texts as notes from any active application in an instant. That's precisely what you can achieve with `HotkeyListener`.
+- In addition to hotkey-listening, the `HotkeySelector` class lets you enable any control to be used for selecting hotkeys at runtime. `HotkeyListener` would pretty much be half-baked if this class wasn't available, and thus the need for it. This will be super handy for applications that let end-users choose their own preferred hotkey(s) for certain features to be invoked/launched.
+- As a nifty addition to this library, `HotkeyListener` includes a helper method, `GetSelection`, which lets you get the text selected from any active application where a hotkey was pressed. To get a glimpse of what's possible with this feature, think of how [WordWeb]( https://wordweb.info/free/ ) is able to lookup the definition of any phrase you've selected at the press of a hotkey... Or how [Cintanotes]( http://cintanotes.com/ ) lets you save highlighted texts as notes from any active application in an instant. That's precisely what you can achieve with `HotkeyListener`.
 
 # Usage
 
@@ -35,22 +35,24 @@ using WK.Libraries.HotkeyListenerNS;
 var hkl = new HotkeyListener();
 
 // Define a new hotkey using the Hotkey class.
+// The parameters are: [modifiers], [keys].
 Hotkey hotkey1 = new Hotkey(Keys.Control | Keys.Shift, Keys.J);
 
 // You can also define a hotkey in string format.
+// Visit 'http://shorturl.at/ehJMN' for more info.
 Hotkey hotkey2 = new Hotkey("Control+Shift+D4");
 
 hkl.Add(hotkey1);
 hkl.Add(hotkey2);
 ```
 
-The `Add()` method also allows adding an array of hotkeys at once:
+The `Add()` method also allows adding an array of hotkeys:
 
 ```c#
 hkl.Add(new[] { hotkey1, hotkey2 });
 ```
 
-> **Important:** If you're building an application that has no external user-option for changing or customizing the default hotkey(s) set, something you'll need to consider when working with global hotkeys is that there are a number of predefined keys or key combinations already in use within a number of applications such as [Google Chrome](https://chrome.google.com) - for example, `Control+Tab`. This then means that you may need to find the right key or key combination to use when shipping your applications.
+> **Important:** If you're building an application that has no external user-option for changing or customizing the default hotkey(s) set, something you'll need to consider when working with global hotkeys is that there are a number of predefined keys or key-combinations already in use within a number of applications such as [Google Chrome](https://chrome.google.com) - for example `Control+Tab`. This then means that you might need to find the right key or key combination to use when shipping your applications.
 
 ### Listening to Hotkeys
 
@@ -70,14 +72,14 @@ private void Hkl_HotkeyPressed(object sender, HotkeyEventArgs e)
 }
 ```
 
-Unlike with the standard Windows `KeyDown` and `KeyUp` events, here only the registered keys will be detected.
+Unlike with the standard `KeyDown` and `KeyUp` events, here only the registered hotkeys will be detected.
 
-If you'd like to get the details of the active application where a hotkey was pressed, simply use the `SourceApplication` argument property:
+If you'd like to get the details of the active application where a hotkey was pressed, use the `SourceApplication` argument property:
 
 ```c#
 private void Hkl_HotkeyPressed(object sender, HotkeyEventArgs e)
 {
-    if (e.Hotkey == hotkey2)
+    if (e.Hotkey == hotkey1)
     {
     	MessageBox.Show(
             "Application:" + e.SourceApplication.Name + "\n" +
@@ -95,13 +97,12 @@ As a special feature (in `Beta` though), if you'd like to get any text that may 
 ```c#
 private void Hkl_HotkeyPressed(object sender, HotkeyEventArgs e)
 {
-    if (e.Hotkey == hotkey1)
+    if (e.Hotkey == hotkey2)
     {
         // Get the selected text, if any.
         string selection = hkl.GetSelection();
     	
-        // If some text was selected, 
-        // display a message box.
+        // If some text was selected, display a MessageBox.
         if (selection != string.Empty)
             MessageBox.Show(selection);
     }
@@ -121,11 +122,11 @@ Hotkey updates can occur even when the application is running. **However**, some
 Here's what I mean:
 
 ```c#
-Hotkey myHotkey = new Hotkey(Keys.Control | Keys.Alt, Keys.T);
+Hotkey hotkey3 = new Hotkey(Keys.Control | Keys.Alt, Keys.T);
 
-// To update our hotkey, simply pass the current hotkey 
-// with a ref keyword to the variable and its replacement.
-hkl.Update(ref myHotkey, new Hotkey(Keys.Alt, Keys.T);
+// To update our hotkey, simply pass the current hotkey with 
+// a 'ref' keyword to the variable and its replacement.
+hkl.Update(ref hotkey3, new Hotkey(Keys.Alt, Keys.T);
 ```
 
 This will ensure that both the hotkey and its variable have been updated to reflect the changes made. This design is especially handy if your application saves *user settings* after update.
@@ -177,9 +178,9 @@ hkl.RemoveAll();
 
 **Suspending** hotkeys simply refers to *disabling* or *deactivating* the hotkeys while **resuming** refers to *enabling* or *reactivating* the hotkeys for continued use. 
 
-These two methods are very applicable in a case scenario where a user would prefer to change a specific hotkey while its currently active.
+These two methods are very applicable in scenarios where a user would prefer to change a specific hotkey while its currently active.
 
- *What do you mean?* 
+ *A classic example.*
 
 We'll let us imagine we have two hotkeys `Control+Shift+E` and `Alt+X`, but the user prefers to change `Control+Shift+E` to `Alt+X` and `Alt+X` to something else. In this case, we cannot simply change one hotkey to another if the hotkeys are currently active. *So what do we do?* We first of all need to **suspend** the currently active hotkeys to prevent them from being detected or listened to, change the respective hotkeys, then **resume** listening to the hotkeys having made the necessary changes.
 
@@ -223,31 +224,42 @@ var hks = new HotkeySelector();
 To enable any control for hotkey selection, use the `Enable()` method:
 
 ```c#
-// Enable textBox1.
 hks.Enable(textBox1);
 ```
 
 When enabling a control, you can set the default hotkey to be displayed:
 
 ```c#
-hks.Enable(textBox1, "Control+Shift+S");
+// We'll use the hotkey we defined in our previous examples.
+hks.Enable(textBox1, hotkey1);
 ```
 
-To set a default hotkey without necessarily enabling it, use the `Set()` method:
+...or we can create a new hotkey then set it as the default hotkey for a selector control:
 
 ```c#
-hks.Set(textbox1, "Control+Shift+S");
+// Create a new hotkey.
+Hotkey hotkey2 = new Hotkey(Keys.Control | Keys.Shift, Keys.J);
+
+// ...then set the default hotkey for a selector.
+hks.Enable(textBox1, hotkey1);
 ```
 
-You can even use the standard `Keys` enumeration to set the default hotkey in a control: 
+You can also define a new hotkey from the method itself:
 
 ```c#
-// Sets "Control+Shift+S" as the default hotkey.
-hks.Set(textbox1, Keys.S, Keys.Control | Keys.Shift);
+hks.Enable(textBox2, new Hotkey("Control+Alt+J"));
 ```
 
+To set a hotkey without necessarily enabling the control for hotkey selection, use the `Set()` method:
+
+```c#
+hks.Set(textbox1, hotkey1);
+```
+
+### Updating Hotkey Settings After Update
 
 
 
+ 
 
-*Made with* 😊 *by* [*Willy Kimura*]([https://github.com/Willy-Kimura).
+*Made with* 😊 + ❤️ *by* [*Willy Kimura*]([https://github.com/Willy-Kimura).
