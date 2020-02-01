@@ -83,7 +83,7 @@ namespace WK.Libraries.HotkeyListenerNS
         /// <summary>
         /// Enables a control for hotkey selection and preview.
         /// This will make use of the control's Text property to 
-        /// preview the current hotkey selection.
+        /// preview the current hotkey selected.
         /// </summary>
         /// <param name="control">The control to enable.</param>
         public bool Enable(Control control)
@@ -115,7 +115,7 @@ namespace WK.Libraries.HotkeyListenerNS
         /// <summary>
         /// Enables a control for hotkey selection and preview.
         /// This will make use of the control's Text property to 
-        /// preview the current hotkey selection.
+        /// preview the current hotkey selected.
         /// </summary>
         /// <param name="control">The control to enable.</param>
         /// <param name="key">Provide a standard hotkey.</param>

@@ -244,22 +244,29 @@ Hotkey hotkey2 = new Hotkey(Keys.Control | Keys.Shift, Keys.J);
 hks.Enable(textBox1, hotkey1);
 ```
 
-You can also define a new hotkey from the method itself:
-
-```c#
-hks.Enable(textBox2, new Hotkey("Control+Alt+J"));
-```
-
 To set a hotkey without necessarily enabling the control for hotkey selection, use the `Set()` method:
 
 ```c#
 hks.Set(textbox1, hotkey1);
 ```
 
-> `Hotkey Selector` also helps detect whether a hotkey or hotkey-combination is a Windows-registered hotkey or not and thus unavailable for use - e.g. `Control`+`Alt`+`Delete`. You therefore won't have to account for such scenarios. 😉
+> `HotkeySelector` also helps detect whether a hotkey or hotkey-combination is a Windows-registered hotkey or not and therefore unavailable for use - e.g. `Control`+`Alt`+`Delete`.  So no need to account for such scenarios. 😉
 
 Let's move a little further...
 
- 
+### Suspending Hotkey Selection Forms
+
+Whenever you're dealing with selection of hotkeys at runtime, you also need to take into account that all hotkeys are still active and so changing the keys may be difficult. Due to this, the hotkeys need to be disabled whenever a user opens the Form where the hotkey selection controls are hosted.
+
+With this need comes the method `SuspendOn()` that allows suspension of all registered hotkeys once a form hosting the hotkey-selection controls is opened. This will allow the user to update any specific hotkey without unnecessarily invoking it:
+
+```c#
+// Call the method using our last HotkeySelector instance.
+hkl.SuspendOn(form2);
+```
+
+
+
+
 
 *Made with* 😊 + ❤️ *by* [*Willy Kimura*]([https://github.com/Willy-Kimura).
