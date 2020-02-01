@@ -34,12 +34,12 @@ using WK.Libraries.HotkeyListenerNS;
 ```c#
 var hkl = new HotkeyListener();
 
-// Define a new hotkey using the Hotkey class.
-// The parameters are: [modifiers], [keys].
+// Define a new hotkey using the Hotkey class. 
+// Parameters are: [modifiers], [keys].
 Hotkey hotkey1 = new Hotkey(Keys.Control | Keys.Shift, Keys.J);
 
-// You can also define a hotkey in string format.
-// Visit 'http://shorturl.at/ehJMN' for more info.
+// You can also define a hotkey in string format. 
+// Visit http://shorturl.at/ehJMN for more info.
 Hotkey hotkey2 = new Hotkey("Control+Shift+D4");
 
 hkl.Add(hotkey1);
@@ -193,7 +193,7 @@ Hotkey hotkey2 = new Hotkey(Keys.Alt, Keys.X);
 // Suspend all registered hotkeys.
 hkl.Suspend();
 
-// Update hotkeys to newer keys.
+// Update hotkeys with newer keys.
 hkl.Update(ref hotkey1, new Hotkey(Keys.Alt, Keys.X));
 hkl.Update(ref hotkey2, new Hotkey(Keys.Shift, Keys.PrintScreen));
 
@@ -256,9 +256,9 @@ To set a hotkey without necessarily enabling the control for hotkey selection, u
 hks.Set(textbox1, hotkey1);
 ```
 
-### Updating Hotkey Settings After Update
+### Updating Hotkeys As Settings After Update
 
-
+Let's move a little further...
 
  
 

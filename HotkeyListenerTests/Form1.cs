@@ -39,7 +39,7 @@ namespace HotkeyListenerTests
             };
 
             hkl.SuspendOn(form2, 
-                () => { Text = "Settings updated"; }
+                () => { Text = "Settings updated."; }
             );
         }
 
