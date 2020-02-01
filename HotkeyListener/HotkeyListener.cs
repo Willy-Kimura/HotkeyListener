@@ -112,21 +112,45 @@ namespace WK.Libraries.HotkeyListenerNS
         /// Adds a hotkey to the global Key watcher.
         /// </summary>
         /// <param name="hotkey">The hotkey to add.</param>
-        public void Add(Hotkey hotkey)
+        /// <returns>
+        /// True if successful or false if not. 
+        /// Ensure you inform the user if the 
+        /// hotkey fails to be registered. This 
+        /// is mostly due to a hotkey being 
+        /// already in use by another application.
+        /// </returns>
+        public bool Add(Hotkey hotkey)
         {
-            Add(Convert(hotkey));
+            if (hotkey.Modifiers == Keys.LWin || hotkey.Modifiers == Keys.RWin)
+                return false;
+
+            return Add(Convert(hotkey));
         }
-    
+
         /// <summary>
         /// Adds a list of hotkeys to the global Key watcher.
         /// </summary>
         /// <param name="hotkeys">The hotkeys to add.</param>
-        public void Add(Hotkey[] hotkeys)
+        /// <returns>
+        /// The list of hotkeys passed and their 
+        /// results when trying to register them.
+        /// Their results will each denote a true 
+        /// if successful or false if not. 
+        /// Ensure you inform the user if one 
+        /// hotkey fails to be registered. This 
+        /// is mostly due to a hotkey being 
+        /// already in use by another application.
+        /// </returns>
+        public Dictionary<string, bool> Add(Hotkey[] hotkeys)
         {
+            Dictionary<string, bool> keyValues = new Dictionary<string, bool>();
+
             foreach (var key in hotkeys)
             {
-                Add(key);
+                keyValues.Add(key.ToString(), Add(key));
             }
+
+            return keyValues;
         }
 
         /// <summary>
@@ -413,9 +437,9 @@ namespace WK.Libraries.HotkeyListenerNS
         /// Adds a hotkey to the global Key watcher.
         /// </summary>
         /// <param name="hotkey">The hotkey to add.</param>
-        private void Add(string hotkey)
+        private bool Add(string hotkey)
         {
-            _handle.AddKey(hotkey);
+            return _handle.AddKey(hotkey);
         }
 
         /// <summary>

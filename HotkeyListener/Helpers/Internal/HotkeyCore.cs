@@ -62,48 +62,6 @@ namespace WK.Libraries.HotkeyListenerNS.Helpers
 
         #region Methods
 
-        #region Private
-
-        #region Win32 Management
-
-        [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        internal static extern int GlobalAddAtom(string lpString);
-
-        [DllImport("kernel32.dll", SetLastError = true, ExactSpelling = true)]
-        internal static extern ushort GlobalDeleteAtom(int nAtom);
-
-        [DllImport("user32.dll", SetLastError = true)]
-        private static extern bool RegisterHotKey(IntPtr hWnd, int keyId, HotKeyModifiers fsModifiers, Keys vk);
-
-        [DllImport("user32.dll", SetLastError = true)]
-        private static extern bool UnregisterHotKey(IntPtr hWnd, int id);
-
-        #endregion
-
-        #region Hotkey Management
-
-        /// <summary>
-        /// Checks whether a specified Hotkey modifier is 
-        /// available within a provided Hotkey.
-        /// </summary>
-        /// <param name="key">The key(s).</param>
-        /// <param name="keyModifier">The key modifier from <see cref="Keys"/> enumeration.</param>
-        /// <param name="hotkeyModifier">The Hotkey modifier.</param>
-        /// <returns>Matched Hotkeymodifier</returns>
-        private static HotKeyModifiers CheckModifier(Keys key, Keys keyModifier, HotKeyModifiers hotkeyModifier)
-        {
-            if ((key & keyModifier) == keyModifier)
-            {
-                return hotkeyModifier;
-            }
-
-            return HotKeyModifiers.None;
-        }
-
-        #endregion
-
-        #endregion
-
         #region Public
 
         /// <summary>
@@ -116,7 +74,7 @@ namespace WK.Libraries.HotkeyListenerNS.Helpers
         {
             if (strKey == null)
                 strKey = "";
-
+        
             Keys key = Keys.None;
 
             try
@@ -163,7 +121,7 @@ namespace WK.Libraries.HotkeyListenerNS.Helpers
         public static bool RegisterKey(Control handle, int hotkeyID, Keys key)
         {
             HotKeyModifiers keyModifier = HotKeyModifiers.None;
-
+        
             keyModifier |= CheckModifier(key, Keys.Control, HotKeyModifiers.Control);
             keyModifier |= CheckModifier(key, Keys.Alt, HotKeyModifiers.Alt);
             keyModifier |= CheckModifier(key, Keys.Shift, HotKeyModifiers.Shift);
@@ -182,6 +140,48 @@ namespace WK.Libraries.HotkeyListenerNS.Helpers
         {
             return UnregisterHotKey(handle.Handle, hotkeyID);
         }
+
+        #endregion
+
+        #region Private
+
+        #region Win32 Management
+
+        [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        internal static extern int GlobalAddAtom(string lpString);
+
+        [DllImport("kernel32.dll", SetLastError = true, ExactSpelling = true)]
+        internal static extern ushort GlobalDeleteAtom(int nAtom);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        private static extern bool RegisterHotKey(IntPtr hWnd, int keyId, HotKeyModifiers fsModifiers, Keys vk);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        private static extern bool UnregisterHotKey(IntPtr hWnd, int id);
+
+        #endregion
+
+        #region Hotkey Management
+
+        /// <summary>
+        /// Checks whether a specified Hotkey modifier is 
+        /// available within a provided Hotkey.
+        /// </summary>
+        /// <param name="key">The key(s).</param>
+        /// <param name="keyModifier">The key modifier from <see cref="Keys"/> enumeration.</param>
+        /// <param name="hotkeyModifier">The Hotkey modifier.</param>
+        /// <returns>Matched Hotkeymodifier</returns>
+        private static HotKeyModifiers CheckModifier(Keys key, Keys keyModifier, HotKeyModifiers hotkeyModifier)
+        {
+            if ((key & keyModifier) == keyModifier)
+            {
+                return hotkeyModifier;
+            }
+
+            return HotKeyModifiers.None;
+        }
+
+        #endregion
 
         #endregion
 

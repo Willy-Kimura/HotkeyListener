@@ -88,7 +88,7 @@ namespace WK.Libraries.HotkeyListenerNS.Helpers
         #endregion
 
         #region Private
-
+    
         /// <summary>
         /// Validates and registers any given Hotkey.
         /// </summary>
@@ -100,10 +100,12 @@ namespace WK.Libraries.HotkeyListenerNS.Helpers
             int hotKeyId = HotkeyCore.GlobalAddAtom("RE:" + hotkey);
 
             if (hotKeyId == 0)
+            {
                 throw new Exception(
                     string.Format(
                         "Could not register atom for {0} Hotkey. " +
                         "Please try another Hotkey.", hotkey));
+            }
 
             if (HotkeyCore.RegisterKey(this, hotKeyId, hotkey))
             {
