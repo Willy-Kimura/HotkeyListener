@@ -13,11 +13,11 @@ To install via the [NuGet Package Manager](https://www.nuget.org/packages/Hotkey
 
 # Features
 - Supports [.NET Framework 4.0](https://www.microsoft.com/en-us/download/details.aspx?id=17718) and higher.
-- Manages system-wide hotkeys in a crud-like fashion with the methods `Add`, `Update`, `Remove` and `RemoveAll`. You can also suspend and resume hotkeys using the methods `Suspend` and `Resume`.
+- Manages system-wide hotkeys in a crud-like fashion with the methods `Add()`, `Update()`, `Remove()` and `RemoveAll()`. You can also suspend and resume hotkeys using the methods `Suspend()` and `Resume()`.
 - Determines the pressed hotkey(s) using the `HotkeyPressed` event and its `Hotkey` argument.
 - Determines the application from which a hotkey was pressed using the  `HotkeyPressed` event's `SourceApplication` argument.
 - In addition to hotkey-listening, the `HotkeySelector` class lets you enable any control to be used for selecting hotkeys at runtime. `HotkeyListener` would pretty much be half-baked if this class wasn't available, and thus the need for it. This will be super handy for applications that let end-users choose their own preferred hotkey(s) for certain features to be invoked/launched.
-- As a nifty addition to this library, `HotkeyListener` includes a helper method, `GetSelection`, which lets you get the text selected from any active application where a hotkey was pressed. To get a glimpse of what's possible with this feature, think of how [WordWeb]( https://wordweb.info/free/ ) is able to lookup the definition of any phrase you've selected at the press of a hotkey... Or how [Cintanotes]( http://cintanotes.com/ ) lets you save highlighted texts as notes from any active application in an instant. That's precisely what you can achieve with `HotkeyListener`.
+- As a nifty addition, the library includes a helper method, `GetSelection()`, which lets you get the text selected from any active application where a hotkey was pressed. To get a glimpse of what's possible with this feature, think of how [WordWeb]( https://wordweb.info/free/ ) is able to lookup the definition of any phrase you've selected at the press of a hotkey... Or how [Cintanotes]( http://cintanotes.com/ ) lets you save highlighted texts as notes from any active application in an instant. That's precisely what you can achieve with `HotkeyListener`.
 
 # Usage
 
@@ -52,7 +52,7 @@ The `Add()` method also allows adding an array of hotkeys:
 hkl.Add(new[] { hotkey1, hotkey2 });
 ```
 
-> **Important:** If you're building an application that has no external user-option for changing or customizing the default hotkey(s) set, something you'll need to consider when working with global hotkeys is that there are a number of predefined keys or key-combinations already in use within a number of applications such as [Google Chrome](https://chrome.google.com) - for example `Control+Tab`. This then means that you might need to find the right key or key combination to use when shipping your applications.
+> **Important:** If you're building an application that has no external user-option for changing or customizing the default hotkey(s) set, something you'll need to consider when working with global hotkeys is that there are a number of predefined keys or key-combinations already in use within a number of applications such as [Google Chrome](https://chrome.google.com) - for example `Control`+`Tab`. This then means that you might need to find the right key or key combination to use when shipping your applications.
 
 ### Listening to Hotkeys
 
@@ -92,7 +92,7 @@ private void Hkl_HotkeyPressed(object sender, HotkeyEventArgs e)
 }
 ```
 
-As a special feature (in `Beta` though), if you'd like to get any text that may have been selected when a hotkey added was pressed, use Hotkey Listener's `GetSelection()` method:
+As a special feature (still in `Beta` though), if you'd like to get any text that may have been selected when a hotkey added was pressed, use Hotkey Listener's `GetSelection()` method:
 
 ```c#
 private void Hkl_HotkeyPressed(object sender, HotkeyEventArgs e)
@@ -182,7 +182,7 @@ These two methods are very applicable in scenarios where a user would prefer to 
 
  *A classic example.*
 
-We'll let us imagine we have two hotkeys `Control+Shift+E` and `Alt+X`, but the user prefers to change `Control+Shift+E` to `Alt+X` and `Alt+X` to something else. In this case, we cannot simply change one hotkey to another if the hotkeys are currently active. *So what do we do?* We first of all need to **suspend** the currently active hotkeys to prevent them from being detected or listened to, change the respective hotkeys, then **resume** listening to the hotkeys having made the necessary changes.
+We'll let us imagine we have two hotkeys `Control`+`Shift`+`E` and `Alt`+`X`, but the user prefers to change `Control`+`Shift`+`E` to `Alt`+`X` and `Alt`+`X` to something else. In this case, we cannot simply change one hotkey to another if the hotkeys are currently active. *So what do we do?* We first of all need to **suspend** the currently active hotkeys to prevent them from being detected or listened to, change the respective hotkeys, then **resume** listening to the hotkeys having made the necessary changes.
 
 Here's an example:
 
@@ -256,7 +256,7 @@ To set a hotkey without necessarily enabling the control for hotkey selection, u
 hks.Set(textbox1, hotkey1);
 ```
 
-### Updating Hotkeys As Settings After Update
+> `Hotkey Selector` also helps detect whether a hotkey or hotkey-combination is a Windows-registered hotkey or not and thus unavailable for use - e.g. `Control`+`Alt`+`Delete`. You therefore won't have to account for such scenarios. 😉
 
 Let's move a little further...
 
