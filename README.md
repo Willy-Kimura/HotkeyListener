@@ -1,7 +1,7 @@
 # HotkeyListener
 [![hotkeylistener-nuget](https://img.shields.io/badge/NuGet-1.0.0-brightgreen.svg)](https://www.nuget.org/packages/HotkeyListener/) [![wk-donate](https://img.shields.io/badge/Gumroad-Purchase-blue.svg)](https://www.buymeacoffee.com/willykimura)
 
-![hotkeylistener-logo](Assets/hkl-icon-small.png)
+![hotkeylistener-logo](Assets/hkl-icon.png)
 
 **HotkeyListener** is a .NET library that allows registering system-wide hotkeys that can be used to trigger features in .NET applications. It also provides support for enabling standard Windows and User controls to select hotkeys at runtime.
 
