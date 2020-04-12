@@ -110,6 +110,11 @@ namespace WK.Libraries.HotkeyListenerNS
         /// hotkeys set have been suspended.
         /// </summary>
         public bool Suspended { get; private set; }
+
+        /// <summary>
+        /// Gets the currently selected text in any active application.
+        /// </summary>
+        public string SelectedText { get => GetSelection(); }
         
         #endregion
 
@@ -447,7 +452,12 @@ namespace WK.Libraries.HotkeyListenerNS
         {
             try
             {
-                return _reader.TryGetSelectedTextFromActiveControl();
+                string selection = _reader.TryGetSelectedTextFromActiveControl();
+
+                if (!string.IsNullOrWhiteSpace(selection))
+                    return selection;
+                else
+                    return string.Empty;
             }
             catch (Exception)
             {

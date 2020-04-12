@@ -55,11 +55,11 @@ namespace TextClipper.Views
         // Create a new instance of Hotkey Listener.
         internal static HotkeyListener hotkeyListener = new HotkeyListener();
 
-        // Define the default text-clipping hotkey.
-        internal static Hotkey clippingHotkey = new Hotkey(Keys.Alt, Keys.C);
-
         // Create a new instance of the Hotkey Settings form.
         internal HotkeySettings settingsForm = new HotkeySettings();
+
+        // Define the default text-clipping hotkey.
+        internal static Hotkey clippingHotkey = new Hotkey(Keys.Control, Keys.Q);
 
         #endregion
 
@@ -113,17 +113,30 @@ namespace TextClipper.Views
             SetClippingHotkeyInfo(clippingHotkey);
         }
 
+        private void lstClippedTexts_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Delete)
+            {
+                try
+                {
+                    // Delete any selected item when the user hits 'Delete'.
+                    lstClippedTexts.Items.RemoveAt(lstClippedTexts.SelectedIndex);
+                }
+                catch (Exception) { }
+            }
+        }
+
         private void HotkeyListener_HotkeyPressed(object sender, HotkeyEventArgs e)
         {
             if (e.Hotkey == clippingHotkey)
             {
                 // If the clipping hotkey is pressed, get the selected text 
                 // and add it to the list of clipped texts in the ListBox.
-                string selection = hotkeyListener.GetSelection();
+                string selection = hotkeyListener.SelectedText;
 
                 if (!string.IsNullOrWhiteSpace(selection))
-                    lstClippedTexts.Items.Add(hotkeyListener.GetSelection());
-
+                    lstClippedTexts.Items.Add(selection);
+            
                 // Hide status label if the user adds some clipped text.
                 RequireStatusLabelIfNothing();
             }

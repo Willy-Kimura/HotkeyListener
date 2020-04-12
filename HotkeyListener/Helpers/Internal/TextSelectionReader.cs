@@ -42,7 +42,7 @@ namespace WK.Libraries.HotkeyListenerNS.Helpers
 
         // Array of methods to use to try and get the selected text
         private Func<string>[] _selectionMethods;
-
+        
         #endregion
 
         #region Constructor
@@ -86,7 +86,8 @@ namespace WK.Libraries.HotkeyListenerNS.Helpers
                 }
             }
             catch { }
-            return null;
+
+            return string.Empty;
         }
 
         /// <summary>
@@ -236,7 +237,10 @@ namespace WK.Libraries.HotkeyListenerNS.Helpers
 
                 Clipboard.SetText(clipboardText);
 
-                return result;
+                if (clipboardText == result)
+                    return string.Empty;
+                else
+                    return result;
             }
             catch (Exception)
             {

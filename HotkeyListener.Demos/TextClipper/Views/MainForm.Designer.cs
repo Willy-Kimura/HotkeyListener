@@ -78,15 +78,16 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lstClippedTexts.BackColor = System.Drawing.Color.White;
             this.lstClippedTexts.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lstClippedTexts.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lstClippedTexts.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lstClippedTexts.FormattingEnabled = true;
-            this.lstClippedTexts.ItemHeight = 15;
+            this.lstClippedTexts.ItemHeight = 17;
             this.lstClippedTexts.Location = new System.Drawing.Point(12, 206);
             this.lstClippedTexts.Name = "lstClippedTexts";
             this.lstClippedTexts.ScrollAlwaysVisible = true;
-            this.lstClippedTexts.Size = new System.Drawing.Size(776, 377);
+            this.lstClippedTexts.Size = new System.Drawing.Size(776, 376);
             this.lstClippedTexts.TabIndex = 4;
             this.lstClippedTexts.DoubleClick += new System.EventHandler(this.lstClippedTexts_DoubleClick);
+            this.lstClippedTexts.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lstClippedTexts_KeyDown);
             // 
             // lblClipppingHotkeyInfo
             // 
