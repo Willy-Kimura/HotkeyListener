@@ -1,4 +1,4 @@
-﻿#region COPYRIGHT
+﻿#region Copyright
 
 /*
  * The MIT License
@@ -86,7 +86,6 @@ namespace TextClipper.Views
                 HotkeyListener.Convert(txtClippingHotkey.Text)
             );
 
-            // Close the settings form.
             Close();
         }
 

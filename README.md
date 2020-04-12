@@ -199,19 +199,19 @@ hkl.Remove(hotkeys);
 hkl.RemoveAll();
 ```
 
-As a good practice, you can always call the method `RemoveAll()` whenever your application exits.
+As a good practice, you can always call the method `RemoveAll()` whenever your application exits to clear the list of registered hotkeys with your application.
 
 ### Suspending/Resuming Hotkeys
 
-**Suspending** hotkeys simply refers to *disabling* or *deactivating* the hotkeys while **resuming** refers to *enabling* or *reactivating* the hotkeys for continued use. 
+**Suspending** hotkeys simply refers to *disabling* or *deactivating* hotkeys while **resuming** refers to *enabling* or *reactivating* hotkeys for continued use.
 
 These two methods are very applicable in scenarios where a user would prefer to change a specific hotkey while its currently active.
 
  *A classic example.*
 
-We'll let us imagine we have two hotkeys `Control`+`Shift`+`E` and `Alt`+`X`, but the user prefers to change `Control`+`Shift`+`E` to `Alt`+`X` and `Alt`+`X` to something else. In this case, we cannot simply change one hotkey to another if the hotkeys are currently active. *So what do we do?* We first of all need to **suspend** the currently active hotkeys to prevent them from being detected or listened to, change the respective hotkeys, then **resume** listening to the hotkeys having made the necessary changes.
+We'll let us imagine we have two hotkeys `Control`+`Shift`+`E` and `Alt`+`X`, but the user prefers to change `Control`+`Shift`+`E` to `Alt`+`X` and `Alt`+`X` to something else. In this case, we cannot simply change one hotkey to another if at all the hotkeys are currently active. *So what do we do?* We first of all need to **suspend** these two hotkeys to prevent them from being detected or listened to, change the respective hotkeys, then **resume** listening to the hotkeys having made the necessary changes.
 
-Here's an example:
+Here's the example:
 
 ```c#
 Hotkey hotkey1 = new Hotkey(Keys.Control | Keys.Shift, Keys.E);
@@ -228,17 +228,36 @@ hkl.Update(ref hotkey2, new Hotkey(Keys.Shift, Keys.PrintScreen));
 hkl.Resume();
 ```
 
-Hope that's much clearer now...
+Let's dive a little deeper now...
 
-Now, let's find out more on how to work with this feature using one very important class that comes with Hotkey Listener - the `HotkeySelector` class.
+### Suspending Hotkey Selection Forms
+
+Whenever you're dealing with selection of hotkeys at runtime, you also need to take into account that all hotkeys are still active and so changing the keys may be difficult. Due to this, the hotkeys need to be disabled whenever a user opens the Form where the hotkey selection controls are hosted.
+
+With this need comes the method `SuspendOn()` that allows suspension of all registered hotkeys once a form hosting the hotkey-selection controls is opened. This will allow the user to update any specific hotkey without unnecessarily invoking it:
+
+```c#
+// Suspend our Settings Form from listening to hotkey presses when active.
+hkl.SuspendOn(settingsForm);
+```
+
+You can also choose to perform an action or call a method once the form has been closed or is inactive:
+
+```c#
+hotkeyListener.SuspendOn(settingsForm, delegate() { SaveSettings(); });
+```
+
+Let's now find out more on how to work with Hotkey Listener using one very important class that comes with it - the `HotkeySelector` class.
 
 ## The `HotkeySelector` Class
 
-As noted earlier, `HotkeyListener` would have been pretty much half-baked had the ability to provide hotkey selection not been there. That's the whole intention of this class. It is able to "convert" any control into an actual hotkey selector for usage at runtime.
+As noted earlier, `HotkeyListener` would have been pretty much half-baked had the ability to provide hotkey selection for end-users not been there. That's the whole intention of this class. It is able to "convert" any control into an actual hotkey selector for usage at runtime.
 
 Here's a preview of a stunning application, [Sharp64](https://willykimura.home.blog/2019/10/15/sharp64-base64-encoder-decoder/), that uses this feature:
 
 ![sample-hotkey-selector-usage](Assets/sample-hotkey-selector-usage.gif)
+
+You can also refer to the demo for a preview of this feature.
 
 ### Enabling Hotkey Selection For Controls
 
@@ -278,19 +297,6 @@ hks.Set(textbox1, hotkey1);
 ```
 
 > `HotkeySelector` also helps detect whether a hotkey or hotkey-combination is a Windows-registered hotkey or not and therefore unavailable for use - e.g. `Control`+`Alt`+`Delete`.  So no need to account for such scenarios. 😉
-
-Let's move a little further...
-
-### Suspending Hotkey Selection Forms
-
-Whenever you're dealing with selection of hotkeys at runtime, you also need to take into account that all hotkeys are still active and so changing the keys may be difficult. Due to this, the hotkeys need to be disabled whenever a user opens the Form where the hotkey selection controls are hosted.
-
-With this need comes the method `SuspendOn()` that allows suspension of all registered hotkeys once a form hosting the hotkey-selection controls is opened. This will allow the user to update any specific hotkey without unnecessarily invoking it:
-
-```c#
-// Call the method using our last HotkeySelector instance.
-hkl.SuspendOn(form2);
-```
 
 #### Donate
 

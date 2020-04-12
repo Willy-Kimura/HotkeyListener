@@ -1,4 +1,4 @@
-﻿#region COPYRIGHT
+﻿#region Copyright
 
 /*
  * The MIT License
