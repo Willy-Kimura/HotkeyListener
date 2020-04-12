@@ -296,7 +296,7 @@ To set a hotkey without necessarily enabling the control for hotkey selection, u
 hks.Set(textbox1, hotkey1);
 ```
 
-> `HotkeySelector` also helps detect whether a hotkey or hotkey-combination is a Windows-registered hotkey or not and therefore unavailable for use - e.g. `Control`+`Alt`+`Delete`.  So no need to account for such scenarios. 😉
+> `HotkeySelector` also helps detect whether a key or key-combination is a Windows-registered hotkey or not and therefore unavailable for use - e.g. `Control`+`Alt`+`Delete`, so no need to account for such scenarios.
 
 #### Donate
 
