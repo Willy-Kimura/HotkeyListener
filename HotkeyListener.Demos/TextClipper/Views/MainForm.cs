@@ -113,6 +113,11 @@ namespace TextClipper.Views
             SetClippingHotkeyInfo(clippingHotkey);
         }
 
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            hotkeyListener.RemoveAll();
+        }
+
         private void lstClippedTexts_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Delete)
