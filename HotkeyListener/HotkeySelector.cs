@@ -2,7 +2,7 @@
 
 /*
  * Developer    : Willy Kimura (WK).
- * Library      : HotkeyListener.
+ * Library      : HotkeySelector.
  * License      : MIT.
  * 
  */
@@ -14,7 +14,9 @@ using System;
 using System.Collections;
 using System.Diagnostics;
 using System.Windows.Forms;
+using System.ComponentModel;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace WK.Libraries.HotkeyListenerNS
 {
@@ -27,7 +29,7 @@ namespace WK.Libraries.HotkeyListenerNS
     /// for a seamless end-user experience.
     /// </summary>
     [DebuggerStepThrough]
-    public class HotkeySelector
+    public partial class HotkeySelector : Component
     {
         #region Constructor
 
@@ -36,8 +38,18 @@ namespace WK.Libraries.HotkeyListenerNS
         /// </summary>
         public HotkeySelector() { }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HotkeySelector"/> class.
+        /// </summary>
+        public HotkeySelector(IContainer container)
+        {
+            container.Add(this);
+
+            InitializeComponent();
+        }
+
         #endregion
-        
+
         #region Fields
 
         // These variables store the selected hotkey and modifier key(s).
@@ -70,7 +82,7 @@ namespace WK.Libraries.HotkeyListenerNS
         /// when an invalid or unsupported hotkey is pressed.
         /// (Preferred default text is "(Unsupported)")
         /// </summary>
-        public string InvalidHotkeyText { get; set; } = "(Unsupported)";
+        public string InvalidHotkeyText { get; set; } = "Unsupported";
 
         #endregion
 
@@ -79,9 +91,9 @@ namespace WK.Libraries.HotkeyListenerNS
         #region Methods
 
         #region Public
-
+    
         /// <summary>
-        /// Enables a control for hotkey selection and preview.
+        /// Enables a control for hotkey selection and previewing.
         /// This will make use of the control's Text property to 
         /// preview the current hotkey selected.
         /// </summary>
@@ -111,14 +123,14 @@ namespace WK.Libraries.HotkeyListenerNS
                 return false;
             }
         }
-        
+
         /// <summary>
-        /// Enables a control for hotkey selection and preview.
+        /// Enables a control for hotkey selection and previewing.
         /// This will make use of the control's Text property to 
         /// preview the current hotkey selected.
         /// </summary>
         /// <param name="control">The control to enable.</param>
-        /// <param name="key">Provide a standard hotkey.</param>
+        /// <param name="hotkey">Assign the default hotkey to be previewed in the control.</param>
         public bool Enable(Control control, Hotkey hotkey)
         {
             try
@@ -129,7 +141,7 @@ namespace WK.Libraries.HotkeyListenerNS
                 _modifiers = hotkey.Modifiers;
 
                 Refresh(control);
-            
+                
                 return true;
             }
             catch (Exception)
@@ -139,8 +151,9 @@ namespace WK.Libraries.HotkeyListenerNS
         }
 
         /// <summary>
-        /// Disables a control for hotkey selection and preview.
+        /// Disables a control for hotkey selection and previewing.
         /// </summary>
+        /// <param name="control">The control to disable.</param>
         /// <param name="clearKeys">Clear the control's previewed keys?</param>
         public bool Disable(Control control, bool clearKeys = true)
         {
@@ -205,7 +218,7 @@ namespace WK.Libraries.HotkeyListenerNS
         }
     
         /// <summary>
-        /// Sets a hotkey selection to be previewd in a control. 
+        /// Sets a hotkey selection to be previewed in a control. 
         /// Thsi does not automatically enable the control for 
         /// hotkey selection. For this, please use the <see cref="Enable(Control)"/> method.
         /// </summary>
@@ -411,6 +424,9 @@ namespace WK.Libraries.HotkeyListenerNS
         /// <summary>
         /// Refreshes the previewed hotkey combination displayed in a control.
         /// </summary>
+        /// <param name="control">
+        /// The control providing hotkey selection.
+        /// </param>
         private void Refresh(Control control)
         {
             Refresh(control, false);
@@ -419,6 +435,9 @@ namespace WK.Libraries.HotkeyListenerNS
         /// <summary>
         /// Refreshes the previewed hotkey combination displayed in a control.
         /// </summary>
+        /// <param name="control">
+        /// The control providing hotkey selection.
+        /// </param>
         /// <param name="internalCall">
         /// Specifies whether this function is 
         /// called internally or by the user.
@@ -439,7 +458,7 @@ namespace WK.Libraries.HotkeyListenerNS
                 // (neither do they work as modifier keys in .NET 2.0).
                 if (this._hotkey == Keys.LWin || this._hotkey == Keys.RWin)
                 {
-                    control.Text = EmptyHotkeyText;
+                    control.Text = InvalidHotkeyText;
 
                     return;
                 }
@@ -469,6 +488,7 @@ namespace WK.Libraries.HotkeyListenerNS
                             // User pressed Shift and an invalid key (e.g. a letter or a number), 
                             // that needs another set of modifier keys.
                             this._hotkey = Keys.None;
+
                             control.Text = this._modifiers.ToString() + $" + {InvalidHotkeyText}";
 
                             return;
@@ -506,7 +526,7 @@ namespace WK.Libraries.HotkeyListenerNS
                         return;
                     }
                 }
-
+                
                 // Without this code, pressing only Ctrl 
                 // will show up as "Control + ControlKey", etc.
                 if (this._hotkey == Keys.Menu || /* Alt */
@@ -516,7 +536,12 @@ namespace WK.Libraries.HotkeyListenerNS
                     this._hotkey = Keys.None;
                 }
 
-                control.Text = this._modifiers.ToString() + " + " + this._hotkey.ToString();
+                // A final compilation of the processed keys in string format.
+                string compiledHotkey = this._modifiers.ToString() + " + " + this._hotkey.ToString();
+                
+                control.Text = compiledHotkey;
+
+                return;
             }
             catch (Exception) { }
         }

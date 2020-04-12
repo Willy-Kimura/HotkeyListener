@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.28922.388
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.168
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotkeyListener", "HotkeyListener\HotkeyListener.csproj", "{B8B41B35-3D81-4E81-A0D4-24002EF895B9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotkeyListenerTests", "HotkeyListenerTests\HotkeyListenerTests.csproj", "{12AEEA78-6D9F-4E9B-8682-1BC05BE69188}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotkeyListener.Demo", "HotkeyListener.Demos\TextClipper\HotkeyListener.Demo.csproj", "{777A7403-AEF8-46B8-8DFE-050B1709799A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{B8B41B35-3D81-4E81-A0D4-24002EF895B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B8B41B35-3D81-4E81-A0D4-24002EF895B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B8B41B35-3D81-4E81-A0D4-24002EF895B9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{12AEEA78-6D9F-4E9B-8682-1BC05BE69188}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{12AEEA78-6D9F-4E9B-8682-1BC05BE69188}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{12AEEA78-6D9F-4E9B-8682-1BC05BE69188}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{12AEEA78-6D9F-4E9B-8682-1BC05BE69188}.Release|Any CPU.Build.0 = Release|Any CPU
+		{777A7403-AEF8-46B8-8DFE-050B1709799A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{777A7403-AEF8-46B8-8DFE-050B1709799A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{777A7403-AEF8-46B8-8DFE-050B1709799A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{777A7403-AEF8-46B8-8DFE-050B1709799A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

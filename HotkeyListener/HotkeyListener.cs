@@ -20,13 +20,11 @@
  *  (1) SmartHotKey: https://www.codeproject.com/Articles/100199/Smart-Hotkey-Handler-NET
  *  (2) HotkeySelection Control: https://www.codeproject.com/Articles/15085/A-simple-hotkey-selection-control-for-NET
  *  
- *  I've added some few improvements such as:
+ * Improvements:
  *  
  *  (1) Ability to suspend and resume the list of hotkeys registered.
  *  (2) Ability to fetch source application info from where a hotkey is triggered.
  *  (3) Ability to enable any Windows control to provide Hotkey selection features.
- * 
- * Improvements are welcome.
  * 
  */
 
@@ -37,6 +35,7 @@ using System;
 using System.Linq;
 using System.Diagnostics;
 using System.Windows.Forms;
+using System.ComponentModel;
 using System.Collections.Generic;
 
 using WK.Libraries.HotkeyListenerNS.Models;
@@ -49,7 +48,7 @@ namespace WK.Libraries.HotkeyListenerNS
     /// attaching events to global hotkeys in .NET applications.
     /// </summary>
     [DebuggerStepThrough]
-    public class HotkeyListener
+    public partial class HotkeyListener : Component
     {
         #region Constructor
 
@@ -61,22 +60,34 @@ namespace WK.Libraries.HotkeyListenerNS
             SetDefaults();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HotkeyListener"/> class.
+        /// </summary>
+        public HotkeyListener(IContainer container)
+        {
+            container.Add(this);
+
+            InitializeComponent();
+
+            SetDefaults();
+        }
+
         #endregion
 
         #region Fields
 
         // This is the handle that will be used to register, 
         // unregister, and listen to the hotkey triggers.
-        private HotkeyHandle _handle = new HotkeyHandle();
+        internal static HotkeyHandle _handle = new HotkeyHandle();
 
         // Saves the list of hotkeys suspended.
-        private Dictionary<int, string> _suspendedKeys = 
-            new Dictionary<int, string>();
+        private List<string> _suspendedKeys = 
+            new List<string>();
 
         // Saves the list of Form suspension actions.
         private Dictionary<Form, Action> _suspendedActions =
             new Dictionary<Form, Action>();
-
+        
         // Saves the list of forms suspended.
         private List<Form> _suspendedForms = new List<Form>();
 
@@ -126,7 +137,7 @@ namespace WK.Libraries.HotkeyListenerNS
 
             return Add(Convert(hotkey));
         }
-
+    
         /// <summary>
         /// Adds a list of hotkeys to the global Key watcher.
         /// </summary>
@@ -162,6 +173,8 @@ namespace WK.Libraries.HotkeyListenerNS
         public void Update(Hotkey currentHotkey, Hotkey newHotkey)
         {
             Update(currentHotkey.ToString(), newHotkey.ToString());
+
+            HotkeyUpdated?.Invoke(this, new HotkeyUpdatedEventArgs(currentHotkey, newHotkey));
         }
 
         /// <summary>
@@ -180,6 +193,8 @@ namespace WK.Libraries.HotkeyListenerNS
             currentHotkey = newHotkey;
 
             Update(currentHotkey.ToString(), newHotkey.ToString());
+
+            HotkeyUpdated?.Invoke(this, new HotkeyUpdatedEventArgs(currentHotkey, newHotkey));
         }
 
         /// <summary>
@@ -199,6 +214,8 @@ namespace WK.Libraries.HotkeyListenerNS
             currentHotkey = newHotkey;
 
             Update(currentHotkey.ToString(), newHotkey.ToString());
+
+            HotkeyUpdated?.Invoke(this, new HotkeyUpdatedEventArgs(currentHotkey, newHotkey));
         }
 
         /// <summary>
@@ -241,9 +258,11 @@ namespace WK.Libraries.HotkeyListenerNS
         {
             if (!Suspended)
             {
+                _suspendedKeys.Clear();
+
                 foreach (var item in _handle.Hotkeys)
                 {
-                    _suspendedKeys.Add(item.Key, item.Value);
+                    _suspendedKeys.Add(item.Value);
                 }
 
                 foreach (var key in _handle.Hotkeys.Values.ToList())
@@ -254,7 +273,7 @@ namespace WK.Libraries.HotkeyListenerNS
                 Suspended = true;
             }
         }
-
+    
         /// <summary>
         /// Suspends the hotkey(s) set whenever a particular Form is active. 
         /// This is useful in Forms where the user requires modifying certain 
@@ -263,7 +282,7 @@ namespace WK.Libraries.HotkeyListenerNS
         /// <param name="form">
         /// The Form to suspend listening to hotkeys when active.
         /// </param>
-        /// <param name="onSuspend">
+        /// <param name="onDeactivate">
         /// The action to be called when the Form has been deactivated.
         /// </param>
         public void SuspendOn(Form form, Action onDeactivate = null)
@@ -331,6 +350,8 @@ namespace WK.Libraries.HotkeyListenerNS
                         }
                     }
                 }
+
+                Suspended = false;
             }
             catch (Exception) { }
         }
@@ -338,7 +359,7 @@ namespace WK.Libraries.HotkeyListenerNS
         /// <summary>
         /// Releases a list of Forms from suspending hotkeys when active.
         /// </summary>
-        /// <param name="form">
+        /// <param name="forms">
         /// The Forms to resume to listening to hotkeys when active.
         /// </param>
         public void ResumeOn(Form[] forms)
@@ -361,10 +382,15 @@ namespace WK.Libraries.HotkeyListenerNS
         {
             if (Suspended)
             {
-                foreach (var key in _suspendedKeys.Values.ToList())
+                foreach (var key in _suspendedKeys.ToList())
                 {
-                    Add(key);
+                    if (!_handle.Hotkeys.ContainsValue(key))
+                    {
+                        Add(key);
+                    }
                 }
+
+                Suspended = false;
             }
         }
 
@@ -471,16 +497,8 @@ namespace WK.Libraries.HotkeyListenerNS
                 }
                 else
                 {
-                    foreach (var item in _suspendedKeys.ToList())
-                    {
-                        if (item.Value == currentHotkey)
-                        {
-                            int keyID = item.Key;
-
-                            _suspendedKeys.Remove(item.Key);
-                            _suspendedKeys.Add(keyID, newHotkey);
-                        }
-                    }
+                    _suspendedKeys.Remove(currentHotkey);
+                    _suspendedKeys.Add(newHotkey);
                 }
 
                 currentHotkey = newHotkey;
@@ -510,16 +528,8 @@ namespace WK.Libraries.HotkeyListenerNS
                 }
                 else
                 {
-                    foreach (var item in _suspendedKeys.ToList())
-                    {
-                        if (item.Value == currentHotkey)
-                        {
-                            int keyID = item.Key;
-
-                            _suspendedKeys.Remove(item.Key);
-                            _suspendedKeys.Add(keyID, newHotkey);
-                        }
-                    }
+                    _suspendedKeys.Remove(currentHotkey);
+                    _suspendedKeys.Add(newHotkey);
                 }
 
                 currentHotkey = newHotkey;
@@ -550,16 +560,8 @@ namespace WK.Libraries.HotkeyListenerNS
                 }
                 else
                 {
-                    foreach (var item in _suspendedKeys.ToList())
-                    {
-                        if (item.Value == currentHotkey)
-                        {
-                            int keyID = item.Key;
-
-                            _suspendedKeys.Remove(item.Key);
-                            _suspendedKeys.Add(keyID, newHotkey);
-                        }
-                    }
+                    _suspendedKeys.Remove(currentHotkey);
+                    _suspendedKeys.Add(newHotkey);
                 }
 
                 currentHotkey = newHotkey;
@@ -591,7 +593,7 @@ namespace WK.Libraries.HotkeyListenerNS
         }
 
         /// <summary>
-        /// Applies the library-default options & settings.
+        /// Applies the library's default options and settings.
         /// </summary>
         private void SetDefaults()
         {
@@ -627,7 +629,7 @@ namespace WK.Libraries.HotkeyListenerNS
                     });
             };
         }
-        
+
         #endregion
 
         #endregion
@@ -636,11 +638,22 @@ namespace WK.Libraries.HotkeyListenerNS
 
         #region Public
 
+        #region Event Handlers
+
         /// <summary>
         /// Raised whenever a registered Hotkey is pressed.
         /// </summary>
+        [Category("HotkeyListener Events")]
+        [Description("Raised whenever a registered Hotkey is pressed.")]
         public event HotkeyEventHandler HotkeyPressed;
-    
+
+        /// <summary>
+        /// Raised whenever a registered Hotkey has been updated.
+        /// </summary>
+        [Category("HotkeyListener Events")]
+        [Description("Raised whenever a registered Hotkey has been updated.")]
+        public event EventHandler<HotkeyUpdatedEventArgs> HotkeyUpdated = null;
+
         /// <summary>
         /// Represents the method that will handle a <see cref="HotkeyPressed"/> 
         /// event that has no event data.
@@ -648,6 +661,64 @@ namespace WK.Libraries.HotkeyListenerNS
         /// <param name="sender">The hotkey sender object.</param>
         /// <param name="e">The <see cref="HotkeyEventArgs"/> data.</param>
         public delegate void HotkeyEventHandler(object sender, HotkeyEventArgs e);
+
+        #endregion
+
+        #region Event Arguments
+
+        /// <summary>
+        /// Provides data for the <see cref="HotkeyListener.HotkeyUpdated"/> event.
+        /// </summary>
+        public class HotkeyUpdatedEventArgs : EventArgs
+        {
+            #region Fields
+
+            private Hotkey _updatedHotkey;
+            private Hotkey _newHotkey;
+
+            #endregion
+
+            #region Constructor
+
+            /// <summary>
+            /// Provides data for the <see cref="HotkeyListener.HotkeyUpdated"/> event.
+            /// </summary>
+            /// <param name="updatedHotkey">
+            /// The hotkey that has been updated.
+            /// </param>
+            /// <param name="newHotkey">
+            /// The hotkey's newly updated value.
+            /// </param>
+            public HotkeyUpdatedEventArgs(Hotkey updatedHotkey, Hotkey newHotkey)
+            {
+                _updatedHotkey = updatedHotkey;
+                _newHotkey = newHotkey;
+            }
+
+            #endregion
+
+            #region Properties
+
+            /// <summary>
+            /// Gets the currently updated Hotkey.
+            /// </summary>
+            public Hotkey UpdatedHotkey
+            {
+                get => _updatedHotkey;
+            }
+
+            /// <summary>
+            /// Gets the Hotkey's newly updated value.
+            /// </summary>
+            public Hotkey NewHotkey
+            {
+                get => _newHotkey;
+            }
+
+            #endregion
+        }
+
+        #endregion
 
         #endregion
 
@@ -694,7 +765,7 @@ namespace WK.Libraries.HotkeyListenerNS
         /// <summary>
         /// Initializes a new instance of the <see cref="Hotkey"/> class.
         /// </summary>
-        /// <param name="keyCode">
+        /// <param name="hotkey">
         /// The hotkey in string format.
         /// </param>
         public Hotkey(string hotkey)
@@ -786,11 +857,21 @@ namespace WK.Libraries.HotkeyListenerNS
             return true;
         }
 
+        /// <summary>
+        /// Overrides the system-default object equality operator 
+        /// for a customized Hotkey equality-check operator.
+        /// </summary>
+        /// <returns></returns>
         public static bool operator ==(Hotkey x, Hotkey y)
         {
             return x.Equals(y);
         }
 
+        /// <summary>
+        /// Overrides the system-default object non-equality operator 
+        /// for a customized Hotkey non-equality-check operator.
+        /// </summary>
+        /// <returns></returns>
         public static bool operator !=(Hotkey x, Hotkey y)
         {
             return !(x == y);

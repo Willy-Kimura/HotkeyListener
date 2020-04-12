@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\HotkeyListener.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -45,8 +46,18 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Helpers\Internal\HotkeyCore.cs" />
-    <Compile Include="HotkeySelector.cs" />
-    <Compile Include="HotkeyListener.cs" />
+    <Compile Include="HotkeyListener.Designer.cs">
+      <DependentUpon>HotkeyListener.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HotkeySelector.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HotkeyListener.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HotkeySelector.Designer.cs">
+      <DependentUpon>HotkeySelector.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\SourceApplication.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
@@ -55,6 +66,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Helpers\Internal\HotkeyHandle.resx">
       <DependentUpon>HotkeyHandle.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HotkeyListener.Designer.resx">
+      <DependentUpon>HotkeyListener.Designer.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

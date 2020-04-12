@@ -80,7 +80,7 @@ namespace WK.Libraries.HotkeyListenerNS.Helpers
                 foreach (var action in _selectionMethods)
                 {
                     var result = action.Invoke();
-
+                    
                     if (result != null)
                         return result;
                 }

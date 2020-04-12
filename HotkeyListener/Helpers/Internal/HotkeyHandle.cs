@@ -57,14 +57,14 @@ namespace WK.Libraries.HotkeyListenerNS.Helpers
         /// <summary>
         /// Adds a Hotkey to the global Key watcher.
         /// </summary>
-        /// <param name="strHotKey">The Hotkey string.</param>
+        /// <param name="hotkey">The Hotkey string.</param>
         public bool AddKey(string hotkey)
         {
             if (!base.IsHandleCreated)
             {
                 base.CreateControl();
             }
-
+        
             return this.Register(hotkey);
         }
 
