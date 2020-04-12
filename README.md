@@ -123,7 +123,7 @@ You can update hotkeys using the `Update()` method. It works the same way as *st
 hkl.Update(hotkey1, new Hotkey(Keys.Control | Keys.Alt, Keys.T));
 ```
 
-Hotkey updates can occur even when the application is running. **However**, something important you need to note is that **always use variables to store hotkeys** since in this way, whenever an update to the hotkey occurs, it will automagically be detected in the `HotkeyPressed` event. 
+Hotkey updates can occur even when the application is running. **However**, something important you need to note is to **always use variables to store hotkeys** since in this way, whenever an update to the hotkey occurs, it will automagically be detected in the `HotkeyPressed` event. 
 
 Here's what I mean:
 
@@ -131,11 +131,11 @@ Here's what I mean:
 Hotkey hotkey3 = new Hotkey(Keys.Control | Keys.Alt, Keys.T);
 
 // To update our hotkey, simply pass the current hotkey with 
-// a 'ref' keyword to the variable and its replacement.
+// a 'ref' keyword to the variable and its replacement hotkey.
 hkl.Update(ref hotkey3, new Hotkey(Keys.Alt, Keys.T);
 ```
 
-This will ensure that both the hotkey and its variable have been updated to reflect the changes made. This design is especially handy if your application saves *user settings* after update.
+This will ensure that both the hotkey and its variable have been updated to reflect the changes made. This design will be especially handy if your application saves *user settings* after update.
 
 Here's another classical example of updating a hotkey:
 
@@ -148,7 +148,7 @@ Hotkey hotkey2 = new Hotkey(Keys.Alt, Keys.T);
 hkl.Update(ref hotkey1, hotkey2);
 ```
 
-To listen to any hotkey updates, use the `HotkeyUpdated` event:
+If you'd like to listen to any hotkey updates, use the `HotkeyUpdated` event:
 
 ```c#
 // Add a HotkeyUpdated event.
@@ -163,7 +163,7 @@ private void HotkeyListener_HotkeyUpdated(object sender, HotkeyListener.HotkeyUp
 }
 ```
 
-A more illustrative example of using the `HotkeyUpdated` event is provided in the Demo application.
+A more illustrative example of using the `HotkeyUpdated` event is provided in the demo.
 
 ### Removing Hotkeys
 
