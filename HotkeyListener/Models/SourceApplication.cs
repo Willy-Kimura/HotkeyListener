@@ -32,14 +32,15 @@ namespace WK.Libraries.HotkeyListenerNS.Models
         /// <param name="name">The application's name.</param>
         /// <param name="title">The application's title.</param>
         /// <param name="path">The application's path.</param>
-        internal SourceApplication(int id, IntPtr handle, string name,
-                                   string title, string path)
+        /// <param name="selection">The selected text in the application.</param>
+        internal SourceApplication(int id, IntPtr handle, string name, string title, string path, string selection)
         {
             ID = id;
             Name = name;
             Path = path;
             Title = title;
             Handle = handle;
+            Selection = selection;
         }
 
         #endregion
@@ -70,6 +71,11 @@ namespace WK.Libraries.HotkeyListenerNS.Models
         /// Gets the application's absolute path.
         /// </summary>
         public string Path { get; }
+        
+        /// <summary>
+        /// Gets the currently selected text in the application.
+        /// </summary>
+        public string Selection { get; internal set; }
 
         #endregion
 

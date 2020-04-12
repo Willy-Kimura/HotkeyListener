@@ -132,7 +132,7 @@ namespace TextClipper.Views
             {
                 // If the clipping hotkey is pressed, get the selected text 
                 // and add it to the list of clipped texts in the ListBox.
-                string selection = hotkeyListener.SelectedText;
+                string selection = e.SourceApplication.Selection;
 
                 if (!string.IsNullOrWhiteSpace(selection))
                     lstClippedTexts.Items.Add(selection);

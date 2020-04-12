@@ -175,7 +175,8 @@ namespace WK.Libraries.HotkeyListenerNS.Helpers
                         SourceAttributes.GetHandle(),
                         SourceAttributes.GetName(),
                         SourceAttributes.GetTitle(),
-                        SourceAttributes.GetPath()),
+                        SourceAttributes.GetPath(),
+                        SourceAttributes.GetSelection()),
                     new HotkeyEventArgs
                     {
                         Hotkey = HotkeyListener.Convert(this.Hotkeys[m.WParam.ToInt32()]),
@@ -184,7 +185,8 @@ namespace WK.Libraries.HotkeyListenerNS.Helpers
                             SourceAttributes.GetHandle(),
                             SourceAttributes.GetName(),
                             SourceAttributes.GetTitle(),
-                            SourceAttributes.GetPath())
+                            SourceAttributes.GetPath(),
+                            SourceAttributes.GetSelection())
                     });
             }
             else

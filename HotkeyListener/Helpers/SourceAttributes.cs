@@ -29,6 +29,10 @@ namespace WK.Libraries.HotkeyListenerNS.Helpers
         private static string _executableName = string.Empty;
         private static string _executablePath = string.Empty;
 
+        // We will use this to get the selected 
+        // text from any active application.
+        private static TextSelectionReader _reader = new TextSelectionReader();
+
         #endregion
 
         #region Methods
@@ -103,23 +107,19 @@ namespace WK.Libraries.HotkeyListenerNS.Helpers
         }
 
         /// <summary>
-        /// Gets the currently selected 
-        /// text in any active application.
+        /// Gets the currently selected text in the active application.
         /// </summary>
         /// <returns>The selected text, if any.</returns>
         public static string GetSelection()
         {
             try
             {
-                string clipboardText = Clipboard.GetText();
-                SendKeys.SendWait("^(c)");
+                string selection = _reader.TryGetSelectedTextFromActiveControl();
 
-                System.Threading.Thread.Sleep(200);
-
-                string selection = Clipboard.GetText();
-                Clipboard.SetText(clipboardText);
-
-                return selection;
+                if (!string.IsNullOrWhiteSpace(selection))
+                    return selection;
+                else
+                    return string.Empty;
             }
             catch (Exception)
             {

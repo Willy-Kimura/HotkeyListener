@@ -95,10 +95,6 @@ namespace WK.Libraries.HotkeyListenerNS
         // their respective string formats.
         private static HotkeySelector _selector = new HotkeySelector();
 
-        // We will use this to get the selected 
-        // text from any active application.
-        private static TextSelectionReader _reader = new TextSelectionReader();
-
         #endregion
 
         #region Properties
@@ -110,11 +106,6 @@ namespace WK.Libraries.HotkeyListenerNS
         /// hotkeys set have been suspended.
         /// </summary>
         public bool Suspended { get; private set; }
-
-        /// <summary>
-        /// Gets the currently selected text in any active application.
-        /// </summary>
-        public string SelectedText { get => GetSelection(); }
         
         #endregion
 
@@ -443,28 +434,6 @@ namespace WK.Libraries.HotkeyListenerNS
             return _selector.Convert(hotkey);
         }
 
-        /// <summary>
-        /// [Special] Gets the currently selected text 
-        /// in any active application.
-        /// </summary>
-        /// <returns>The selected text, if any.</returns>
-        public string GetSelection()
-        {
-            try
-            {
-                string selection = _reader.TryGetSelectedTextFromActiveControl();
-
-                if (!string.IsNullOrWhiteSpace(selection))
-                    return selection;
-                else
-                    return string.Empty;
-            }
-            catch (Exception)
-            {
-                return string.Empty;
-            }
-        }
-
         #endregion
 
         #region Private
@@ -624,7 +593,8 @@ namespace WK.Libraries.HotkeyListenerNS
                             SourceAttributes.GetHandle(),
                             SourceAttributes.GetName(),
                             SourceAttributes.GetTitle(),
-                            SourceAttributes.GetPath()
+                            SourceAttributes.GetPath(),
+                            SourceAttributes.GetSelection()
                     ),
                     new HotkeyEventArgs
                     {
@@ -634,7 +604,8 @@ namespace WK.Libraries.HotkeyListenerNS
                             SourceAttributes.GetHandle(),
                             SourceAttributes.GetName(),
                             SourceAttributes.GetTitle(),
-                            SourceAttributes.GetPath()
+                            SourceAttributes.GetPath(),
+                            SourceAttributes.GetSelection()
                         )
                     });
             };
@@ -912,8 +883,13 @@ namespace WK.Libraries.HotkeyListenerNS
         public HotkeyEventArgs(SourceApplication source)
         {
             SourceApplication = new SourceApplication(
-                source.ID, source.Handle, source.Name,
-                source.Title, source.Path);
+                source.ID, 
+                source.Handle, 
+                source.Name,
+                source.Title, 
+                source.Path,
+                source.Selection
+            );
         }
 
         #endregion
