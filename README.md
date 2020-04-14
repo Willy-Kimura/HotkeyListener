@@ -1,5 +1,7 @@
 # HotkeyListener
-[![nuget-package](https://img.shields.io/badge/NuGet-1.2.0-brightgreen.svg)](https://www.nuget.org/packages/HotkeyListener/) [![buymeacoffe](https://img.shields.io/badge/BuyMeACoffee-Donate-orange.svg)](https://www.buymeacoffee.com/willykimura)
+[![nuget-package](https://img.shields.io/badge/NuGet-1.2.0-brightgreen.svg)](https://www.nuget.org/packages/HotkeyListener/) [![nuget-downloads](https://img.shields.io/nuget/dt/HotkeyListener?label=Downloads)](https://www.nuget.org/packages/HotkeyListener/)
+
+<a href="https://www.buymeacoffee.com/willykimura" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>
 
 ![hotkey-listener-logo](Assets/hkl-logo-main.png)
 
