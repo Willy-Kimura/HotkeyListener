@@ -298,12 +298,6 @@ hks.Set(textbox1, hotkey1);
 
 > `HotkeySelector` also helps detect whether a key or key-combination is a Windows-registered hotkey or not and therefore unavailable for use - e.g. `Control`+`Alt`+`Delete`, so no need to account for such scenarios.
 
-#### Donate
-
-I hope this library goes a long way in helping you build awesome apps. If you would really like to [buy me a coffee (or something)](https://www.buymeacoffee.com/willykimura), please feel free... All donations are optional and greatly appreciated. 
-
-Thank you.
 
 
-
-*Made with* 😊 + ❤️ *by* [*Willy Kimura*]([https://github.com/Willy-Kimura).
+*Made with* 😊 + ❤️ *by* [*Willy Kimura*]([https://www.buymeacoffee.com/willykimura).
