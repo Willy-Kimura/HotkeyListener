@@ -38,13 +38,6 @@ namespace WK.Libraries.HotkeyListenerNS.Helpers
     /// </remarks>
     internal sealed class TextSelectionReader
     {
-        #region Fields
-
-        // Array of methods to use to try and get the selected text
-        private Func<string>[] _selectionMethods;
-        
-        #endregion
-
         #region Constructor
 
         /// <summary>
@@ -57,9 +50,15 @@ namespace WK.Libraries.HotkeyListenerNS.Helpers
                 () => this.GetTextFromWin32Api(),
                 () => this.GetTextViaClipboard(),
             };
-
         }
 
+        #endregion
+
+        #region Fields
+
+        // Array of methods to use to try and get the selected text
+        private Func<string>[] _selectionMethods;
+        
         #endregion
 
         #region Methods
