@@ -163,39 +163,44 @@ namespace WK.Libraries.HotkeyListenerNS.Helpers
         /// </returns>
         private string GetTextFromWin32Api()
         {
-            //Get active window's control hWnd
+            // Get active window's control hWnd.
             int activeWinPtr = GetForegroundWindow().ToInt32();
             int activeThreadId = 0;
             int processId;
+
             activeThreadId = GetWindowThreadProcessId(activeWinPtr, out processId);
             int currentThreadId = GetCurrentThreadId();
+
             if (activeThreadId != currentThreadId)
                 AttachThreadInput(activeThreadId, currentThreadId, true);
+
             IntPtr activeCtrlId = GetFocus();
 
-            //Get total text length
+            // Get total text length.
             int textlength = (int)SendMessage(activeCtrlId, WM_GETTEXTLENGTH, IntPtr.Zero, IntPtr.Zero) + 1;
 
-            //Have any text at all?
+            // Have any text at all?
             if (textlength > 0)
             {
-                //Get selection
+                // Get selection.
                 int selstart;
                 int selend;
+
                 SendMessage(activeCtrlId, EM_GETSEL, out selstart, out selend);
 
                 StringBuilder sb = new StringBuilder(textlength);
                 SendMessage(activeCtrlId, WM_GETTEXT, (IntPtr)textlength, sb);
 
-                //Slice out selection
+                // Slice out selection.
                 string value = sb.ToString();
                 sb.Clear();
+
                 if ((value.Length > 0) && (selend - selstart > 0) && (selstart < value.Length) && (selend < value.Length))
                     return value.Substring(selstart, selend - selstart);
             }
 
-            //Failed :(
-            return null;
+            // Failed. Return empty string.
+            return string.Empty;
         }
 
         /// <summary>
