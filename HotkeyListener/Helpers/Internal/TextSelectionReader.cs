@@ -1,3 +1,15 @@
+#region Copyright
+
+/*
+ * Developer    : Willy Kimura (WK).
+ * Library      : HotkeyListener.
+ * License      : MIT.
+ * 
+ */
+
+#endregion
+
+
 using System;
 using System.Linq;
 using System.Text;
