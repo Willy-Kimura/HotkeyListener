@@ -137,21 +137,22 @@ namespace WK.Libraries.HotkeyListenerNS.Helpers
         private string GetTextFromAutomationElement()
         {
             AutomationElement element = AutomationElement.FocusedElement;
-            if (element == null)    // no element
+
+            if (element == null)
                 return null;
 
             object pattern;
 
-            // the "Text" pattern is supported by some applications (including Notepad)and returns the current selection for example
+            // The "Text" pattern is supported by some applications (including Notepad) and returns the current selection.
             if (element.TryGetCurrentPattern(TextPattern.Pattern, out pattern))
                 return string.Join(Environment.NewLine, ((TextPattern)pattern).GetSelection().Select(r => r.GetText(-1)));
 
-            // the "Value" pattern is supported by many application
+            // The "Value" pattern is supported by many applications.
             if (element.TryGetCurrentPattern(ValuePattern.Pattern, out pattern))
                 return ((ValuePattern)pattern).Current.Value;
 
-            //Failed :(
-            return null;
+            // Failed. Return empty string.
+            return string.Empty;
         }
 
         /// <summary>
