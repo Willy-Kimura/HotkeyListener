@@ -1,5 +1,5 @@
 # HotkeyListener
-[![nuget-package](https://img.shields.io/badge/NuGet-1.2.0-brightgreen.svg)](https://www.nuget.org/packages/HotkeyListener/) [![buymeacoffee](https://img.shields.io/badge/BuyMeACoffee-Donate-orange.svg)](https://www.buymeacoffee.com/willykimura)[![nuget-downloads](https://img.shields.io/nuget/dt/HotkeyListener?label=Downloads)](https://www.nuget.org/packages/HotkeyListener/)
+[![nuget-package](https://img.shields.io/badge/NuGet-1.2.0-brightgreen.svg)](https://www.nuget.org/packages/HotkeyListener/) [![buymeacoffee](https://img.shields.io/badge/BuyMeACoffee-Donate-orange.svg)](https://www.buymeacoffee.com/willykimura) [![nuget-downloads](https://img.shields.io/nuget/dt/HotkeyListener?label=Downloads)](https://www.nuget.org/packages/HotkeyListener/)
 
 ![hotkey-listener-logo](Assets/hkl-logo-main.png)
 
