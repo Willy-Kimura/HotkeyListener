@@ -18,13 +18,15 @@
  * This project combines two open-source libraries:
  * 
  *  (1) SmartHotKey: https://www.codeproject.com/Articles/100199/Smart-Hotkey-Handler-NET
- *  (2) HotkeySelection Control: https://www.codeproject.com/Articles/15085/A-simple-hotkey-selection-control-for-NET
+ *  (2) Hotkey Selection Control: https://www.codeproject.com/Articles/15085/A-simple-hotkey-selection-control-for-NET
  *  
  * Improvements:
  *  
- *  (1) Ability to suspend and resume the list of hotkeys registered.
- *  (2) Ability to fetch source application info from where a hotkey is triggered.
- *  (3) Ability to enable any Windows control to provide Hotkey selection features.
+ *  (1) Provides a CRUD-like model for managing hotkeys.
+ *  (2) Introduction of a Hotkey class that lets you easily register and manage hotkeys.
+ *  (3) Ability to suspend and resume the list of hotkeys registered.
+ *  (4) Ability to fetch source application info from where a hotkey is triggered.
+ *  (5) Ability to enable any Windows control to provide Hotkey selection features.
  * 
  */
 
@@ -432,6 +434,15 @@ namespace WK.Libraries.HotkeyListenerNS
         public static string Convert(Hotkey hotkey)
         {
             return _selector.Convert(hotkey);
+        }
+
+        /// <summary>
+        /// [Special] Gets the currently selected text in the active application.
+        /// </summary>
+        /// <returns>The selected text, if any.</returns>
+        public static string GetSelection()
+        {
+            return SourceAttributes.GetSelection();
         }
 
         #endregion

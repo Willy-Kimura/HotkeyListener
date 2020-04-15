@@ -31,7 +31,7 @@ namespace WK.Libraries.HotkeyListenerNS.Helpers
 
         // We will use this to get the selected 
         // text from any active application.
-        private static TextSelectionReader _reader = new TextSelectionReader();
+        internal static TextSelectionReader _reader = new TextSelectionReader();
 
         #endregion
 
