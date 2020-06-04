@@ -279,19 +279,6 @@ namespace WK.Libraries.HotkeyListenerNS
 
                 string parsedHotkey = string.Empty;
 
-                // No hotkey set.
-                if (_hotkey == Keys.None)
-                {
-                    parsedHotkey = string.Empty;
-                }
-
-                // LWin/RWin don't work as hotkeys...
-                // (neither do they work as modifier keys in .NET 2.0).
-                if (_hotkey == Keys.LWin || _hotkey == Keys.RWin)
-                {
-                    parsedHotkey = string.Empty;
-                }
-
                 if (this._modifiers == Keys.None)
                 {
                     if (this._hotkey == Keys.None)
@@ -344,7 +331,18 @@ namespace WK.Libraries.HotkeyListenerNS
                 }
 
                 if (this._modifiers == Keys.None)
-                    parsedHotkey = this._hotkey.ToString();
+                {
+                    // LWin/RWin don't work as hotkeys...
+                    // (neither do they work as modifier keys in .NET 2.0).
+                    if (_hotkey == Keys.None || _hotkey == Keys.LWin || _hotkey == Keys.RWin)
+                    {
+                        parsedHotkey = string.Empty;
+                    }
+                    else
+                    {
+                        parsedHotkey = this._hotkey.ToString();
+                    }
+                }
                 else
                     parsedHotkey = this._modifiers.ToString() + " + " + this._hotkey.ToString();
 
