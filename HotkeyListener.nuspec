@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<package>
+  <metadata>
+    <id>HotkeyListener</id>
+    <version>1.3.0</version>
+    <title>HotkeyListener</title>
+    <authors>WillyKimura</authors>
+    <owners>WillyKimura</owners>
+    <license type="expression">MIT</license>
+    <projectUrl>https://github.com/Willy-Kimura/HotkeyListener</projectUrl>
+	<repository type="git" url="https://github.com/Willy-Kimura/HotkeyListener.git"/>
+    <iconUrl>https://raw.githubusercontent.com/Willy-Kimura/HotkeyListener/master/Assets/hotkey-listener-icon.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>
+    HotkeyListener is an all-in-one .NET library that allows registering system-wide hotkeys that can be used to trigger features in .NET applications while also providing support for enabling standard Windows and User controls to select hotkeys at runtime.
+    </description>
+    <releaseNotes>
+	Added support for registering hotkeys without modifiers.
+Added support for selecting hotkeys without modifiers.
+Hotkey equality checks will now compare null objects.
+	</releaseNotes>
+    <copyright>© 2020 Willy Kimura</copyright>
+    <tags>
+    c# vb key keys hotkey hotkey-listener keyboard keyboard-listener
+    </tags>
+    <dependencies>
+    </dependencies>
+    <summary>An all-in-one .NET library that allows registering system-wide hotkeys that can be used to trigger features in .NET applications while also providing support for enabling standard Windows and User controls to select hotkeys at runtime.</summary>
+  </metadata>
+  <files>
+    <file src="HotkeyListener\bin\Debug\HotkeyListener.dll" target="lib" />
+    <file src="HotkeyListener\bin\Debug\HotkeyListener.xml" target="lib" />
+  </files>
+</package>
