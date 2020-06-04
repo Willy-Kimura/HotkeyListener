@@ -147,20 +147,24 @@ namespace WK.Libraries.HotkeyListenerNS.Helpers
         /// </returns>
         private string GetTextFromAutomationElement()
         {
-            AutomationElement element = AutomationElement.FocusedElement;
+            try
+            {
+                AutomationElement element = AutomationElement.FocusedElement;
 
-            if (element == null)
-                return null;
+                if (element == null)
+                    return null;
 
-            object pattern;
+                object pattern;
 
-            // The "Text" pattern is supported by some applications (including Notepad) and returns the current selection.
-            if (element.TryGetCurrentPattern(TextPattern.Pattern, out pattern))
-                return string.Join(Environment.NewLine, ((TextPattern)pattern).GetSelection().Select(r => r.GetText(-1)));
+                // The "Text" pattern is supported by some applications (including Notepad) and returns the current selection.
+                if (element.TryGetCurrentPattern(TextPattern.Pattern, out pattern))
+                    return string.Join(Environment.NewLine, ((TextPattern)pattern).GetSelection().Select(r => r.GetText(-1)));
 
-            // The "Value" pattern is supported by many applications.
-            if (element.TryGetCurrentPattern(ValuePattern.Pattern, out pattern))
-                return ((ValuePattern)pattern).Current.Value;
+                // The "Value" pattern is supported by many applications.
+                if (element.TryGetCurrentPattern(ValuePattern.Pattern, out pattern))
+                    return ((ValuePattern)pattern).Current.Value;
+            }
+            catch (Exception) { }
 
             // Failed. Return empty string.
             return string.Empty;
@@ -175,42 +179,46 @@ namespace WK.Libraries.HotkeyListenerNS.Helpers
         /// </returns>
         private string GetTextFromWin32Api()
         {
-            // Get active window's control hWnd.
-            int activeWinPtr = GetForegroundWindow().ToInt32();
-            int activeThreadId = 0;
-            int processId;
-
-            activeThreadId = GetWindowThreadProcessId(activeWinPtr, out processId);
-            int currentThreadId = GetCurrentThreadId();
-
-            if (activeThreadId != currentThreadId)
-                AttachThreadInput(activeThreadId, currentThreadId, true);
-
-            IntPtr activeCtrlId = GetFocus();
-
-            // Get total text length.
-            int textlength = (int)SendMessage(activeCtrlId, WM_GETTEXTLENGTH, IntPtr.Zero, IntPtr.Zero) + 1;
-
-            // Have any text at all?
-            if (textlength > 0)
+            try
             {
-                // Get selection.
-                int selstart;
-                int selend;
+                // Get active window's control hWnd.
+                int activeWinPtr = GetForegroundWindow().ToInt32();
+                int activeThreadId = 0;
+                int processId;
 
-                SendMessage(activeCtrlId, EM_GETSEL, out selstart, out selend);
+                activeThreadId = GetWindowThreadProcessId(activeWinPtr, out processId);
+                int currentThreadId = GetCurrentThreadId();
 
-                StringBuilder sb = new StringBuilder(textlength);
-                SendMessage(activeCtrlId, WM_GETTEXT, (IntPtr)textlength, sb);
+                if (activeThreadId != currentThreadId)
+                    AttachThreadInput(activeThreadId, currentThreadId, true);
 
-                // Slice out selection.
-                string value = sb.ToString();
-                sb.Clear();
+                IntPtr activeCtrlId = GetFocus();
 
-                if ((value.Length > 0) && (selend - selstart > 0) && (selstart < value.Length) && (selend < value.Length))
-                    return value.Substring(selstart, selend - selstart);
+                // Get total text length.
+                int textlength = (int)SendMessage(activeCtrlId, WM_GETTEXTLENGTH, IntPtr.Zero, IntPtr.Zero) + 1;
+
+                // Have any text at all?
+                if (textlength > 0)
+                {
+                    // Get selection.
+                    int selstart;
+                    int selend;
+
+                    SendMessage(activeCtrlId, EM_GETSEL, out selstart, out selend);
+
+                    StringBuilder sb = new StringBuilder(textlength);
+                    SendMessage(activeCtrlId, WM_GETTEXT, (IntPtr)textlength, sb);
+
+                    // Slice out selection.
+                    string value = sb.ToString();
+                    sb.Clear();
+
+                    if ((value.Length > 0) && (selend - selstart > 0) && (selstart < value.Length) && (selend < value.Length))
+                        return value.Substring(selstart, selend - selstart);
+                }
             }
-
+            catch (Exception) { }
+            
             // Failed. Return empty string.
             return string.Empty;
         }
