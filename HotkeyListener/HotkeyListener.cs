@@ -771,6 +771,18 @@ namespace WK.Libraries.HotkeyListenerNS
         /// <summary>
         /// Initializes a new instance of the <see cref="Hotkey"/> class.
         /// </summary>
+        /// <param name="keyCode">
+        /// The hotkey's keyboard code.
+        /// </param>
+        public Hotkey(Keys keyCode = Keys.None)
+        {
+            KeyCode = keyCode;
+            Modifiers = Keys.None;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Hotkey"/> class.
+        /// </summary>
         /// <param name="modifiers">
         /// The hotkey's modifier flags. The flags indicate which 
         /// combination of CTRL, SHIFT, and ALT keys will be detected.
@@ -856,7 +868,14 @@ namespace WK.Libraries.HotkeyListenerNS
         /// <returns></returns>
         public static bool operator ==(Hotkey x, Hotkey y)
         {
-            return x.Equals(y);
+            try
+            {
+                return x.Equals(y);
+            }
+            catch (NullReferenceException)
+            {
+                return false;
+            }
         }
 
         /// <summary>
@@ -866,7 +885,14 @@ namespace WK.Libraries.HotkeyListenerNS
         /// <returns></returns>
         public static bool operator !=(Hotkey x, Hotkey y)
         {
-            return !(x == y);
+            try
+            {
+                return !(x == y);
+            }
+            catch (NullReferenceException)
+            {
+                return false;
+            }
         }
 
         #endregion

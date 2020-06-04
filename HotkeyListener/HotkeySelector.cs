@@ -292,43 +292,6 @@ namespace WK.Libraries.HotkeyListenerNS
                     parsedHotkey = string.Empty;
                 }
 
-                // No modifier or shift only, and a hotkey that needs another modifier.
-                if ((_modifiers == Keys.Shift || _modifiers == Keys.None) &&
-                    _needNonShiftModifier.Contains((int)this._hotkey))
-                {
-                    if (this._modifiers == Keys.None)
-                    {
-                        // Set Ctrl+Alt as the modifier unless Ctrl+Alt+<key> won't work.
-                        if (_needNonAltGrModifier.Contains((int)this._hotkey) == false)
-                        {
-                            this._modifiers = Keys.Alt | Keys.Control;
-                        }
-                        else
-                        {
-                            // ...In that case, use Shift+Alt instead.
-                            this._modifiers = Keys.Alt | Keys.Shift;
-                        }
-                    }
-                    else
-                    {
-                        // User pressed Shift and an invalid key (e.g. a letter or a number), 
-                        // that needs another set of modifier keys.
-                        this._hotkey = Keys.None;
-                        parsedHotkey = this._modifiers.ToString() + $" + {InvalidHotkeyText}";
-                    }
-                }
-
-                // [Disabled] Check all Ctrl+Alt keys.
-                // ---------------------------------------------------------------------------
-                // if ((this._modifiers == (Keys.Alt | Keys.Control)) &&
-                //     this._needNonAltGrModifier.Contains((int)this._hotkey))
-                // {
-                //     // Ctrl+Alt+4 etc won't work; reset hotkey and tell the user.
-                //     this._hotkey = Keys.None;
-                //     parsedHotkey = this._modifiers.ToString() + $" + {InvalidHotkeyText}";
-                // }
-                // ---------------------------------------------------------------------------
-
                 if (this._modifiers == Keys.None)
                 {
                     if (this._hotkey == Keys.None)
@@ -342,6 +305,34 @@ namespace WK.Libraries.HotkeyListenerNS
                         parsedHotkey = this._hotkey.ToString();
                     }
                 }
+                else
+                {
+                    // No modifier or shift only, and a hotkey that needs another modifier.
+                    if ((_modifiers == Keys.Shift || _modifiers == Keys.None) &&
+                        _needNonShiftModifier.Contains((int)this._hotkey))
+                    {
+                        if (this._modifiers == Keys.None)
+                        {
+                            // Set Ctrl+Alt as the modifier unless Ctrl+Alt+<key> won't work.
+                            if (_needNonAltGrModifier.Contains((int)this._hotkey) == false)
+                            {
+                                this._modifiers = Keys.Alt | Keys.Control;
+                            }
+                            else
+                            {
+                                // ...In that case, use Shift+Alt instead.
+                                this._modifiers = Keys.Alt | Keys.Shift;
+                            }
+                        }
+                        else
+                        {
+                            // User pressed Shift and an invalid key (e.g. a letter or a number), 
+                            // that needs another set of modifier keys.
+                            this._hotkey = Keys.None;
+                            parsedHotkey = this._modifiers.ToString() + $" + {InvalidHotkeyText}";
+                        }
+                    }
+                }
 
                 // Without this code, pressing only Ctrl 
                 // will show up as "Control + ControlKey", etc.
@@ -352,7 +343,10 @@ namespace WK.Libraries.HotkeyListenerNS
                     this._hotkey = Keys.None;
                 }
 
-                parsedHotkey = this._modifiers.ToString() + " + " + this._hotkey.ToString();
+                if (this._modifiers == Keys.None)
+                    parsedHotkey = this._hotkey.ToString();
+                else
+                    parsedHotkey = this._modifiers.ToString() + " + " + this._hotkey.ToString();
 
                 return parsedHotkey;
             }
@@ -445,6 +439,8 @@ namespace WK.Libraries.HotkeyListenerNS
         {
             try
             {
+                string parsedHotkey = string.Empty;
+
                 // No hotkey set.
                 if (this._hotkey == Keys.None)
                 {
@@ -460,52 +456,6 @@ namespace WK.Libraries.HotkeyListenerNS
                     control.Text = InvalidHotkeyText;
 
                     return;
-                }
-
-                // Only validate input if it comes from the user.
-                if (internalCall == false)
-                {
-                    // No modifier or shift only, and a hotkey that needs another modifier.
-                    if ((this._modifiers == Keys.Shift || this._modifiers == Keys.None) && 
-                        this._needNonShiftModifier.Contains((int)this._hotkey))
-                    {
-                        if (this._modifiers == Keys.None)
-                        {
-                            // Set Ctrl+Alt as the modifier unless Ctrl+Alt+<key> won't work.
-                            if (_needNonAltGrModifier.Contains((int)this._hotkey) == false)
-                            {
-                                this._modifiers = Keys.Alt | Keys.Control;
-                            }
-                            else
-                            {
-                                // ...In that case, use Shift+Alt instead.
-                                this._modifiers = Keys.Alt | Keys.Shift;
-                            }
-                        }
-                        else
-                        {
-                            // User pressed Shift and an invalid key (e.g. a letter or a number), 
-                            // that needs another set of modifier keys.
-                            this._hotkey = Keys.None;
-
-                            control.Text = this._modifiers.ToString() + $" + {InvalidHotkeyText}";
-
-                            return;
-                        }
-                    }
-
-                    // [Disabled] Check all Ctrl+Alt keys.
-                    // --------------------------------------------------------------------------
-                    // if ((this._modifiers == (Keys.Alt | Keys.Control)) &&
-                    //     this._needNonAltGrModifier.Contains((int)this._hotkey))
-                    // {
-                    //     // Ctrl+Alt+4 etc won't work; reset hotkey and tell the user.
-                    //     this._hotkey = Keys.None;
-                    //     control.Text = this._modifiers.ToString() + $" + {InvalidHotkeyText}";
-                    // 
-                    //     return;
-                    // }
-                    // --------------------------------------------------------------------------
                 }
 
                 if (this._modifiers == Keys.None)
@@ -525,7 +475,42 @@ namespace WK.Libraries.HotkeyListenerNS
                         return;
                     }
                 }
-                
+                else
+                {
+                    // Only validate input if it comes from the user.
+                    if (internalCall == false)
+                    {
+                        // No modifier or shift only, and a hotkey that needs another modifier.
+                        if ((this._modifiers == Keys.Shift || this._modifiers == Keys.None) &&
+                            this._needNonShiftModifier.Contains((int)this._hotkey))
+                        {
+                            if (this._modifiers == Keys.None)
+                            {
+                                // Set Ctrl+Alt as the modifier unless Ctrl+Alt+<key> won't work.
+                                if (_needNonAltGrModifier.Contains((int)this._hotkey) == false)
+                                {
+                                    this._modifiers = Keys.Alt | Keys.Control;
+                                }
+                                else
+                                {
+                                    // ...In that case, use Shift+Alt instead.
+                                    this._modifiers = Keys.Alt | Keys.Shift;
+                                }
+                            }
+                            else
+                            {
+                                // User pressed Shift and an invalid key (e.g. a letter or a number), 
+                                // that needs another set of modifier keys.
+                                this._hotkey = Keys.None;
+
+                                control.Text = this._modifiers.ToString() + $" + {InvalidHotkeyText}";
+
+                                return;
+                            }
+                        }
+                    }
+                }
+
                 // Without this code, pressing only Ctrl 
                 // will show up as "Control + ControlKey", etc.
                 if (this._hotkey == Keys.Menu || /* Alt */
@@ -536,9 +521,12 @@ namespace WK.Libraries.HotkeyListenerNS
                 }
 
                 // A final compilation of the processed keys in string format.
-                string compiledHotkey = this._modifiers.ToString() + " + " + this._hotkey.ToString();
-                
-                control.Text = compiledHotkey;
+                if (this._modifiers == Keys.None)
+                    parsedHotkey = this._hotkey.ToString();
+                else
+                    parsedHotkey = this._modifiers.ToString() + " + " + this._hotkey.ToString();
+
+                control.Text = parsedHotkey;
 
                 return;
             }
