@@ -83,7 +83,7 @@ namespace WK.Libraries.HotkeyListenerNS
         internal static HotkeyHandle _handle = new HotkeyHandle();
 
         // Saves the list of hotkeys suspended.
-        private List<string> _suspendedKeys = 
+        internal static List<string> _suspendedKeys = 
             new List<string>();
 
         // Saves the list of Form suspension actions.
@@ -252,7 +252,7 @@ namespace WK.Libraries.HotkeyListenerNS
         /// Suspends the hotkey(s) set 
         /// in the global Key watcher.
         /// </summary>
-        public void Suspend()
+        public bool Suspend()
         {
             if (!Suspended)
             {
@@ -269,9 +269,39 @@ namespace WK.Libraries.HotkeyListenerNS
                 }
 
                 Suspended = true;
+
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
-    
+
+        /// <summary>
+        /// Suspends a specific hotkey set 
+        /// from the global Key watcher.
+        /// </summary>
+        /// <param name="hotkey">The hotkey to suspend.</param>
+        public bool Suspend(Hotkey hotkey)
+        {
+            string hotkeyString = hotkey.ToString();
+
+            if (_handle.Hotkeys.ContainsValue(hotkeyString) &&
+                !_suspendedKeys.Contains(hotkeyString))
+            {
+                _suspendedKeys.Add(hotkeyString);
+
+                Remove(hotkey);
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         /// <summary>
         /// Suspends the hotkey(s) set whenever a particular Form is active. 
         /// This is useful in Forms where the user requires modifying certain 
@@ -283,7 +313,7 @@ namespace WK.Libraries.HotkeyListenerNS
         /// <param name="onDeactivate">
         /// The action to be called when the Form has been deactivated.
         /// </param>
-        public void SuspendOn(Form form, Action onDeactivate = null)
+        public bool SuspendOn(Form form, Action onDeactivate = null)
         {
             try
             {
@@ -294,8 +324,13 @@ namespace WK.Libraries.HotkeyListenerNS
                     _suspendedActions.Add(form, onDeactivate);
                 
                 _suspendedForms.Add(form);
+
+                return true;
             }
-            catch (Exception) { }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         /// <summary>
@@ -310,7 +345,7 @@ namespace WK.Libraries.HotkeyListenerNS
         /// The actions to be called respectively 
         /// when each Form has been deactivated.
         /// </param>
-        public void SuspendOn(Form[] forms, Action[] onDeactivate = null)
+        public bool SuspendOn(Form[] forms, Action[] onDeactivate = null)
         {
             try
             {
@@ -318,8 +353,63 @@ namespace WK.Libraries.HotkeyListenerNS
                 {
                     SuspendOn(forms[i], onDeactivate[i]);
                 }
+
+                return true;
             }
-            catch (Exception) { }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Resumes using the hotkey(s) that 
+        /// were set in the global Key watcher.
+        /// </summary>
+        public bool Resume()
+        {
+            if (Suspended)
+            {
+                foreach (var key in _suspendedKeys.ToList())
+                {
+                    if (!_handle.Hotkeys.ContainsValue(key))
+                    {
+                        Add(key);
+                    }
+                }
+
+                Suspended = false;
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Resumes listening to a specific hotkey that 
+        /// was suspended from the global Key watcher.
+        /// </summary>
+        /// <param name="hotkey">The hotkey to resume using.</param>
+        public bool Resume(Hotkey hotkey)
+        {
+            string hotkeyString = hotkey.ToString();
+
+            if (!_handle.Hotkeys.ContainsValue(hotkeyString) &&
+                _suspendedKeys.Contains(hotkeyString))
+            {
+                _suspendedKeys.Remove(hotkeyString);
+
+                Add(hotkey);
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         /// <summary>
@@ -328,7 +418,7 @@ namespace WK.Libraries.HotkeyListenerNS
         /// <param name="form">
         /// The Form to resume to listening to hotkeys when active.
         /// </param>
-        public void ResumeOn(Form form)
+        public bool ResumeOn(Form form)
         {
             try
             {
@@ -350,8 +440,13 @@ namespace WK.Libraries.HotkeyListenerNS
                 }
 
                 Suspended = false;
+
+                return true;
             }
-            catch (Exception) { }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         /// <summary>
@@ -360,7 +455,7 @@ namespace WK.Libraries.HotkeyListenerNS
         /// <param name="forms">
         /// The Forms to resume to listening to hotkeys when active.
         /// </param>
-        public void ResumeOn(Form[] forms)
+        public bool ResumeOn(Form[] forms)
         {
             try
             {
@@ -368,28 +463,22 @@ namespace WK.Libraries.HotkeyListenerNS
                 {
                     ResumeOn(form);
                 }
+
+                return true;
             }
-            catch (Exception) { }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         /// <summary>
-        /// Resumes using the hotkey(s) that 
-        /// were set in the global Key watcher.
+        /// [Special] Gets the currently selected text in the active application.
         /// </summary>
-        public void Resume()
+        /// <returns>The selected text, if any.</returns>
+        public string GetSelection()
         {
-            if (Suspended)
-            {
-                foreach (var key in _suspendedKeys.ToList())
-                {
-                    if (!_handle.Hotkeys.ContainsValue(key))
-                    {
-                        Add(key);
-                    }
-                }
-
-                Suspended = false;
-            }
+            return SourceAttributes.GetSelection();
         }
 
         /// <summary>
@@ -434,15 +523,6 @@ namespace WK.Libraries.HotkeyListenerNS
         public static string Convert(Hotkey hotkey)
         {
             return _selector.Convert(hotkey);
-        }
-
-        /// <summary>
-        /// [Special] Gets the currently selected text in the active application.
-        /// </summary>
-        /// <returns>The selected text, if any.</returns>
-        public static string GetSelection()
-        {
-            return SourceAttributes.GetSelection();
         }
 
         #endregion
@@ -810,6 +890,15 @@ namespace WK.Libraries.HotkeyListenerNS
         /// which combination of CTRL, SHIFT, and ALT keys will be detected.
         /// </summary>
         public Keys Modifiers { get; set; }
+
+        /// <summary>
+        /// Determines whether this hotkey 
+        /// has been suspended from use.
+        /// </summary>
+        public bool Suspended
+        {
+            get => HotkeyListener._suspendedKeys.Contains(ToString());
+        }
 
         #endregion
 

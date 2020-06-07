@@ -118,7 +118,7 @@
             this.lblUsageInfo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.lblUsageInfo.Location = new System.Drawing.Point(18, 37);
             this.lblUsageInfo.Name = "lblUsageInfo";
-            this.lblUsageInfo.Size = new System.Drawing.Size(612, 60);
+            this.lblUsageInfo.Size = new System.Drawing.Size(610, 60);
             this.lblUsageInfo.TabIndex = 7;
             this.lblUsageInfo.Text = resources.GetString("lblUsageInfo.Text");
             // 
@@ -152,7 +152,7 @@
             this.lblNoClippedTexts.ForeColor = System.Drawing.Color.DarkGray;
             this.lblNoClippedTexts.Location = new System.Drawing.Point(325, 373);
             this.lblNoClippedTexts.Name = "lblNoClippedTexts";
-            this.lblNoClippedTexts.Size = new System.Drawing.Size(150, 15);
+            this.lblNoClippedTexts.Size = new System.Drawing.Size(149, 15);
             this.lblNoClippedTexts.TabIndex = 10;
             this.lblNoClippedTexts.Text = "(No clipped texts available)";
             // 
