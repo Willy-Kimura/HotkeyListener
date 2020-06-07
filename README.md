@@ -207,7 +207,31 @@ As a good practice, you can always call the method `RemoveAll()` whenever your a
 
 These two methods are very applicable in scenarios where a user would prefer to change a specific hotkey while its currently active.
 
- *A classic example.*
+You can either suspend a specific individual hotkey or all the hotkeys:
+
+```c#
+Hotkey hotkey1 = new Hotkey(Keys.Control | Keys.Shift, Keys.E);
+Hotkey hotkey2 = new Hotkey(Keys.Alt, Keys.X);
+
+// Suspend a specific hotkey.
+hkl.Suspend(hotkey1);
+
+// ...or suspend all hotkeys.
+hkl.Suspend();
+```
+
+To determine whether a specific hotkey has been suspended, use the hotkey's `Suspended` property:
+
+```c#
+if (hotkey1.Suspended) 
+{
+    // Do something...
+}
+```
+
+
+
+ *A classic usage scenario.*
 
 We'll let us imagine we have two hotkeys `Control`+`Shift`+`E` and `Alt`+`X`, but the user prefers to change `Control`+`Shift`+`E` to `Alt`+`X` and `Alt`+`X` to something else. In this case, we cannot simply change one hotkey to another if at all the hotkeys are currently active. *So what do we do?* We first of all need to **suspend** these two hotkeys to prevent them from being detected or listened to, change the respective hotkeys, then **resume** listening to the hotkeys having made the necessary changes.
 
@@ -217,7 +241,7 @@ Here's the example:
 Hotkey hotkey1 = new Hotkey(Keys.Control | Keys.Shift, Keys.E);
 Hotkey hotkey2 = new Hotkey(Keys.Alt, Keys.X);
 
-// Suspend all registered hotkeys.
+// Suspend all hotkeys.
 hkl.Suspend();
 
 // Update hotkeys with newer keys.
