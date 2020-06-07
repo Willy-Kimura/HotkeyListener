@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>HotkeyListener</id>
-    <version>1.3.0</version>
+    <version>1.4.0</version>
     <title>HotkeyListener</title>
     <authors>WillyKimura</authors>
     <owners>WillyKimura</owners>
@@ -15,9 +15,10 @@
     HotkeyListener is an all-in-one .NET library that allows registering system-wide hotkeys that can be used to trigger features in .NET applications while also providing support for enabling standard Windows and User controls to select hotkeys at runtime.
     </description>
     <releaseNotes>
-	- Added support for registering hotkeys without modifiers.
-- Added support for selecting hotkeys without modifiers.
-- Hotkey equality checks will now compare null objects.
+	- Added support for suspending and resuming individual hotkeys.
+- Added 'Hotkey.Suspended' property to determine whether a hotkey has been suspended.
+- All 'Suspend' and 'Resume' methods will now return a boolean value.
+- Marked the 'GetSelection' method as non-static.
 	</releaseNotes>
     <copyright>© 2020 Willy Kimura</copyright>
     <tags>
