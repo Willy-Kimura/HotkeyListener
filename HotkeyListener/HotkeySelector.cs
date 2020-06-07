@@ -21,13 +21,14 @@ namespace WK.Libraries.HotkeyListenerNS
 {
     /// <summary>
     /// Provides support for enabling standard Windows controls 
-    /// and User controls to select any Hotkey combinations and 
-    /// preview them to users at runtime. Combined with the 
-    /// <see cref="HotkeyListener"/> class, you can easily 
-    /// enable the selection and registering of Hotkeys 
-    /// for a seamless end-user experience.
+    /// and User controls to select hotkeys at runtime. 
+    /// Combined with the <see cref="HotkeyListener"/> class, 
+    /// you can easily enable the selection and registering of 
+    /// hotkeys for a seamless end-user experience.
     /// </summary>
     [DebuggerStepThrough]
+    [Description("Provides support for enabling standard Windows controls " +
+                 "and User controls to select hotkeys at runtime.")]
     public partial class HotkeySelector : Component
     {
         #region Constructor

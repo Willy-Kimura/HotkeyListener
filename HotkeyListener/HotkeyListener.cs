@@ -50,6 +50,8 @@ namespace WK.Libraries.HotkeyListenerNS
     /// attaching events to global hotkeys in .NET applications.
     /// </summary>
     [DebuggerStepThrough]
+    [Description("A library that provides support for registering and " +
+                 "attaching events to global hotkeys in .NET applications.")]
     public partial class HotkeyListener : Component
     {
         #region Constructor
