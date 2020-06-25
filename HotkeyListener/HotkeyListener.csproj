@@ -8,6 +8,8 @@
     <OutputType>Library</OutputType>
     <RootNamespace>WK.Libraries.HotkeyListenerNS</RootNamespace>
     <AssemblyName>HotkeyListener</AssemblyName>
+	<PackageID>HotkeyListener</PackageID>
+    <RepositoryUrl>https://github.com/Willy-Kimura/HotkeyListener.git</RepositoryUrl>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
