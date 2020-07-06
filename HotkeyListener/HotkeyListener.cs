@@ -24,9 +24,10 @@
  *  
  *  (1) Provides a CRUD-like model for managing hotkeys.
  *  (2) Introduction of a Hotkey class that lets you easily register and manage hotkeys.
- *  (3) Ability to suspend and resume the list of hotkeys registered.
+ *  (3) Ability to suspend and resume individual hotkeys or a list of registered.
  *  (4) Ability to fetch source application info from where a hotkey is triggered.
  *  (5) Ability to enable any Windows control to provide Hotkey selection features.
+ *  (6) And so much more...
  * 
  */
 
