@@ -5,7 +5,7 @@
 
 **HotkeyListener** is a .NET library that allows registering system-wide hotkeys that can be used to trigger features in .NET applications. It also provides support for enabling standard Windows and User controls to select hotkeys at runtime.
 
-Here's a screenshot and usage-preview of the demo app **Text Clipper** that uses this library:
+Here's a screenshot and preview of the demo app **Text Clipper** that uses this library:
 
 > **Text Clipper** is a small utility that lets users save a list of important texts from any application by selecting any text and hitting a customizable hotkey. The user can then double-click on any clipped text to copy it to the Clipboard and paste it anywhere.
 
