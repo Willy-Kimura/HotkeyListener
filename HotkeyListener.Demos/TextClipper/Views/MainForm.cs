@@ -60,7 +60,7 @@ namespace TextClipper.Views
 
         // Define the default text-clipping hotkey.
         internal static Hotkey clippingHotkey = new Hotkey(Keys.Control, Keys.Q);
-
+    
         #endregion
 
         #region Methods

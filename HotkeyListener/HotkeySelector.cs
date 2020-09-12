@@ -281,27 +281,29 @@ namespace WK.Libraries.HotkeyListenerNS
                 string parsedHotkey = string.Empty;
 
                 // No modifier or shift only, and a hotkey that needs another modifier.
-                if ((_modifiers == Keys.Shift || _modifiers == Keys.None) &&
-                    _needNonShiftModifier.Contains((int)this._hotkey))
+                if ((_modifiers == Keys.Shift || _modifiers == Keys.None))
                 {
-                    if (this._modifiers == Keys.None)
+                    if (_needNonShiftModifier != null && _needNonShiftModifier.Contains((int)this._hotkey))
                     {
-                        // Set Ctrl+Alt as the modifier unless Ctrl+Alt+<key> won't work.
-                        if (_needNonAltGrModifier.Contains((int)this._hotkey) == false)
+                        if (this._modifiers == Keys.None)
                         {
-                            this._modifiers = Keys.Alt | Keys.Control;
+                            // Set Ctrl+Alt as the modifier unless Ctrl+Alt+<key> won't work.
+                            if (_needNonAltGrModifier.Contains((int)this._hotkey) == false)
+                            {
+                                this._modifiers = Keys.Alt | Keys.Control;
+                            }
+                            else
+                            {
+                                // ...In that case, use Shift+Alt instead.
+                                this._modifiers = Keys.Alt | Keys.Shift;
+                            }
                         }
                         else
                         {
-                            // ...In that case, use Shift+Alt instead.
-                            this._modifiers = Keys.Alt | Keys.Shift;
+                            // User pressed Shift and an invalid key (e.g. a letter or a number), 
+                            // that needs another set of modifier keys.
+                            this._hotkey = Keys.None;
                         }
-                    }
-                    else
-                    {
-                        // User pressed Shift and an invalid key (e.g. a letter or a number), 
-                        // that needs another set of modifier keys.
-                        this._hotkey = Keys.None;
                     }
                 }
 

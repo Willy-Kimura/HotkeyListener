@@ -76,7 +76,7 @@ namespace WK.Libraries.HotkeyListenerNS.Helpers
                 strKey = "";
         
             Keys key = Keys.None;
-
+            
             try
             {
                 if (string.IsNullOrEmpty(strKey))
