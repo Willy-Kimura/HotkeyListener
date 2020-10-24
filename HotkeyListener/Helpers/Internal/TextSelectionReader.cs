@@ -134,6 +134,56 @@ namespace WK.Libraries.HotkeyListenerNS.Helpers
             return Enumerable.Empty<T>();
         }
 
+        /// <summary>
+        /// Uses the clipboard to try and retrieve selected text from the active control.
+        /// </summary>
+        /// <returns>
+        /// Returns the selected text from the active control or null when the Clipboard method
+        /// fails to retrieve the text.
+        /// </returns>
+        public string GetTextViaClipboard()
+        {
+            try
+            {
+                // Backup clipboard text.
+                string clipboardText = Clipboard.GetText();
+
+                // "CTRL+C" needs to be sent from a Single Threaded Apartment State thread.
+                if (Thread.CurrentThread.GetApartmentState() != ApartmentState.STA)
+                {
+                    var thread = new Thread(() =>
+                    {
+                        SendKeys.SendWait("^c");
+                        SendKeys.Flush();
+                    });
+
+                    thread.SetApartmentState(ApartmentState.STA);
+                    thread.Start();
+                    thread.Join();
+                }
+                else
+                {
+                    SendKeys.SendWait("^c");
+                    SendKeys.Flush();
+                }
+
+                // Get clipboard text.
+                string result = Clipboard.GetText();
+                result = string.IsNullOrWhiteSpace(result) ? null : result;
+
+                Clipboard.SetText(clipboardText);
+
+                if (clipboardText == result)
+                    return string.Empty;
+                else
+                    return result;
+            }
+            catch (Exception)
+            {
+                return string.Empty;
+            }
+        }
+
         #endregion
 
         #region Private
@@ -221,56 +271,6 @@ namespace WK.Libraries.HotkeyListenerNS.Helpers
             
             // Failed. Return empty string.
             return string.Empty;
-        }
-
-        /// <summary>
-        /// Uses the clipboard to try and retrieve selected text from the active control.
-        /// </summary>
-        /// <returns>
-        /// Returns the selected text from the active control or null when the Clipboard method
-        /// fails to retrieve the text.
-        /// </returns>
-        private string GetTextViaClipboard()
-        {
-            try
-            {
-                // Backup clipboard text.
-                string clipboardText = Clipboard.GetText();
-
-                // "CTRL+C" needs to be sent from a Single Threaded Apartment State thread.
-                if (Thread.CurrentThread.GetApartmentState() != ApartmentState.STA)
-                {
-                    var thread = new Thread(() =>
-                    {
-                        SendKeys.SendWait("^c");
-                        SendKeys.Flush();
-                    });
-
-                    thread.SetApartmentState(ApartmentState.STA);
-                    thread.Start();
-                    thread.Join();
-                }
-                else
-                {
-                    SendKeys.SendWait("^c");
-                    SendKeys.Flush();
-                }
-
-                // Get clipboard text.
-                string result = Clipboard.GetText();
-                result = string.IsNullOrWhiteSpace(result) ? null : result;
-
-                Clipboard.SetText(clipboardText);
-
-                if (clipboardText == result)
-                    return string.Empty;
-                else
-                    return result;
-            }
-            catch (Exception)
-            {
-                return string.Empty;
-            }
         }
 
         #region Win32 APIs
