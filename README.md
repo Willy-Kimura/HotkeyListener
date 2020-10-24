@@ -18,10 +18,11 @@ To install via the [NuGet Package Manager](https://www.nuget.org/packages/Hotkey
 
 # Features
 - Supports [.NET Framework 4.0](https://www.microsoft.com/en-us/download/details.aspx?id=17718) and higher.
-- Manages system-wide hotkeys in a CRUD-like fashion using the methods `Add()`, `Update()`, `Remove()` and `RemoveAll()`. You can also suspend (*temporarily disable*) and resume hotkeys using the methods `Suspend()` and `Resume()`.
-- Determines the pressed hotkey(s) using the `HotkeyPressed` event, allowing you to define what happens if any specific hotkey is invoked.
-- Captures the application from where a hotkey was pressed using the  `HotkeyPressed` event's `SourceApplication` argument. With this event argument, you can even capture the text selected from an active application using its `Selection` property. To get a glimpse of what's possible with this feature, think of how [WordWeb]( https://wordweb.info/free/ ) is able to lookup the definition of any phrase you've selected at the press of a hotkey... Or how [Cintanotes]( http://cintanotes.com/ ) lets you save highlighted texts as notes from any active application in an instant. That's precisely what you can now achieve. *See demo for more.*
-- In addition to hotkey-listening, the `HotkeySelector` class lets you enable any control to be used for selecting hotkeys at runtime. `HotkeyListener` would pretty much be half-baked if this class wasn't available and thus the need for it. This is a key feature for applications that let end-users customize the default-set hotkey(s) for certain features to be used. *See demo for more.*
+- Manages system-wide hotkeys in a CRUD-like fashion. Suspending and resuming of hotkeys is also supported.
+- Detects the pressed hotkeys, allowing you to define what happens once a specific hotkey is invoked.
+- Captures the application from where a hotkey was pressed using the  `HotkeyPressed` event's `SourceApplication` argument.
+- Lets you capture any selected text from an active application. To get a glimpse of what's possible with this feature, think of how [WordWeb]( https://wordweb.info/free/ ) is able to lookup the definition of any phrase you've selected at the press of a hotkey... Or how [Cintanotes]( http://cintanotes.com/ ) lets you save highlighted texts as notes from any active application in an instant. That's precisely what you can achieve. *See Text Clipper for preview.*
+- The `HotkeySelector` class lets you enable any control to be used for selecting hotkeys at runtime. This is a key feature for applications that provide end-users with customizable hotkey inputs. *Also see Text Clipper for preview.*
 
 # Usage
 
