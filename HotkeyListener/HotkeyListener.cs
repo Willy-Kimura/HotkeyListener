@@ -943,14 +943,13 @@ namespace WK.Libraries.HotkeyListenerNS
         public override bool Equals(object obj)
         {
             if (!(obj is Hotkey))
+            {
                 return false;
+            }
 
             var other = obj as Hotkey;
 
-            if (KeyCode != other.KeyCode || Modifiers != other.Modifiers)
-                return false;
-
-            return true;
+            return KeyCode == other.KeyCode && Modifiers == other.Modifiers;
         }
 
         /// <summary>
@@ -960,14 +959,10 @@ namespace WK.Libraries.HotkeyListenerNS
         /// <returns></returns>
         public static bool operator ==(Hotkey x, Hotkey y)
         {
-            try
-            {
-                return x.Equals(y);
-            }
-            catch (NullReferenceException)
-            {
-                return false;
-            }
+            if (x is null)
+                return y is null;
+
+            return x.Equals(y);
         }
 
         /// <summary>
@@ -977,14 +972,7 @@ namespace WK.Libraries.HotkeyListenerNS
         /// <returns></returns>
         public static bool operator !=(Hotkey x, Hotkey y)
         {
-            try
-            {
-                return !(x == y);
-            }
-            catch (NullReferenceException)
-            {
-                return false;
-            }
+            return !(x == y);
         }
 
         #endregion
