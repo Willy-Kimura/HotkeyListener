@@ -828,6 +828,7 @@ namespace WK.Libraries.HotkeyListenerNS
     /// use with <see cref="HotkeyListener"/>.
     /// </summary>
     [Serializable]
+    [DebuggerStepThrough]
     public class Hotkey
     {
         #region Constructor
@@ -943,13 +944,13 @@ namespace WK.Libraries.HotkeyListenerNS
         public override bool Equals(object obj)
         {
             if (!(obj is Hotkey))
-            {
                 return false;
-            }
 
             var other = obj as Hotkey;
 
-            return KeyCode == other.KeyCode && Modifiers == other.Modifiers;
+            return 
+                KeyCode == other.KeyCode && 
+                Modifiers == other.Modifiers;
         }
 
         /// <summary>
