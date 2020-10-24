@@ -8,9 +8,7 @@
 Here's a screenshot and preview of the demo app **Text Clipper** that uses this library:
 
 > **Text Clipper** is a small utility that lets users save a list of important texts from any application by selecting any text and hitting a customizable hotkey. The user can then double-click on any clipped text to copy it to the Clipboard and paste it anywhere.
-
-![text-clipper-preview](/Assets/text-clipper-preview-2.png)
-![text-clipper-demo](/Assets/text-clipper-demo.gif)
+> ![text-clipper-demo](/Assets/text-clipper-demo.gif)
 
 # Installation
 
