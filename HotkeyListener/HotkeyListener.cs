@@ -1030,16 +1030,18 @@ namespace WK.Libraries.HotkeyListenerNS
     }
 
     /// <summary>
-    /// Extension to String class to support non-case sensitive search
+    /// Extension to the <see cref="String"/> class 
+    /// to support non-case sensitive searches.
     /// </summary>
     public static class StringExtensions
     {
         /// <summary>
-        /// Extended Contains methode doing allowing non-case sensitive search 
+        /// Extended the <see cref="String.Contains(string)"/> 
+        /// method to allow non-case sensitive searches.
         /// </summary>
-        public static bool Contains(this string source, string toCheck, StringComparison comp)
+        public static bool Contains(this string source, string toCheck, StringComparison comparison)
         {
-            return source?.IndexOf(toCheck, comp) >= 0;
+            return source?.IndexOf(toCheck, comparison) >= 0;
         }
     }
 }
