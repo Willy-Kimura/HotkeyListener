@@ -1,33 +1,17 @@
 ﻿#region Copyright
 
 /*
- * Developer    : Willy Kimura (WK).
- * Library      : HotkeyListener.
- * License      : MIT.
+ * Developer    : Willy Kimura (WK)
+ * Library      : HotkeyListener
+ * License      : MIT
  * 
  * I've had the privilege of building "pervasive" Desktop 
  * applications for products of my own. However, one of the 
  * key features required in most of them was the ability to 
- * invoke features whenever a user triggered a certain key or 
- * combination of keys. After looking around, I found one really 
- * functional library, "SmartHotkey", and it worked really well. 
- * However, there was a need for some few additional features 
- * in my products which led me to rebuilding the project and 
- * improving it even further. And thus came "HotkeyListener". 
+ * invoke features whenever a user triggered a certain key 
+ * or a combination of keys. And thus came Hotkey Listener.
  * 
- * This project combines two open-source libraries:
- * 
- *  (1) SmartHotKey: https://www.codeproject.com/Articles/100199/Smart-Hotkey-Handler-NET
- *  (2) Hotkey Selection Control: https://www.codeproject.com/Articles/15085/A-simple-hotkey-selection-control-for-NET
- *  
- * Improvements:
- *  
- *  (1) Provides a CRUD-like model for managing hotkeys.
- *  (2) Introduction of a Hotkey class that lets you easily register and manage hotkeys.
- *  (3) Ability to suspend and resume individual hotkeys or a list of registered.
- *  (4) Ability to fetch source application info from where a hotkey is triggered.
- *  (5) Ability to enable any Windows control to provide Hotkey selection features.
- *  (6) And so much more...
+ * Improvements are always welcome.
  * 
  */
 
