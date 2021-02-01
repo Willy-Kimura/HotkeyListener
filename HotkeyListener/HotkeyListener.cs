@@ -40,6 +40,7 @@ using System.Diagnostics;
 using System.Windows.Forms;
 using System.ComponentModel;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 using WK.Libraries.HotkeyListenerNS.Models;
 using WK.Libraries.HotkeyListenerNS.Helpers;
@@ -496,22 +497,22 @@ namespace WK.Libraries.HotkeyListenerNS
             hotkey = hotkey.Replace(",", "");
             hotkey = hotkey.Replace("+", "");
 
-            if (hotkey.Contains("Control"))
+            if (hotkey.Contains("Control", StringComparison.OrdinalIgnoreCase))
             {
                 modifiers |= Keys.Control;
-                hotkey = hotkey.Replace("Control", "");
+                hotkey = Regex.Replace(hotkey, "Control", "", RegexOptions.IgnoreCase);
             }
 
-            if (hotkey.Contains("Shift"))
+            if (hotkey.Contains("Shift", StringComparison.OrdinalIgnoreCase))
             {
                 modifiers |= Keys.Shift;
-                hotkey = hotkey.Replace("Shift", "");
+                hotkey = Regex.Replace(hotkey, "Shift", "", RegexOptions.IgnoreCase);
             }
 
-            if (hotkey.Contains("Alt"))
+            if (hotkey.Contains("Alt", StringComparison.OrdinalIgnoreCase))
             {
                 modifiers |= Keys.Alt;
-                hotkey = hotkey.Replace("Alt", "");
+                hotkey = Regex.Replace(hotkey, "Alt", "", RegexOptions.IgnoreCase);
             }
 
             keyCode = (Keys)Enum.Parse(typeof(Keys), hotkey, true);
@@ -1026,5 +1027,19 @@ namespace WK.Libraries.HotkeyListenerNS
         public SourceApplication SourceApplication { get; internal set; }
 
         #endregion
+    }
+
+    /// <summary>
+    /// Extension to String class to support non-case sensitive search
+    /// </summary>
+    public static class StringExtensions
+    {
+        /// <summary>
+        /// Extended Contains methode doing allowing non-case sensitive search 
+        /// </summary>
+        public static bool Contains(this string source, string toCheck, StringComparison comp)
+        {
+            return source?.IndexOf(toCheck, comp) >= 0;
+        }
     }
 }
