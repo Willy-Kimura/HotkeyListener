@@ -1,11 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.168
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31424.327
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotkeyListener", "HotkeyListener\HotkeyListener.csproj", "{B8B41B35-3D81-4E81-A0D4-24002EF895B9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotkeyListener.Demo", "HotkeyListener.Demos\TextClipper\HotkeyListener.Demo.csproj", "{777A7403-AEF8-46B8-8DFE-050B1709799A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotkeyListenerCore", "HotkeyListenerCore\HotkeyListenerCore.csproj", "{717BDBEF-5031-447D-A601-46AE6F1A26D8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotkeyListenerCore.Demo", "HotkeyListenerCore.Demo\HotkeyListenerCore.Demo.csproj", "{A74E2AA2-33D3-4BDD-960E-6674F6BF08D7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{777A7403-AEF8-46B8-8DFE-050B1709799A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{777A7403-AEF8-46B8-8DFE-050B1709799A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{777A7403-AEF8-46B8-8DFE-050B1709799A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{717BDBEF-5031-447D-A601-46AE6F1A26D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{717BDBEF-5031-447D-A601-46AE6F1A26D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{717BDBEF-5031-447D-A601-46AE6F1A26D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{717BDBEF-5031-447D-A601-46AE6F1A26D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A74E2AA2-33D3-4BDD-960E-6674F6BF08D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A74E2AA2-33D3-4BDD-960E-6674F6BF08D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A74E2AA2-33D3-4BDD-960E-6674F6BF08D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A74E2AA2-33D3-4BDD-960E-6674F6BF08D7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

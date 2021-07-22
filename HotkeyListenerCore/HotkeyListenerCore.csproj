@@ -1,0 +1,54 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <Description>HotkeyListener is an all-in-one .NET library that allows registering system-wide hotkeys that can be used to trigger features in .NET applications while also providing support for enabling standard Windows and User controls to select hotkeys at runtime.  HotkeyListenerCore is a .net standard library compatible version.</Description>
+    <Authors>ruffk / WillyKimura</Authors>
+    <Company />
+    <Product />
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/ruffk/HotkeyListener</PackageProjectUrl>
+    <PackageIcon>hotkey-listener-icon.png</PackageIcon>
+    <PackageIconUrl />
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="UIAComWrapperNetstandard" Version="1.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Helpers\Internal\HotkeyHandle.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="HotkeyListener.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="HotkeyListener.Designer.cs">
+      <DependentUpon>HotkeyListener.cs</DependentUpon>
+    </Compile>
+    <Compile Update="HotkeySelector.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="HotkeySelector.Designer.cs">
+      <DependentUpon>HotkeySelector.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Helpers\Internal\HotkeyHandle.resx">
+      <DependentUpon>HotkeyHandle.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="HotkeyListener.Designer.resx">
+      <DependentUpon>HotkeyListener.Designer.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\Assets\hotkey-listener-icon.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>
