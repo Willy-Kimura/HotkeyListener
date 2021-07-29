@@ -1,0 +1,47 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Assets\text-clipper.ico" />
+    <None Remove="Assets\text-clipper.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Assets\text-clipper.ico" />
+    <Content Include="Assets\text-clipper.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HotkeyListenerCore\HotkeyListenerCore.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\HotkeySettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Views\HotkeySettings.Designer.cs">
+      <DependentUpon>HotkeySettings.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Views\MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Views\MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Views\HotkeySettings.resx">
+      <DependentUpon>HotkeySettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>
