@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
-    <Description>HotkeyListener is an all-in-one .NET library that allows registering system-wide hotkeys that can be used to trigger features in .NET applications while also providing support for enabling standard Windows and User controls to select hotkeys at runtime.  HotkeyListenerCore is a .net standard library compatible version.</Description>
+    <Description>.NET5 version of HotkeyListener by WillyKimura is an all-in-one .NET library that allows registering system-wide hotkeys that can be used to trigger features in .NET applications while also providing support for enabling standard Windows and User controls to select hotkeys at runtime.  HotkeyListenerCore is a .net standard library compatible version.</Description>
     <Authors>ruffk / WillyKimura</Authors>
     <Company />
     <Product />
@@ -11,6 +11,12 @@
     <PackageProjectUrl>https://github.com/ruffk/HotkeyListener</PackageProjectUrl>
     <PackageIcon>hotkey-listener-icon.png</PackageIcon>
     <PackageIconUrl />
+    <PackageId>ruffk.HotkeyListenerCore</PackageId>
+    <RepositoryUrl>https://github.com/ruffk/HotkeyListener</RepositoryUrl>
+    <PackageTags>c#, vb, key, keys, hotkey, hotkey-listener, keyboard, keyboard-listener</PackageTags>
+    <PackageReleaseNotes>Initial release on .NET5 version.</PackageReleaseNotes>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>1.3.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
